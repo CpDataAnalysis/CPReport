@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RptDataSource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>PaymentDW</Name>
+  <ConnectionProperties>
+    <Extension>SQL</Extension>
+    <ConnectString>Data Source=131.252.88.42\SNAKE;Initial Catalog=CPDataWarehouse</ConnectString>
+    <Prompt>为数据源 PaymentDW 指定用户名和密码。</Prompt>
+  </ConnectionProperties>
+  <DataSourceID>1a30e076-60ef-41f5-aa99-416980bcfce4</DataSourceID>
+</RptDataSource>
