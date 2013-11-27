@@ -3,7 +3,7 @@
   <Name>PaymentDW</Name>
   <ConnectionProperties>
     <Extension>SQL</Extension>
-    <ConnectString>Data Source=131.252.83.42\Release;Initial Catalog=CPDataWarehouse</ConnectString>
+    <ConnectString>Data Source=131.252.88.42\snake;Initial Catalog=CPDataWarehouse</ConnectString>
   </ConnectionProperties>
   <DataSourceID>1cd061be-870f-436a-8f25-8648698a4ad9</DataSourceID>
 </RptDataSource>
