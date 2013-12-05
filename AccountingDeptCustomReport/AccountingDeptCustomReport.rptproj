@@ -36,6 +36,10 @@
       <Name>网上代付业务手续费收入汇总表.rdl</Name>
       <FullPath>网上代付业务手续费收入汇总表.rdl</FullPath>
     </ProjectItem>
+    <ProjectItem>
+      <Name>临时需求报表(财务).rdl</Name>
+      <FullPath>临时需求报表(财务).rdl</FullPath>
+    </ProjectItem>
   </Reports>
   <Configurations>
     <Configuration>
