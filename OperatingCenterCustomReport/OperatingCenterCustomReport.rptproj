@@ -9,12 +9,32 @@
   </DataSources>
   <Reports>
     <ProjectItem>
+      <Name>公司产品数据统计报表.rdl</Name>
+      <FullPath>公司产品数据统计报表.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>公司商户成功交易周期报表.rdl</Name>
+      <FullPath>公司商户成功交易周期报表.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
       <Name>新增商户活跃度表.rdl</Name>
       <FullPath>新增商户活跃度表.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
       <Name>新增商户月度贡献表.rdl</Name>
       <FullPath>新增商户月度贡献表.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>网关交易成功率报表.rdl</Name>
+      <FullPath>网关交易成功率报表.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>新代收付交易量统计报表(运营中心).rdl</Name>
+      <FullPath>新代收付交易量统计报表(运营中心).rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>虚拟账户交易统计.rdl</Name>
+      <FullPath>虚拟账户交易统计.rdl</FullPath>
     </ProjectItem>
   </Reports>
   <Configurations>

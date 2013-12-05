@@ -9,10 +9,6 @@
   </DataSources>
   <Reports>
     <ProjectItem>
-      <Name>2010-2012各商户组各业务类别交易统计.rdl</Name>
-      <FullPath>2010-2012各商户组各业务类别交易统计.rdl</FullPath>
-    </ProjectItem>
-    <ProjectItem>
       <Name>公司商户成功交易周期报表.rdl</Name>
       <FullPath>公司商户成功交易周期报表.rdl</FullPath>
     </ProjectItem>

@@ -81,10 +81,6 @@
       <FullPath>金融部绩效考核表.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
-      <Name>临时报表：2011-2012各行业各产品品种收支环比.rdl</Name>
-      <FullPath>临时报表：2011-2012各行业各产品品种收支环比.rdl</FullPath>
-    </ProjectItem>
-    <ProjectItem>
       <Name>网关交易成功率报表（月报版）.rdl</Name>
       <FullPath>网关交易成功率报表（月报版）.rdl</FullPath>
     </ProjectItem>
@@ -159,6 +155,26 @@
     <ProjectItem>
       <Name>新代收付交易量统计报表.rdl</Name>
       <FullPath>新代收付交易量统计报表.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>银联分支机构互联网业务统计表.rdl</Name>
+      <FullPath>银联分支机构互联网业务统计表.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>银联分支机构互联网业务统计汇总表.rdl</Name>
+      <FullPath>银联分支机构互联网业务统计汇总表.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>银商分支机构互联网业务统计表.rdl</Name>
+      <FullPath>银商分支机构互联网业务统计表.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>银商分支机构互联网业务统计汇总表.rdl</Name>
+      <FullPath>银商分支机构互联网业务统计汇总表.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>银商分支机构简报.rdl</Name>
+      <FullPath>银商分支机构简报.rdl</FullPath>
     </ProjectItem>
   </Reports>
   <Configurations>
