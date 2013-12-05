@@ -1,53 +1,79 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Report xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition">
   <DataSources>
     <DataSource Name="PaymentDW">
       <DataSourceReference>PaymentDW</DataSourceReference>
-      <rd:DataSourceID>96b0fe22-c3c1-4bf3-adf5-9bbdfd0453d1</rd:DataSourceID>
+      <rd:DataSourceID>6f245ec1-d26d-4c97-bde8-6be05d67d829</rd:DataSourceID>
       <rd:SecurityType>None</rd:SecurityType>
     </DataSource>
   </DataSources>
   <DataSets>
-    <DataSet Name="DataSet1">
+    <DataSet Name="BranchOfficeMonthlyTransInfo">
       <Fields>
-        <Field Name="DestBranchOffice">
-          <DataField>DestBranchOffice</DataField>
+        <Field Name="PeriodStart">
+          <DataField>PeriodStart</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="MerchantNo">
-          <DataField>MerchantNo</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="MerchantName">
-          <DataField>MerchantName</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="IndustryName">
-          <DataField>IndustryName</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="OpenTime">
-          <DataField>OpenTime</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="SucceedTransCount">
-          <DataField>SucceedTransCount</DataField>
-          <rd:TypeName>System.Int64</rd:TypeName>
-        </Field>
-        <Field Name="SucceedTransAmount">
-          <DataField>SucceedTransAmount</DataField>
+        <Field Name="SumTransAmount">
+          <DataField>SumTransAmount</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
       </Fields>
       <Query>
         <DataSourceName>PaymentDW</DataSourceName>
-        <CommandText>EXEC Proc_Query2012UnionPayEmallTransReport @StartDate,@PeriodUnit,@EndDate</CommandText>
+        <CommandText>exec Proc_QueryBranchOfficeMonthlyTransInfo
+@StartDate,@PeriodUnit,@BranchOfficeName</CommandText>
         <QueryParameters>
           <QueryParameter Name="@StartDate">
             <Value>=Parameters!StartDate.Value</Value>
           </QueryParameter>
           <QueryParameter Name="@PeriodUnit">
             <Value>=Parameters!PeriodUnit.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@BranchOfficeName">
+            <Value>=Parameters!BranchOfficeName.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+    </DataSet>
+    <DataSet Name="AllBranchOffice">
+      <Fields>
+        <Field Name="UmsSpec">
+          <DataField>UmsSpec</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>PaymentDW</DataSourceName>
+        <CommandText>select distinct UmsSpec from Table_BranchOfficeNameRule where UmsSpec is not null</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+    </DataSet>
+    <DataSet Name="NewlyIncreasedMerWithBranchOffice">
+      <Fields>
+        <Field Name="MerchantName">
+          <DataField>MerchantName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="MerchantNo">
+          <DataField>MerchantNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>PaymentDW</DataSourceName>
+        <CommandText>exec Proc_QueryNewlyIncreasedMerWithBranchOffice
+@StartDate,@PeriodUnit,@EndDate,@BranchOfficeName</CommandText>
+        <QueryParameters>
+          <QueryParameter Name="@StartDate">
+            <Value>=Parameters!StartDate.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@PeriodUnit">
+            <Value>=Parameters!PeriodUnit.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@BranchOfficeName">
+            <Value>=Parameters!BranchOfficeName.Value</Value>
           </QueryParameter>
           <QueryParameter Name="@EndDate">
             <Value>=Parameters!EndDate.Value</Value>
@@ -56,10 +82,57 @@
         <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
       </Query>
     </DataSet>
-    <DataSet Name="DataSet2">
+    <DataSet Name="MerTransSumWithBranchOffice">
       <Fields>
-        <Field Name="CurrEndDate">
-          <DataField>CurrEndDate</DataField>
+        <Field Name="MerchantName">
+          <DataField>MerchantName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="MerchantNo">
+          <DataField>MerchantNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ID">
+          <DataField>ID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="TransCount">
+          <DataField>TransCount</DataField>
+          <rd:TypeName>System.Int64</rd:TypeName>
+        </Field>
+        <Field Name="TransAmount">
+          <DataField>TransAmount</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>PaymentDW</DataSourceName>
+        <CommandText>exec Proc_QueryMerTransSumWithBranchOffice
+@StartDate,@PeriodUnit,@EndDate,@BranchOfficeName</CommandText>
+        <QueryParameters>
+          <QueryParameter Name="@StartDate">
+            <Value>=Parameters!StartDate.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@PeriodUnit">
+            <Value>=Parameters!PeriodUnit.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@BranchOfficeName">
+            <Value>=Parameters!BranchOfficeName.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@EndDate">
+            <Value>=Parameters!EndDate.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+      </Query>
+    </DataSet>
+    <DataSet Name="GetDate">
+      <Fields>
+        <Field Name="StartDate">
+          <DataField>StartDate</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="EndDate">
+          <DataField>EndDate</DataField>
           <rd:TypeName>System.DateTime</rd:TypeName>
         </Field>
       </Fields>
@@ -70,40 +143,27 @@ declare @CurrEndDate datetime;
 
 if(@PeriodUnit = N'月')
 begin
-    set @CurrStartDate = @StartDate;
-    set @CurrEndDate = DATEADD(MONTH, 1, @StartDate);
+	set @CurrStartDate = left(CONVERT(char,@StartDate,120),7) + '-01';
+	set @CurrEndDate = DATEADD(MONTH,1,@CurrStartDate);
 end
 else if(@PeriodUnit = N'季度')
 begin
-    set @CurrStartDate = @StartDate;
-    set @CurrEndDate = DATEADD(QUARTER, 1, @StartDate);
+	set @CurrStartDate = left(CONVERT(char,@StartDate,120),7) + '-01';
+	set @CurrEndDate = DATEADD(QUARTER,1,@CurrStartDate);
 end
 else if(@PeriodUnit = N'半年')
 begin
-    set @CurrStartDate = @StartDate;
-    set @CurrEndDate = DATEADD(QUARTER, 2, @StartDate);
-end
-else if(@PeriodUnit = N'年')
-begin
-    set @CurrStartDate = @StartDate;
-    set @CurrEndDate = DATEADD(YEAR, 1, @StartDate);
-end
-else if(@PeriodUnit = N'自定义')
-begin
-    set @CurrStartDate = @StartDate;
-    set @CurrEndDate = DateAdd(day,1,@EndDate);
+	set @CurrStartDate = left(CONVERT(char,@StartDate,120),7) + '-01';
+	set @CurrEndDate = DATEADD(QUARTER,2,@CurrStartDate);
 end
 
-select DateAdd(Day,-1,@CurrEndDate) as  CurrEndDate;</CommandText>
+select @CurrStartDate as StartDate,DATEADD(day,-1,@CurrEndDate) as EndDate;</CommandText>
         <QueryParameters>
           <QueryParameter Name="@PeriodUnit">
             <Value>=Parameters!PeriodUnit.Value</Value>
           </QueryParameter>
           <QueryParameter Name="@StartDate">
             <Value>=Parameters!StartDate.Value</Value>
-          </QueryParameter>
-          <QueryParameter Name="@EndDate">
-            <Value>=Parameters!EndDate.Value</Value>
           </QueryParameter>
         </QueryParameters>
         <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
@@ -112,50 +172,33 @@ select DateAdd(Day,-1,@CurrEndDate) as  CurrEndDate;</CommandText>
   </DataSets>
   <Body>
     <ReportItems>
-      <Tablix Name="table1">
+      <Tablix Name="Tablix1">
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>2.26042in</Width>
+              <Width>7.59922cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.9375in</Width>
-            </TablixColumn>
-            <TablixColumn>
-              <Width>2.03125in</Width>
-            </TablixColumn>
-            <TablixColumn>
-              <Width>0.95833in</Width>
-            </TablixColumn>
-            <TablixColumn>
-              <Width>0.95833in</Width>
-            </TablixColumn>
-            <TablixColumn>
-              <Width>1.20833in</Width>
-            </TablixColumn>
-            <TablixColumn>
-              <Width>1.34375in</Width>
+              <Width>4.10672cm</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
             <TablixRow>
-              <Height>0.25in</Height>
+              <Height>0.6cm</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox16">
+                    <Textbox Name="Textbox4">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>商户信息</Value>
+                              <Value>商户名</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
-                                <FontSize>11pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
-                                <Color>White</Color>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -164,101 +207,14 @@ select DateAdd(Day,-1,@CurrEndDate) as  CurrEndDate;</CommandText>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox16</rd:DefaultName>
+                      <rd:DefaultName>Textbox4</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
-                        <BackgroundColor>SteelBlue</BackgroundColor>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                    <ColSpan>5</ColSpan>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell />
-                <TablixCell />
-                <TablixCell />
-                <TablixCell />
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox21">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>交易量</Value>
-                              <Style>
-                                <FontFamily>宋体</FontFamily>
-                                <FontSize>11pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
-                                <Color>White</Color>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Center</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox21</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <BackgroundColor>SteelBlue</BackgroundColor>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                    <ColSpan>2</ColSpan>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell />
-              </TablixCells>
-            </TablixRow>
-            <TablixRow>
-              <Height>0.22in</Height>
-              <TablixCells>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="textbox2">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>分公司</Value>
-                              <Style>
-                                <FontFamily>宋体</FontFamily>
-                                <FontSize>11pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
-                                <Color>White</Color>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Center</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>textbox2</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <BackgroundColor>SteelBlue</BackgroundColor>
+                        <BackgroundColor>CornflowerBlue</BackgroundColor>
+                        <VerticalAlign>Middle</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -269,19 +225,17 @@ select DateAdd(Day,-1,@CurrEndDate) as  CurrEndDate;</CommandText>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="textbox3">
+                    <Textbox Name="Textbox6">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>商户代码</Value>
+                              <Value>商户号</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
-                                <FontSize>11pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
-                                <Color>White</Color>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -290,203 +244,14 @@ select DateAdd(Day,-1,@CurrEndDate) as  CurrEndDate;</CommandText>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>textbox3</rd:DefaultName>
+                      <rd:DefaultName>Textbox6</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
-                        <BackgroundColor>SteelBlue</BackgroundColor>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="textbox4">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>商户名称</Value>
-                              <Style>
-                                <FontFamily>宋体</FontFamily>
-                                <FontSize>11pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
-                                <Color>White</Color>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Center</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>textbox4</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <BackgroundColor>SteelBlue</BackgroundColor>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="textbox5">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>行业</Value>
-                              <Style>
-                                <FontFamily>宋体</FontFamily>
-                                <FontSize>11pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
-                                <Color>White</Color>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Center</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>textbox5</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <BackgroundColor>SteelBlue</BackgroundColor>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="textbox6">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>上线时间</Value>
-                              <Style>
-                                <FontFamily>宋体</FontFamily>
-                                <FontSize>11pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
-                                <Color>White</Color>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Center</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>textbox6</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <BackgroundColor>SteelBlue</BackgroundColor>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="textbox7">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>笔数（笔）</Value>
-                              <Style>
-                                <FontFamily>宋体</FontFamily>
-                                <FontSize>11pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
-                                <Color>White</Color>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Center</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>textbox7</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <BackgroundColor>SteelBlue</BackgroundColor>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="textbox8">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>金额（元）</Value>
-                              <Style>
-                                <FontFamily>宋体</FontFamily>
-                                <FontSize>11pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
-                                <Color>White</Color>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Center</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>textbox8</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <BackgroundColor>SteelBlue</BackgroundColor>
+                        <BackgroundColor>CornflowerBlue</BackgroundColor>
+                        <VerticalAlign>Middle</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -498,18 +263,18 @@ select DateAdd(Day,-1,@CurrEndDate) as  CurrEndDate;</CommandText>
               </TablixCells>
             </TablixRow>
             <TablixRow>
-              <Height>0.21in</Height>
+              <Height>0.6cm</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="DestBranchOffice">
+                    <Textbox Name="MerchantName">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!DestBranchOffice.Value</Value>
+                              <Value>=Fields!MerchantName.Value</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
                               </Style>
@@ -520,12 +285,13 @@ select DateAdd(Day,-1,@CurrEndDate) as  CurrEndDate;</CommandText>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>DestBranchOffice</rd:DefaultName>
+                      <rd:DefaultName>MerchantName</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
+                        <VerticalAlign>Middle</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -560,177 +326,7 @@ select DateAdd(Day,-1,@CurrEndDate) as  CurrEndDate;</CommandText>
                           <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="MerchantName">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>=Fields!MerchantName.Value</Value>
-                              <Style>
-                                <FontFamily>宋体</FontFamily>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Left</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>MerchantName</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="IndustryName">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>=Fields!IndustryName.Value</Value>
-                              <Style>
-                                <FontFamily>宋体</FontFamily>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Center</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>IndustryName</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="OpenTime">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>=Fields!OpenTime.Value</Value>
-                              <Style>
-                                <FontFamily>宋体</FontFamily>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Center</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>OpenTime</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="SucceedTransCount">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>=Fields!SucceedTransCount.Value</Value>
-                              <Style>
-                                <FontFamily>宋体</FontFamily>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Right</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>SucceedTransCount</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="SucceedTransAmount">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>=Fields!SucceedTransAmount.Value</Value>
-                              <Style>
-                                <FontFamily>宋体</FontFamily>
-                                <Format>0.00;(0.00)</Format>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Right</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>SucceedTransAmount</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
+                        <VerticalAlign>Middle</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -742,18 +338,18 @@ select DateAdd(Day,-1,@CurrEndDate) as  CurrEndDate;</CommandText>
               </TablixCells>
             </TablixRow>
             <TablixRow>
-              <Height>0.25in</Height>
+              <Height>0.6cm</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox9">
+                    <Textbox Name="Textbox1">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>="分公司数:"+CStr(CountDistinct(Fields!DestBranchOffice.Value))</Value>
+                              <Value>总计</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
                                 <FontWeight>Bold</FontWeight>
@@ -765,12 +361,13 @@ select DateAdd(Day,-1,@CurrEndDate) as  CurrEndDate;</CommandText>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox9</rd:DefaultName>
+                      <rd:DefaultName>Textbox1</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
+                        <VerticalAlign>Middle</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -781,17 +378,16 @@ select DateAdd(Day,-1,@CurrEndDate) as  CurrEndDate;</CommandText>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox10">
+                    <Textbox Name="Textbox2">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>="商户数汇总:"+CStr(CountDistinct(Fields!MerchantNo.Value))</Value>
+                              <Value>=CountDistinct(Fields!MerchantNo.Value) &amp;"家"</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
-                                <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -800,32 +396,123 @@ select DateAdd(Day,-1,@CurrEndDate) as  CurrEndDate;</CommandText>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox10</rd:DefaultName>
+                      <rd:DefaultName>Textbox2</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
+                        <VerticalAlign>Middle</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
-                    <ColSpan>2</ColSpan>
                   </CellContents>
                 </TablixCell>
-                <TablixCell />
+              </TablixCells>
+            </TablixRow>
+          </TablixRows>
+        </TablixBody>
+        <TablixColumnHierarchy>
+          <TablixMembers>
+            <TablixMember />
+            <TablixMember />
+          </TablixMembers>
+        </TablixColumnHierarchy>
+        <TablixRowHierarchy>
+          <TablixMembers>
+            <TablixMember>
+              <KeepWithGroup>After</KeepWithGroup>
+            </TablixMember>
+            <TablixMember>
+              <Group Name="详细信息" />
+            </TablixMember>
+            <TablixMember>
+              <KeepWithGroup>Before</KeepWithGroup>
+            </TablixMember>
+          </TablixMembers>
+        </TablixRowHierarchy>
+        <KeepTogether>true</KeepTogether>
+        <DataSetName>NewlyIncreasedMerWithBranchOffice</DataSetName>
+        <Top>2.09966cm</Top>
+        <Left>0.29101cm</Left>
+        <Height>1.8cm</Height>
+        <Width>11.70594cm</Width>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Tablix>
+      <Textbox Name="Textbox10">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>=Parameters!BranchOfficeName.Value &amp;Switch(Parameters!PeriodUnit.Value="月",Month(Parameters!StartDate.Value)&amp;"月新增商户明细表",
+		Parameters!PeriodUnit.Value="季度",Month(Parameters!StartDate.Value)&amp;"-"&amp;Month(DateAdd("m",2,Parameters!StartDate.Value))&amp;"月新增商户明细表",
+		Parameters!PeriodUnit.Value="半年",Month(Parameters!StartDate.Value)&amp;"-"&amp;Month(DateAdd("m",5,Parameters!StartDate.Value))&amp;"月新增商户明细表",
+		Parameters!PeriodUnit.Value="自定义","新增商户明细表("&amp;Parameters!StartDate.Value &amp;"-"&amp;Parameters!EndDate.Value &amp;")")</Value>
+                <Style>
+                  <FontFamily>宋体</FontFamily>
+                  <FontSize>12pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox10</rd:DefaultName>
+        <Top>1.49966cm</Top>
+        <Left>0.29102cm</Left>
+        <Height>0.6cm</Height>
+        <Width>17.34095cm</Width>
+        <ZIndex>1</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Tablix Name="Tablix2">
+        <TablixBody>
+          <TablixColumns>
+            <TablixColumn>
+              <Width>7.42724cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>4.2787cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>2.60584cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>3.92874cm</Width>
+            </TablixColumn>
+          </TablixColumns>
+          <TablixRows>
+            <TablixRow>
+              <Height>0.6cm</Height>
+              <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox12">
+                    <Textbox Name="Textbox11">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>="-"</Value>
+                              <Value>商户名</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
                                 <FontWeight>Bold</FontWeight>
@@ -837,12 +524,14 @@ select DateAdd(Day,-1,@CurrEndDate) as  CurrEndDate;</CommandText>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox12</rd:DefaultName>
+                      <rd:DefaultName>Textbox11</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
+                        <BackgroundColor>CornflowerBlue</BackgroundColor>
+                        <VerticalAlign>Middle</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -860,7 +549,7 @@ select DateAdd(Day,-1,@CurrEndDate) as  CurrEndDate;</CommandText>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>="-"</Value>
+                              <Value>商户号</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
                                 <FontWeight>Bold</FontWeight>
@@ -878,6 +567,8 @@ select DateAdd(Day,-1,@CurrEndDate) as  CurrEndDate;</CommandText>
                           <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
+                        <BackgroundColor>CornflowerBlue</BackgroundColor>
+                        <VerticalAlign>Middle</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -888,17 +579,165 @@ select DateAdd(Day,-1,@CurrEndDate) as  CurrEndDate;</CommandText>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="SucceedTransCount1">
+                    <Textbox Name="Textbox15">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!SucceedTransCount.Value)</Value>
+                              <Value>交易笔数(笔)</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
                                 <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox15</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>CornflowerBlue</BackgroundColor>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox17">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>交易金额(元)</Value>
+                              <Style>
+                                <FontFamily>宋体</FontFamily>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox17</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>CornflowerBlue</BackgroundColor>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.6cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="MerchantName1">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!MerchantName.Value</Value>
+                              <Style>
+                                <FontFamily>宋体</FontFamily>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>MerchantName1</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="MerchantNo1">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!MerchantNo.Value</Value>
+                              <Style>
+                                <FontFamily>宋体</FontFamily>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>MerchantNo1</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="TransCount">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!TransCount.Value</Value>
+                              <Style>
+                                <FontFamily>宋体</FontFamily>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -907,12 +746,13 @@ select DateAdd(Day,-1,@CurrEndDate) as  CurrEndDate;</CommandText>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>SucceedTransCount1</rd:DefaultName>
+                      <rd:DefaultName>TransCount</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
+                        <VerticalAlign>Middle</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -923,17 +763,16 @@ select DateAdd(Day,-1,@CurrEndDate) as  CurrEndDate;</CommandText>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="SucceedTransAmount1">
+                    <Textbox Name="TransAmount">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!SucceedTransAmount.Value)</Value>
+                              <Value>=Fields!TransAmount.Value</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
-                                <FontWeight>Bold</FontWeight>
                                 <Format>0.00;(0.00)</Format>
                               </Style>
                             </TextRun>
@@ -943,12 +782,163 @@ select DateAdd(Day,-1,@CurrEndDate) as  CurrEndDate;</CommandText>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>SucceedTransAmount1</rd:DefaultName>
+                      <rd:DefaultName>TransAmount</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.6cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox9">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>总计</Value>
+                              <Style>
+                                <FontFamily>宋体</FontFamily>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox1</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox5">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>="商户数汇总： "+CStr(CountDistinct(Fields!MerchantNo.Value))</Value>
+                              <Style>
+                                <FontFamily>宋体</FontFamily>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox5</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="TransCount1">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!TransCount.Value)</Value>
+                              <Style>
+                                <FontFamily>宋体</FontFamily>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>TransCount1</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="TransAmount1">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!TransAmount.Value)</Value>
+                              <Style>
+                                <FontFamily>宋体</FontFamily>
+                                <FontWeight>Bold</FontWeight>
+                                <Format>0.00</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>TransAmount1</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <VerticalAlign>Middle</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -967,32 +957,15 @@ select DateAdd(Day,-1,@CurrEndDate) as  CurrEndDate;</CommandText>
             <TablixMember />
             <TablixMember />
             <TablixMember />
-            <TablixMember />
-            <TablixMember />
-            <TablixMember />
           </TablixMembers>
         </TablixColumnHierarchy>
         <TablixRowHierarchy>
           <TablixMembers>
             <TablixMember>
               <KeepWithGroup>After</KeepWithGroup>
-              <RepeatOnNewPage>true</RepeatOnNewPage>
             </TablixMember>
             <TablixMember>
-              <KeepWithGroup>After</KeepWithGroup>
-              <RepeatOnNewPage>true</RepeatOnNewPage>
-              <KeepTogether>true</KeepTogether>
-            </TablixMember>
-            <TablixMember>
-              <Group Name="table1_Details_Group">
-                <DataElementName>Detail</DataElementName>
-              </Group>
-              <TablixMembers>
-                <TablixMember />
-              </TablixMembers>
-              <DataElementName>Detail_Collection</DataElementName>
-              <DataElementOutput>Output</DataElementOutput>
-              <KeepTogether>true</KeepTogether>
+              <Group Name="详细信息1" />
             </TablixMember>
             <TablixMember>
               <KeepWithGroup>Before</KeepWithGroup>
@@ -1000,25 +973,67 @@ select DateAdd(Day,-1,@CurrEndDate) as  CurrEndDate;</CommandText>
           </TablixMembers>
         </TablixRowHierarchy>
         <KeepTogether>true</KeepTogether>
-        <DataSetName>DataSet1</DataSetName>
-        <Top>0.36in</Top>
-        <Height>0.93in</Height>
-        <Width>9.69792in</Width>
-        <Style />
+        <DataSetName>MerTransSumWithBranchOffice</DataSetName>
+        <Top>4.95745cm</Top>
+        <Left>0.29102cm</Left>
+        <Height>1.8cm</Height>
+        <Width>18.24052cm</Width>
+        <ZIndex>2</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
       </Tablix>
-      <Textbox Name="textbox1">
+      <Textbox Name="Textbox19">
         <CanGrow>true</CanGrow>
         <KeepTogether>true</KeepTogether>
         <Paragraphs>
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>="2012年银联明细表（商城） "+ Parameters!StartDate.Value+"-"+First(Fields!CurrEndDate.Value, "DataSet2")</Value>
+                <Value>=Parameters!BranchOfficeName.Value &amp;Switch(Parameters!PeriodUnit.Value="月",Month(Parameters!StartDate.Value)&amp;"月交易量明细表",
+		Parameters!PeriodUnit.Value="季度",Month(Parameters!StartDate.Value)&amp;"-"&amp;Month(DateAdd("m",2,Parameters!StartDate.Value))&amp;"月交易量明细表",
+		Parameters!PeriodUnit.Value="半年",Month(Parameters!StartDate.Value)&amp;"-"&amp;Month(DateAdd("m",5,Parameters!StartDate.Value))&amp;"月交易量明细表",
+		Parameters!PeriodUnit.Value="自定义","交易量明细表"&amp;"("&amp;Parameters!StartDate.Value &amp;"-"&amp;Parameters!EndDate.Value &amp;")")</Value>
                 <Style>
                   <FontFamily>宋体</FontFamily>
-                  <FontSize>20pt</FontSize>
+                  <FontSize>12pt</FontSize>
                   <FontWeight>Bold</FontWeight>
-                  <Color>SteelBlue</Color>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox19</rd:DefaultName>
+        <Top>4.35745cm</Top>
+        <Left>0.29102cm</Left>
+        <Height>0.6cm</Height>
+        <Width>18.24052cm</Width>
+        <ZIndex>3</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="Textbox21">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>="银商分支机构互联网业务统计表" &amp;"(单位:笔/元)"</Value>
+                <Style>
+                  <FontFamily>宋体</FontFamily>
+                  <FontSize>14pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
             </TextRuns>
@@ -1027,11 +1042,16 @@ select DateAdd(Day,-1,@CurrEndDate) as  CurrEndDate;</CommandText>
             </Style>
           </Paragraph>
         </Paragraphs>
-        <rd:DefaultName>textbox1</rd:DefaultName>
-        <Height>0.36in</Height>
-        <Width>9.69792in</Width>
-        <ZIndex>1</ZIndex>
+        <rd:DefaultName>Textbox21</rd:DefaultName>
+        <Top>0.28258cm</Top>
+        <Left>0.29104cm</Left>
+        <Height>0.6cm</Height>
+        <Width>19.193cm</Width>
+        <ZIndex>4</ZIndex>
         <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
           <PaddingLeft>2pt</PaddingLeft>
           <PaddingRight>2pt</PaddingRight>
           <PaddingTop>2pt</PaddingTop>
@@ -1039,13 +1059,13 @@ select DateAdd(Day,-1,@CurrEndDate) as  CurrEndDate;</CommandText>
         </Style>
       </Textbox>
     </ReportItems>
-    <Height>1.29in</Height>
+    <Height>4in</Height>
     <Style />
   </Body>
   <ReportParameters>
     <ReportParameter Name="StartDate">
       <DataType>DateTime</DataType>
-      <Prompt>查询开始日期</Prompt>
+      <Prompt>查询起始日期</Prompt>
     </ReportParameter>
     <ReportParameter Name="PeriodUnit">
       <DataType>String</DataType>
@@ -1054,7 +1074,7 @@ select DateAdd(Day,-1,@CurrEndDate) as  CurrEndDate;</CommandText>
           <Value>月</Value>
         </Values>
       </DefaultValue>
-      <Prompt>周期单位</Prompt>
+      <Prompt>查询时间周期</Prompt>
       <ValidValues>
         <ParameterValues>
           <ParameterValue>
@@ -1070,14 +1090,27 @@ select DateAdd(Day,-1,@CurrEndDate) as  CurrEndDate;</CommandText>
             <Label>半年</Label>
           </ParameterValue>
           <ParameterValue>
-            <Value>年</Value>
-            <Label>年</Label>
-          </ParameterValue>
-          <ParameterValue>
             <Value>自定义</Value>
             <Label>自定义</Label>
           </ParameterValue>
         </ParameterValues>
+      </ValidValues>
+    </ReportParameter>
+    <ReportParameter Name="BranchOfficeName">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <DataSetReference>
+          <DataSetName>AllBranchOffice</DataSetName>
+          <ValueField>UmsSpec</ValueField>
+        </DataSetReference>
+      </DefaultValue>
+      <Prompt>银商分支机构</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>AllBranchOffice</DataSetName>
+          <ValueField>UmsSpec</ValueField>
+          <LabelField>UmsSpec</LabelField>
+        </DataSetReference>
       </ValidValues>
     </ReportParameter>
     <ReportParameter Name="EndDate">
@@ -1091,16 +1124,17 @@ select DateAdd(Day,-1,@CurrEndDate) as  CurrEndDate;</CommandText>
       <Prompt>查询截止日期</Prompt>
     </ReportParameter>
   </ReportParameters>
-  <Width>9.69792in</Width>
+  <Width>8.40625in</Width>
   <Page>
-    <LeftMargin>1in</LeftMargin>
-    <RightMargin>1in</RightMargin>
-    <TopMargin>1in</TopMargin>
-    <BottomMargin>1in</BottomMargin>
+    <PageHeight>29.7cm</PageHeight>
+    <PageWidth>21cm</PageWidth>
+    <LeftMargin>2cm</LeftMargin>
+    <RightMargin>2cm</RightMargin>
+    <TopMargin>2cm</TopMargin>
+    <BottomMargin>2cm</BottomMargin>
+    <ColumnSpacing>0.13cm</ColumnSpacing>
     <Style />
   </Page>
-  <Language>zh-CN</Language>
-  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
-  <rd:ReportID>be3eb61c-57a5-417a-af49-2f3fef061c94</rd:ReportID>
-  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>681d72c0-9c89-49af-a9a8-92c9cc90b781</rd:ReportID>
+  <rd:ReportUnitType>Cm</rd:ReportUnitType>
 </Report>
