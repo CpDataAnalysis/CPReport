@@ -3,185 +3,84 @@
   <DataSources>
     <DataSource Name="PaymentDW">
       <DataSourceReference>PaymentDW</DataSourceReference>
-      <rd:DataSourceID>964019f7-5a8c-42be-a5b4-de27597178f8</rd:DataSourceID>
+      <rd:DataSourceID>2c647b1c-5080-4402-b2ae-d485e7eaa0eb</rd:DataSourceID>
       <rd:SecurityType>None</rd:SecurityType>
     </DataSource>
   </DataSources>
   <DataSets>
-    <DataSet Name="DataSet1">
+    <DataSet Name="BranchOfficeSet">
       <Fields>
-        <Field Name="BizUnit">
-          <DataField>BizUnit</DataField>
+        <Field Name="BranchOffice">
+          <DataField>BranchOffice</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="KPIValue">
-          <DataField>KPIValue</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="OrderID">
-          <DataField>OrderID</DataField>
+        <Field Name="NewlyIncreMerCount">
+          <DataField>NewlyIncreMerCount</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
-        <Field Name="Achievement">
-          <DataField>Achievement</DataField>
+        <Field Name="B2CNoUPOPTransCnt">
+          <DataField>B2CNoUPOPTransCnt</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
-        <Field Name="SalesManager">
-          <DataField>SalesManager</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="CurrSucceedCount">
-          <DataField>CurrSucceedCount</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="CurrSucceedAmount">
-          <DataField>CurrSucceedAmount</DataField>
+        <Field Name="UPOPTransCnt">
+          <DataField>UPOPTransCnt</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
-        <Field Name="PrevSucceedAmount">
-          <DataField>PrevSucceedAmount</DataField>
+        <Field Name="B2BTransCnt">
+          <DataField>B2BTransCnt</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
-        <Field Name="LastYearSucceedAmount">
-          <DataField>LastYearSucceedAmount</DataField>
+        <Field Name="DeductTransCnt">
+          <DataField>DeductTransCnt</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
-        <Field Name="SeqAmountIncrementRatio">
-          <DataField>SeqAmountIncrementRatio</DataField>
+        <Field Name="ORATransCnt">
+          <DataField>ORATransCnt</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
-        <Field Name="ThisYearSucceedAmount">
-          <DataField>ThisYearSucceedAmount</DataField>
+        <Field Name="FundTransCnt">
+          <DataField>FundTransCnt</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
-        <Field Name="YOYAmountIncrementRatio">
-          <DataField>YOYAmountIncrementRatio</DataField>
+        <Field Name="B2CNoUPOPTransAmt">
+          <DataField>B2CNoUPOPTransAmt</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="UPOPTransAmt">
+          <DataField>UPOPTransAmt</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="B2BTransAmt">
+          <DataField>B2BTransAmt</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="DeductTransAmt">
+          <DataField>DeductTransAmt</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="ORATransAmt">
+          <DataField>ORATransAmt</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="FundTransAmt">
+          <DataField>FundTransAmt</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="AllData">
+          <DataField>AllData</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
       </Fields>
       <Query>
         <DataSourceName>PaymentDW</DataSourceName>
-        <CommandText>EXEC Proc_QueryCPSalesManagerTransReport @StartDate,@PeriodUnit,@EndDate</CommandText>
+        <CommandType>StoredProcedure</CommandType>
+        <CommandText>Proc_QueryBranchOfficeSummarize</CommandText>
         <QueryParameters>
           <QueryParameter Name="@StartDate">
             <Value>=Parameters!StartDate.Value</Value>
           </QueryParameter>
           <QueryParameter Name="@PeriodUnit">
             <Value>=Parameters!PeriodUnit.Value</Value>
-          </QueryParameter>
-          <QueryParameter Name="@EndDate">
-            <Value>=Parameters!EndDate.Value</Value>
-          </QueryParameter>
-        </QueryParameters>
-        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
-      </Query>
-    </DataSet>
-    <DataSet Name="DataSet3">
-      <Fields>
-        <Field Name="CurrEndDate">
-          <DataField>CurrEndDate</DataField>
-          <rd:TypeName>System.DateTime</rd:TypeName>
-        </Field>
-        <Field Name="CurrStartDate">
-          <DataField>CurrStartDate</DataField>
-          <rd:TypeName>System.DateTime</rd:TypeName>
-        </Field>
-        <Field Name="PrevStartDate">
-          <DataField>PrevStartDate</DataField>
-          <rd:TypeName>System.DateTime</rd:TypeName>
-        </Field>
-        <Field Name="PrevEndDate">
-          <DataField>PrevEndDate</DataField>
-          <rd:TypeName>System.DateTime</rd:TypeName>
-        </Field>
-        <Field Name="LastYearStartDate">
-          <DataField>LastYearStartDate</DataField>
-          <rd:TypeName>System.DateTime</rd:TypeName>
-        </Field>
-        <Field Name="LastYearEndDate">
-          <DataField>LastYearEndDate</DataField>
-          <rd:TypeName>System.DateTime</rd:TypeName>
-        </Field>
-      </Fields>
-      <Query>
-        <DataSourceName>PaymentDW</DataSourceName>
-        <CommandText>--2. Prepare StartDate and EndDate
-declare @CurrStartDate datetime;
-declare @CurrEndDate datetime;
-declare @PrevStartDate datetime;
-declare @PrevEndDate datetime;
-declare @LastYearStartDate datetime;
-declare @LastYearEndDate datetime;
-declare @ThisYearRunningStartDate datetime;
-declare @ThisYearRunningEndDate datetime;
-
-if(@PeriodUnit = N'周')
-begin
-    set @CurrStartDate = @StartDate;
-    set @CurrEndDate = DATEADD(week, 1, @StartDate);
-    set @PrevStartDate = DATEADD(week, -1, @CurrStartDate);
-    set @PrevEndDate = @CurrStartDate;
-    set @LastYearStartDate = DATEADD(year, -1, @CurrStartDate); 
-    set @LastYearEndDate = DATEADD(year, -1, @CurrEndDate);
-end
-else if(@PeriodUnit = N'月')
-begin
-    set @CurrStartDate = @StartDate;
-    set @CurrEndDate = DATEADD(MONTH, 1, @StartDate);
-    set @PrevStartDate = DATEADD(MONTH, -1, @CurrStartDate);
-    set @PrevEndDate = @CurrStartDate;
-    set @LastYearStartDate = DATEADD(year, -1, @CurrStartDate); 
-    set @LastYearEndDate = DATEADD(year, -1, @CurrEndDate);
-end
-else if(@PeriodUnit = N'季度')
-begin
-    set @CurrStartDate = @StartDate;
-    set @CurrEndDate = DATEADD(QUARTER, 1, @StartDate);
-    set @PrevStartDate = DATEADD(QUARTER, -1, @CurrStartDate);
-    set @PrevEndDate = @CurrStartDate;
-    set @LastYearStartDate = DATEADD(year, -1, @CurrStartDate); 
-    set @LastYearEndDate = DATEADD(year, -1, @CurrEndDate);
-end
-else if(@PeriodUnit = N'半年')
-begin
-    set @CurrStartDate = @StartDate;
-    set @CurrEndDate = DATEADD(QUARTER, 2, @StartDate);
-    set @PrevStartDate = DATEADD(QUARTER, -2, @CurrStartDate);
-    set @PrevEndDate = @CurrStartDate;
-    set @LastYearStartDate = DATEADD(year, -1, @CurrStartDate); 
-    set @LastYearEndDate = DATEADD(year, -1, @CurrEndDate);
-end
-else if(@PeriodUnit = N'年')
-begin
-    set @CurrStartDate = @StartDate;
-    set @CurrEndDate = DATEADD(YEAR, 1, @StartDate);
-    set @PrevStartDate = DATEADD(YEAR, -1, @CurrStartDate);
-    set @PrevEndDate = @CurrStartDate;
-    set @LastYearStartDate = DATEADD(year, -1, @CurrStartDate); 
-    set @LastYearEndDate = DATEADD(year, -1, @CurrEndDate);
-end
-else if(@PeriodUnit = N'自定义')
-begin
-    set @CurrStartDate = @StartDate;
-    set @CurrEndDate = DateAdd(day,1,@EndDate);
-    set @PrevStartDate = DATEADD(DAY, -1*datediff(day,@CurrStartDate,@CurrEndDate), @CurrStartDate);
-    set @PrevEndDate = @CurrStartDate;
-    set @LastYearStartDate = DATEADD(year, -1, @CurrStartDate); 
-    set @LastYearEndDate = DATEADD(year, -1, @CurrEndDate);
-end
-select
-	@CurrStartDate CurrStartDate,
-	DateAdd(DAY,-1,@CurrEndDate) CurrEndDate,
-	@PrevStartDate PrevStartDate,
-	DateAdd(DAY,-1,@PrevEndDate) PrevEndDate,
-	@LastYearStartDate LastYearStartDate,
-	DateAdd(DAY,-1,@LastYearEndDate) LastYearEndDate;</CommandText>
-        <QueryParameters>
-          <QueryParameter Name="@PeriodUnit">
-            <Value>=Parameters!PeriodUnit.Value</Value>
-          </QueryParameter>
-          <QueryParameter Name="@StartDate">
-            <Value>=Parameters!StartDate.Value</Value>
           </QueryParameter>
           <QueryParameter Name="@EndDate">
             <Value>=Parameters!EndDate.Value</Value>
@@ -200,7 +99,10 @@ select
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>="市场销售部客户经理完成情况汇总表（"+Parameters!StartDate.Value+"-"+First(Fields!CurrEndDate.Value, "DataSet3")+"）"</Value>
+                <Value>="银商分支机构互联网业务"&amp;Switch(Parameters!PeriodUnit.Value="月",Month(Parameters!StartDate.Value)&amp;"月统计汇总表",
+		Parameters!PeriodUnit.Value="季度",Month(Parameters!StartDate.Value)&amp;"-"&amp;Month(DateAdd("m",2,Parameters!StartDate.Value))&amp;"月统计汇总表",
+		Parameters!PeriodUnit.Value="半年",Month(Parameters!StartDate.Value)&amp;"-"&amp;Month(DateAdd("m",5,Parameters!StartDate.Value))&amp;"月统计汇总表",
+		Parameters!PeriodUnit.Value="自定义","统计汇总表"&amp;"("&amp;Parameters!StartDate.Value &amp;"-"&amp;Parameters!EndDate.Value &amp;")")</Value>
                 <Style>
                   <FontFamily>宋体</FontFamily>
                   <FontSize>20pt</FontSize>
@@ -216,25 +118,28 @@ select
         </Paragraphs>
         <rd:DefaultName>textbox1</rd:DefaultName>
         <Height>0.36in</Height>
-        <Width>16.02083in</Width>
+        <Width>15.375in</Width>
         <Style>
-          <Border />
           <PaddingLeft>2pt</PaddingLeft>
           <PaddingRight>2pt</PaddingRight>
           <PaddingTop>2pt</PaddingTop>
           <PaddingBottom>2pt</PaddingBottom>
         </Style>
       </Textbox>
-      <Textbox Name="Textbox24">
+      <Textbox Name="Textbox6">
         <CanGrow>true</CanGrow>
         <KeepTogether>true</KeepTogether>
         <Paragraphs>
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>金额：元；笔数：笔</Value>
+                <Value>="银商各分支机构"&amp;Switch(Parameters!PeriodUnit.Value="月",Month(Parameters!StartDate.Value)&amp;"月交易情况表",
+		Parameters!PeriodUnit.Value="季度",Month(Parameters!StartDate.Value)&amp;"-"&amp;Month(DateAdd("m",2,Parameters!StartDate.Value))&amp;"月交易情况表",
+		Parameters!PeriodUnit.Value="半年",Month(Parameters!StartDate.Value)&amp;"-"&amp;Month(DateAdd("m",5,Parameters!StartDate.Value))&amp;"月交易情况表",
+		Parameters!PeriodUnit.Value="自定义","交易情况表"&amp;"("&amp;Parameters!StartDate.Value &amp;"-"&amp; Parameters!EndDate.Value &amp;")")</Value>
                 <Style>
                   <FontFamily>宋体</FontFamily>
+                  <FontSize>12pt</FontSize>
                   <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
@@ -244,10 +149,10 @@ select
             </Style>
           </Paragraph>
         </Paragraphs>
-        <rd:DefaultName>Textbox24</rd:DefaultName>
-        <Top>0.38778in</Top>
-        <Height>0.20833in</Height>
-        <Width>16.02083in</Width>
+        <rd:DefaultName>Textbox6</rd:DefaultName>
+        <Top>0.37389in</Top>
+        <Height>0.25in</Height>
+        <Width>15.375in</Width>
         <ZIndex>1</ZIndex>
         <Style>
           <Border>
@@ -259,366 +164,103 @@ select
           <PaddingBottom>2pt</PaddingBottom>
         </Style>
       </Textbox>
-      <Tablix Name="table1">
+      <Textbox Name="Textbox11">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>金额：万元,笔数：万笔</Value>
+                <Style>
+                  <FontFamily>宋体</FontFamily>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Center</TextAlign>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox11</rd:DefaultName>
+        <Top>0.65167in</Top>
+        <Height>0.19611in</Height>
+        <Width>15.37501in</Width>
+        <ZIndex>2</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Tablix Name="Tablix4">
         <TablixBody>
           <TablixColumns>
+            <TablixColumn>
+              <Width>0.88541in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>0.83334in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>0.63541in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>0.78125in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>0.75in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>0.65625in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>0.85417in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.07292in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.05209in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.02083in</Width>
+            </TablixColumn>
             <TablixColumn>
               <Width>1.09375in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.70833in</Width>
+              <Width>1.07292in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.15625in</Width>
+              <Width>1.10417in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.75625in</Width>
-            </TablixColumn>
-            <TablixColumn>
-              <Width>1.75625in</Width>
-            </TablixColumn>
-            <TablixColumn>
-              <Width>1.87083in</Width>
-            </TablixColumn>
-            <TablixColumn>
-              <Width>2.13333in</Width>
-            </TablixColumn>
-            <TablixColumn>
-              <Width>1.68958in</Width>
-            </TablixColumn>
-            <TablixColumn>
-              <Width>1.67917in</Width>
+              <Width>1.10417in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
             <TablixRow>
-              <Height>0.22in</Height>
+              <Height>0.3125in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="textbox4">
+                    <Textbox Name="Textbox15">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>客户经理</Value>
+                              <Value>交易笔数</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
-                                <FontSize>11pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
-                                <Color>White</Color>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Center</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>textbox4</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <BackgroundColor>SteelBlue</BackgroundColor>
-                        <VerticalAlign>Middle</VerticalAlign>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="textbox5">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>全年指标</Value>
-                              <Style>
-                                <FontFamily>宋体</FontFamily>
-                                <FontSize>11pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
-                                <Color>White</Color>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Center</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>textbox5</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <BackgroundColor>SteelBlue</BackgroundColor>
-                        <VerticalAlign>Middle</VerticalAlign>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="textbox6">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>全年完成率</Value>
-                              <Style>
-                                <FontFamily>宋体</FontFamily>
-                                <FontSize>11pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
-                                <Color>White</Color>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Center</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>textbox6</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <BackgroundColor>SteelBlue</BackgroundColor>
-                        <VerticalAlign>Middle</VerticalAlign>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox59">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>="本周期("+First(Fields!CurrStartDate.Value, "DataSet3")+"-"+First(Fields!CurrEndDate.Value, "DataSet3")+")交易笔数"</Value>
-                              <Style>
-                                <FontFamily>宋体</FontFamily>
-                                <FontSize>11pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
-                                <Color>White</Color>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Center</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox59</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <BackgroundColor>SteelBlue</BackgroundColor>
-                        <VerticalAlign>Middle</VerticalAlign>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="textbox7">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>="本周期("+First(Fields!CurrStartDate.Value, "DataSet3")+"-"+First(Fields!CurrEndDate.Value, "DataSet3")+")交易金额"</Value>
-                              <Style>
-                                <FontFamily>宋体</FontFamily>
-                                <FontSize>11pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
-                                <Color>White</Color>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Center</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>textbox7</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <BackgroundColor>SteelBlue</BackgroundColor>
-                        <VerticalAlign>Middle</VerticalAlign>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="textbox9">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>="上周期("+First(Fields!PrevStartDate.Value, "DataSet3")+"-"+First(Fields!PrevEndDate.Value, "DataSet3")+")交易金额"</Value>
-                              <Style>
-                                <FontFamily>宋体</FontFamily>
-                                <FontSize>11pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
-                                <Color>White</Color>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Center</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>textbox9</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <BackgroundColor>SteelBlue</BackgroundColor>
-                        <VerticalAlign>Middle</VerticalAlign>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="textbox10">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>="上年同周期("+First(Fields!LastYearStartDate.Value, "DataSet3")+"-"+First(Fields!LastYearEndDate.Value, "DataSet3")+")交易金额"</Value>
-                              <Style>
-                                <FontFamily>宋体</FontFamily>
-                                <FontSize>11pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
-                                <Color>White</Color>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Center</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>textbox10</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <BackgroundColor>SteelBlue</BackgroundColor>
-                        <VerticalAlign>Middle</VerticalAlign>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="textbox11">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>金额环比增长率</Value>
-                              <Style>
-                                <FontFamily>宋体</FontFamily>
-                                <FontSize>11pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
-                                <Color>White</Color>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Center</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>textbox11</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <BackgroundColor>SteelBlue</BackgroundColor>
-                        <VerticalAlign>Middle</VerticalAlign>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox14">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>金额同比增长率</Value>
-                              <Style>
-                                <FontFamily>宋体</FontFamily>
-                                <FontSize>11pt</FontSize>
+                                <FontSize>12pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                                 <Color>White</Color>
                               </Style>
@@ -643,356 +285,30 @@ select
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
+                    <ColSpan>7</ColSpan>
                   </CellContents>
                 </TablixCell>
-              </TablixCells>
-            </TablixRow>
-            <TablixRow>
-              <Height>0.21in</Height>
-              <TablixCells>
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="SalesManager">
+                    <Textbox Name="Textbox16">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!SalesManager.Value</Value>
+                              <Value>交易金额</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Left</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>SalesManager</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <VerticalAlign>Middle</VerticalAlign>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="KPIValue">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>=Fields!KPIValue.Value</Value>
-                              <Style>
-                                <FontFamily>宋体</FontFamily>
-                                <Format>#,0.00;(#,0.00)</Format>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Right</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>KPIValue</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <VerticalAlign>Middle</VerticalAlign>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Achievement">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>=Fields!Achievement.Value</Value>
-                              <Style>
-                                <FontFamily>宋体</FontFamily>
-                                <Format>0.00 %</Format>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Right</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Achievement</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <VerticalAlign>Middle</VerticalAlign>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="CurrSucceedCount">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>=Fields!CurrSucceedCount.Value</Value>
-                              <Style>
-                                <FontFamily>宋体</FontFamily>
-                                <Format>#,0;(#,0)</Format>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Right</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>CurrSucceedCount</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <VerticalAlign>Middle</VerticalAlign>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="CurrSucceedAmount">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>=Fields!CurrSucceedAmount.Value</Value>
-                              <Style>
-                                <FontFamily>宋体</FontFamily>
-                                <Format>#,0.00;(#,0.00)</Format>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Right</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>CurrSucceedAmount</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <VerticalAlign>Middle</VerticalAlign>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="PrevSucceedAmount">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>=Fields!PrevSucceedAmount.Value</Value>
-                              <Style>
-                                <FontFamily>宋体</FontFamily>
-                                <Format>#,0.00;(#,0.00)</Format>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Right</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>PrevSucceedAmount</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <VerticalAlign>Middle</VerticalAlign>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="LastYearSucceedAmount">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>=Fields!LastYearSucceedAmount.Value</Value>
-                              <Style>
-                                <FontFamily>宋体</FontFamily>
-                                <Format>#,0.00;(#,0.00)</Format>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Right</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>LastYearSucceedAmount</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <VerticalAlign>Middle</VerticalAlign>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="SeqAmountIncrementRatio">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>=Fields!SeqAmountIncrementRatio.Value</Value>
-                              <Style>
-                                <FontFamily>宋体</FontFamily>
-                                <Format>0.00 %</Format>
-                                <Color>=iif(Fields!SeqAmountIncrementRatio.Value&lt;0,"Green",iif(Fields!SeqAmountIncrementRatio.Value&gt;0,"Red","Black"))</Color>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Right</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>SeqAmountIncrementRatio</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <VerticalAlign>Middle</VerticalAlign>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="YOYAmountIncrementRatio">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>=Fields!YOYAmountIncrementRatio.Value</Value>
-                              <Style>
-                                <FontFamily>宋体</FontFamily>
-                                <Format>0.00 %</Format>
-                                <Color>=iif(Fields!YOYAmountIncrementRatio.Value&lt;0,"Green",iif(Fields!YOYAmountIncrementRatio.Value&gt;0,"Red","Black"))</Color>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Right</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>YOYAmountIncrementRatio</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <VerticalAlign>Middle</VerticalAlign>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-              </TablixCells>
-            </TablixRow>
-            <TablixRow>
-              <Height>0.25in</Height>
-              <TablixCells>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox171">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>总计</Value>
-                              <Style>
-                                <FontFamily>宋体</FontFamily>
+                                <FontSize>12pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
+                                <Color>White</Color>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1001,7 +317,607 @@ select
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox171</rd:DefaultName>
+                      <rd:DefaultName>Textbox14</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>SteelBlue</BackgroundColor>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>7</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.20833in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox1063">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>B2C(除UPOP)</Value>
+                              <Style>
+                                <FontFamily>宋体</FontFamily>
+                                <FontSize>11pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>White</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox1056</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>SteelBlue</BackgroundColor>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox1064">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>UPOP</Value>
+                              <Style>
+                                <FontFamily>宋体</FontFamily>
+                                <FontSize>11pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>White</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox1057</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>SteelBlue</BackgroundColor>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox1065">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>B2B</Value>
+                              <Style>
+                                <FontFamily>宋体</FontFamily>
+                                <FontSize>11pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>White</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox1058</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>SteelBlue</BackgroundColor>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox1066">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>代收</Value>
+                              <Style>
+                                <FontFamily>宋体</FontFamily>
+                                <FontSize>11pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>White</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox1059</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>SteelBlue</BackgroundColor>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox1067">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>代付</Value>
+                              <Style>
+                                <FontFamily>宋体</FontFamily>
+                                <FontSize>11pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>White</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox1060</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>SteelBlue</BackgroundColor>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox1068">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>基金</Value>
+                              <Style>
+                                <FontFamily>宋体</FontFamily>
+                                <FontSize>11pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>White</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox1061</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>SteelBlue</BackgroundColor>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox1069">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>合计</Value>
+                              <Style>
+                                <FontFamily>宋体</FontFamily>
+                                <FontSize>11pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>White</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox1062</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>SteelBlue</BackgroundColor>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox1070">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>B2C(除UPOP)</Value>
+                              <Style>
+                                <FontFamily>宋体</FontFamily>
+                                <FontSize>11pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>White</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox1056</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>SteelBlue</BackgroundColor>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox1071">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>UPOP</Value>
+                              <Style>
+                                <FontFamily>宋体</FontFamily>
+                                <FontSize>11pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>White</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox1057</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>SteelBlue</BackgroundColor>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox1074">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>B2B</Value>
+                              <Style>
+                                <FontFamily>宋体</FontFamily>
+                                <FontSize>11pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>White</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox1058</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>SteelBlue</BackgroundColor>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox1075">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>代收</Value>
+                              <Style>
+                                <FontFamily>宋体</FontFamily>
+                                <FontSize>11pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>White</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox1059</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>SteelBlue</BackgroundColor>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox1076">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>代付</Value>
+                              <Style>
+                                <FontFamily>宋体</FontFamily>
+                                <FontSize>11pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>White</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox1060</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>SteelBlue</BackgroundColor>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox1077">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>基金</Value>
+                              <Style>
+                                <FontFamily>宋体</FontFamily>
+                                <FontSize>11pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>White</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox1061</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>SteelBlue</BackgroundColor>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox1078">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>合计</Value>
+                              <Style>
+                                <FontFamily>宋体</FontFamily>
+                                <FontSize>11pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>White</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox1062</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>SteelBlue</BackgroundColor>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.19792in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="B2CNoUPOPTransCnt">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!B2CNoUPOPTransCnt.Value</Value>
+                              <Style>
+                                <FontFamily>宋体</FontFamily>
+                                <Format>0.0000;- 0.0000</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>B2CNoUPOPTransCnt</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1018,18 +934,17 @@ select
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox172">
+                    <Textbox Name="UPOPTransCnt">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!KPIValue.Value)</Value>
+                              <Value>=Fields!UPOPTransCnt.Value</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
-                                <FontWeight>Bold</FontWeight>
-                                <Format>#,0.00;(#,0.00)</Format>
+                                <Format>0.0000;- 0.0000</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1038,7 +953,7 @@ select
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox172</rd:DefaultName>
+                      <rd:DefaultName>UPOPTransCnt</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1055,18 +970,17 @@ select
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox173">
+                    <Textbox Name="B2BTransCnt">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=iif(SUM(Fields!KPIValue.Value)=0,0,SUM(Fields!ThisYearSucceedAmount.Value)/iif(SUM(Fields!KPIValue.Value)=0,1,SUM(Fields!KPIValue.Value)))</Value>
+                              <Value>=Fields!B2BTransCnt.Value</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
-                                <FontWeight>Bold</FontWeight>
-                                <Format>0.00 %</Format>
+                                <Format>0.0000;- 0.0000</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1075,7 +989,7 @@ select
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox173</rd:DefaultName>
+                      <rd:DefaultName>B2BTransCnt</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1092,18 +1006,17 @@ select
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox174">
+                    <Textbox Name="DeductTransCnt">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!CurrSucceedCount.Value)</Value>
+                              <Value>=Fields!DeductTransCnt.Value</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
-                                <FontWeight>Bold</FontWeight>
-                                <Format>#,0;(#,0)</Format>
+                                <Format>0.0000;- 0.0000</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1112,7 +1025,7 @@ select
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox174</rd:DefaultName>
+                      <rd:DefaultName>DeductTransCnt</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1129,18 +1042,17 @@ select
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox175">
+                    <Textbox Name="ORATransCnt">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!CurrSucceedAmount.Value)</Value>
+                              <Value>=Fields!ORATransCnt.Value</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
-                                <FontWeight>Bold</FontWeight>
-                                <Format>#,0.00;(#,0.00)</Format>
+                                <Format>0.0000;- 0.0000</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1149,7 +1061,7 @@ select
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox175</rd:DefaultName>
+                      <rd:DefaultName>ORATransCnt</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1166,18 +1078,17 @@ select
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox176">
+                    <Textbox Name="FundTransCnt">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!PrevSucceedAmount.Value)</Value>
+                              <Value>=Fields!FundTransCnt.Value</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
-                                <FontWeight>Bold</FontWeight>
-                                <Format>#,0.00;(#,0.00)</Format>
+                                <Format>0.0000;- 0.0000</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1186,7 +1097,7 @@ select
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox176</rd:DefaultName>
+                      <rd:DefaultName>FundTransCnt</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1203,18 +1114,17 @@ select
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox177">
+                    <Textbox Name="B2CNoUPOPTransCnt1">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!LastYearSucceedAmount.Value)</Value>
+                              <Value>=Fields!B2CNoUPOPTransCnt.Value +Fields!UPOPTransCnt.Value+Fields!B2BTransCnt.Value+Fields!DeductTransCnt.Value+Fields!ORATransCnt.Value+Fields!FundTransCnt.Value</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
-                                <FontWeight>Bold</FontWeight>
-                                <Format>#,0.00;(#,0.00)</Format>
+                                <Format>0.0000;- 0.0000</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1223,7 +1133,7 @@ select
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox177</rd:DefaultName>
+                      <rd:DefaultName>B2CNoUPOPTransCnt1</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1240,19 +1150,17 @@ select
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox178">
+                    <Textbox Name="B2CNoUPOPTransAmt">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=IIF(SUM(Fields!PrevSucceedAmount.Value)=0,0,(SUM(Fields!CurrSucceedAmount.Value)-SUM(Fields!PrevSucceedAmount.Value))/IIF(SUM(Fields!PrevSucceedAmount.Value)=0,1,SUM(Fields!PrevSucceedAmount.Value)))</Value>
+                              <Value>=Fields!B2CNoUPOPTransAmt.Value</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
-                                <FontWeight>Bold</FontWeight>
-                                <Format>0.00 %</Format>
-                                <Color>=iif((SUM(Fields!PrevSucceedAmount.Value)=0)or((SUM(Fields!CurrSucceedAmount.Value)-SUM(Fields!PrevSucceedAmount.Value))=0),"Black",iif((SUM(Fields!CurrSucceedAmount.Value)-SUM(Fields!PrevSucceedAmount.Value))&gt;0,"Red","Green"))</Color>
+                                <Format>0.0000;- 0.0000</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1261,7 +1169,7 @@ select
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox178</rd:DefaultName>
+                      <rd:DefaultName>B2CNoUPOPTransAmt</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1278,19 +1186,17 @@ select
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox179">
+                    <Textbox Name="UPOPTransAmt">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=IIF(SUM(Fields!LastYearSucceedAmount.Value)=0,0,(SUM(Fields!CurrSucceedAmount.Value)-SUM(Fields!LastYearSucceedAmount.Value))/IIF(SUM(Fields!LastYearSucceedAmount.Value)=0,1,SUM(Fields!LastYearSucceedAmount.Value)))</Value>
+                              <Value>=Fields!UPOPTransAmt.Value</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
-                                <FontWeight>Bold</FontWeight>
-                                <Format>0.00 %</Format>
-                                <Color>=iif((SUM(Fields!LastYearSucceedAmount.Value)=0)or((SUM(Fields!CurrSucceedAmount.Value)-SUM(Fields!LastYearSucceedAmount.Value))=0),"Black",iif((SUM(Fields!CurrSucceedAmount.Value)-SUM(Fields!LastYearSucceedAmount.Value))&gt;0,"Red","Green"))</Color>
+                                <Format>0.0000;- 0.0000</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1299,7 +1205,187 @@ select
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox179</rd:DefaultName>
+                      <rd:DefaultName>UPOPTransAmt</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="B2BTransAmt">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!B2BTransAmt.Value</Value>
+                              <Style>
+                                <FontFamily>宋体</FontFamily>
+                                <Format>0.0000;- 0.0000</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>B2BTransAmt</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="DeductTransAmt">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!DeductTransAmt.Value</Value>
+                              <Style>
+                                <FontFamily>宋体</FontFamily>
+                                <Format>0.0000;- 0.0000</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>DeductTransAmt</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="ORATransAmt">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!ORATransAmt.Value</Value>
+                              <Style>
+                                <FontFamily>宋体</FontFamily>
+                                <Format>0.0000;- 0.0000</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>ORATransAmt</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="FundTransAmt">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!FundTransAmt.Value</Value>
+                              <Style>
+                                <FontFamily>宋体</FontFamily>
+                                <Format>0.0000;- 0.0000</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>FundTransAmt</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="AllData">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!AllData.Value</Value>
+                              <Style>
+                                <FontFamily>宋体</FontFamily>
+                                <Format>0.0000;- 0.0000</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>AllData</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1317,30 +1403,31 @@ select
               </TablixCells>
             </TablixRow>
             <TablixRow>
-              <Height>0.25in</Height>
+              <Height>0.20834in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox122">
+                    <Textbox Name="Textbox1414">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=CStr(CountDistinct(Fields!SalesManager.Value))</Value>
+                              <Value>=Sum(Fields!B2CNoUPOPTransCnt.Value)</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
                                 <FontWeight>Bold</FontWeight>
+                                <Format>0.0000;- 0.0000</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
-                            <TextAlign>Center</TextAlign>
+                            <TextAlign>Right</TextAlign>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox122</rd:DefaultName>
+                      <rd:DefaultName>Textbox1414</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1357,18 +1444,18 @@ select
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox123">
+                    <Textbox Name="Textbox1415">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!KPIValue.Value)</Value>
+                              <Value>=Sum(Fields!UPOPTransCnt.Value)</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
                                 <FontWeight>Bold</FontWeight>
-                                <Format>#,0.00;(#,0.00)</Format>
+                                <Format>0.0000;- 0.0000</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1377,7 +1464,7 @@ select
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox123</rd:DefaultName>
+                      <rd:DefaultName>Textbox1415</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1394,18 +1481,18 @@ select
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox124">
+                    <Textbox Name="Textbox1416">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=iif(SUM(Fields!KPIValue.Value)=0,0,SUM(Fields!ThisYearSucceedAmount.Value)/iif(SUM(Fields!KPIValue.Value)=0,1,SUM(Fields!KPIValue.Value)))</Value>
+                              <Value>=Sum(Fields!B2BTransCnt.Value)</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
                                 <FontWeight>Bold</FontWeight>
-                                <Format>0.00 %</Format>
+                                <Format>0.0000;- 0.0000</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1414,7 +1501,7 @@ select
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox124</rd:DefaultName>
+                      <rd:DefaultName>Textbox1416</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1431,18 +1518,18 @@ select
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox125">
+                    <Textbox Name="Textbox1417">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!CurrSucceedCount.Value)</Value>
+                              <Value>=Sum(Fields!DeductTransCnt.Value)</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
                                 <FontWeight>Bold</FontWeight>
-                                <Format>#,0;(#,0)</Format>
+                                <Format>0.0000;- 0.0000</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1451,7 +1538,7 @@ select
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox125</rd:DefaultName>
+                      <rd:DefaultName>Textbox1417</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1468,18 +1555,18 @@ select
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox126">
+                    <Textbox Name="Textbox1418">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!CurrSucceedAmount.Value)</Value>
+                              <Value>=Sum(Fields!ORATransCnt.Value)</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
                                 <FontWeight>Bold</FontWeight>
-                                <Format>#,0.00;(#,0.00)</Format>
+                                <Format>0.0000;- 0.0000</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1488,7 +1575,7 @@ select
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox126</rd:DefaultName>
+                      <rd:DefaultName>Textbox1418</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1505,18 +1592,18 @@ select
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox127">
+                    <Textbox Name="Textbox1419">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!PrevSucceedAmount.Value)</Value>
+                              <Value>=Sum(Fields!FundTransCnt.Value)</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
                                 <FontWeight>Bold</FontWeight>
-                                <Format>#,0.00;(#,0.00)</Format>
+                                <Format>0.0000;- 0.0000</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1525,7 +1612,7 @@ select
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox127</rd:DefaultName>
+                      <rd:DefaultName>Textbox1419</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1542,18 +1629,18 @@ select
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox128">
+                    <Textbox Name="Textbox1420">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!LastYearSucceedAmount.Value)</Value>
+                              <Value>=Sum(Fields!B2CNoUPOPTransCnt.Value)+Sum(Fields!UPOPTransCnt.Value, "BranchOfficeSet")+Sum(Fields!B2BTransCnt.Value, "BranchOfficeSet")+Sum(Fields!DeductTransCnt.Value, "BranchOfficeSet")+Sum(Fields!ORATransCnt.Value, "BranchOfficeSet")+Sum(Fields!FundTransCnt.Value, "BranchOfficeSet")</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
                                 <FontWeight>Bold</FontWeight>
-                                <Format>#,0.00;(#,0.00)</Format>
+                                <Format>0.0000;- 0.0000</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1562,7 +1649,7 @@ select
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox128</rd:DefaultName>
+                      <rd:DefaultName>Textbox1420</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1579,19 +1666,18 @@ select
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox129">
+                    <Textbox Name="Textbox1451">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=IIF(SUM(Fields!PrevSucceedAmount.Value)=0,0,(SUM(Fields!CurrSucceedAmount.Value)-SUM(Fields!PrevSucceedAmount.Value))/IIF(SUM(Fields!PrevSucceedAmount.Value)=0,1,SUM(Fields!PrevSucceedAmount.Value)))</Value>
+                              <Value>=Sum(Fields!B2CNoUPOPTransAmt.Value)</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
                                 <FontWeight>Bold</FontWeight>
-                                <Format>0.00 %</Format>
-                                <Color>=iif((SUM(Fields!PrevSucceedAmount.Value)=0)or((SUM(Fields!CurrSucceedAmount.Value)-SUM(Fields!PrevSucceedAmount.Value))=0),"Black",iif((SUM(Fields!CurrSucceedAmount.Value)-SUM(Fields!PrevSucceedAmount.Value))&gt;0,"Red","Green"))</Color>
+                                <Format>0.0000;- 0.0000</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1600,7 +1686,7 @@ select
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox129</rd:DefaultName>
+                      <rd:DefaultName>Textbox1451</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1617,19 +1703,18 @@ select
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox130">
+                    <Textbox Name="Textbox1447">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=IIF(SUM(Fields!LastYearSucceedAmount.Value)=0,0,(SUM(Fields!CurrSucceedAmount.Value)-SUM(Fields!LastYearSucceedAmount.Value))/IIF(SUM(Fields!LastYearSucceedAmount.Value)=0,1,SUM(Fields!LastYearSucceedAmount.Value)))</Value>
+                              <Value>=Sum(Fields!UPOPTransAmt.Value)</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
                                 <FontWeight>Bold</FontWeight>
-                                <Format>0.00 %</Format>
-                                <Color>=iif((SUM(Fields!LastYearSucceedAmount.Value)=0)or((SUM(Fields!CurrSucceedAmount.Value)-SUM(Fields!LastYearSucceedAmount.Value))=0),"Black",iif((SUM(Fields!CurrSucceedAmount.Value)-SUM(Fields!LastYearSucceedAmount.Value))&gt;0,"Red","Green"))</Color>
+                                <Format>0.0000;- 0.0000</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1638,7 +1723,192 @@ select
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox130</rd:DefaultName>
+                      <rd:DefaultName>Textbox1447</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox1443">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!B2BTransAmt.Value)</Value>
+                              <Style>
+                                <FontFamily>宋体</FontFamily>
+                                <FontWeight>Bold</FontWeight>
+                                <Format>0.0000;- 0.0000</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox1443</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox1439">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!DeductTransAmt.Value)</Value>
+                              <Style>
+                                <FontFamily>宋体</FontFamily>
+                                <FontWeight>Bold</FontWeight>
+                                <Format>0.0000;- 0.0000</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox1439</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox1435">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!ORATransAmt.Value)</Value>
+                              <Style>
+                                <FontFamily>宋体</FontFamily>
+                                <FontWeight>Bold</FontWeight>
+                                <Format>0.0000;- 0.0000</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox1435</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox1431">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!FundTransAmt.Value)</Value>
+                              <Style>
+                                <FontFamily>宋体</FontFamily>
+                                <FontWeight>Bold</FontWeight>
+                                <Format>0.0000;- 0.0000</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox1431</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="AllData1">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!AllData.Value)</Value>
+                              <Style>
+                                <FontFamily>宋体</FontFamily>
+                                <FontWeight>Bold</FontWeight>
+                                <Format>0.0000;- 0.0000</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>AllData1</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1668,25 +1938,30 @@ select
             <TablixMember />
             <TablixMember />
             <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
           </TablixMembers>
         </TablixColumnHierarchy>
         <TablixRowHierarchy>
           <TablixMembers>
             <TablixMember>
               <TablixHeader>
-                <Size>1.17708in</Size>
+                <Size>1.98958in</Size>
                 <CellContents>
-                  <Textbox Name="Textbox12">
+                  <Textbox Name="Textbox55">
                     <CanGrow>true</CanGrow>
                     <KeepTogether>true</KeepTogether>
                     <Paragraphs>
                       <Paragraph>
                         <TextRuns>
                           <TextRun>
-                            <Value>BU</Value>
+                            <Value>银商分支机构</Value>
                             <Style>
                               <FontFamily>宋体</FontFamily>
-                              <FontSize>11pt</FontSize>
+                              <FontSize>12pt</FontSize>
                               <FontWeight>Bold</FontWeight>
                               <Color>White</Color>
                             </Style>
@@ -1697,12 +1972,15 @@ select
                         </Style>
                       </Paragraph>
                     </Paragraphs>
-                    <rd:DefaultName>Textbox12</rd:DefaultName>
+                    <rd:DefaultName>Textbox55</rd:DefaultName>
                     <Style>
                       <Border>
                         <Color>LightGrey</Color>
                         <Style>Solid</Style>
                       </Border>
+                      <BottomBorder>
+                        <Style>None</Style>
+                      </BottomBorder>
                       <BackgroundColor>SteelBlue</BackgroundColor>
                       <VerticalAlign>Middle</VerticalAlign>
                       <PaddingLeft>2pt</PaddingLeft>
@@ -1715,25 +1993,71 @@ select
               </TablixHeader>
               <TablixMembers>
                 <TablixMember>
-                  <KeepTogether>true</KeepTogether>
+                  <TablixHeader>
+                    <Size>0.46875in</Size>
+                    <CellContents>
+                      <Textbox Name="Textbox85">
+                        <CanGrow>true</CanGrow>
+                        <KeepTogether>true</KeepTogether>
+                        <Paragraphs>
+                          <Paragraph>
+                            <TextRuns>
+                              <TextRun>
+                                <Value>新增商户总数</Value>
+                                <Style>
+                                  <FontFamily>宋体</FontFamily>
+                                  <FontSize>11pt</FontSize>
+                                  <FontWeight>Bold</FontWeight>
+                                  <Color>White</Color>
+                                </Style>
+                              </TextRun>
+                            </TextRuns>
+                            <Style>
+                              <TextAlign>Center</TextAlign>
+                            </Style>
+                          </Paragraph>
+                        </Paragraphs>
+                        <rd:DefaultName>Textbox85</rd:DefaultName>
+                        <Style>
+                          <Border>
+                            <Color>LightGrey</Color>
+                            <Style>Solid</Style>
+                          </Border>
+                          <BottomBorder>
+                            <Style>None</Style>
+                          </BottomBorder>
+                          <BackgroundColor>SteelBlue</BackgroundColor>
+                          <VerticalAlign>Middle</VerticalAlign>
+                          <PaddingLeft>2pt</PaddingLeft>
+                          <PaddingRight>2pt</PaddingRight>
+                          <PaddingTop>2pt</PaddingTop>
+                          <PaddingBottom>2pt</PaddingBottom>
+                        </Style>
+                      </Textbox>
+                    </CellContents>
+                  </TablixHeader>
+                  <TablixMembers>
+                    <TablixMember />
+                    <TablixMember />
+                  </TablixMembers>
                 </TablixMember>
               </TablixMembers>
               <KeepWithGroup>After</KeepWithGroup>
-              <RepeatOnNewPage>true</RepeatOnNewPage>
             </TablixMember>
             <TablixMember>
               <Group Name="Group1">
                 <GroupExpressions>
-                  <GroupExpression>=Fields!BizUnit.Value</GroupExpression>
+                  <GroupExpression>=Fields!BranchOffice.Value</GroupExpression>
                 </GroupExpressions>
               </Group>
               <SortExpressions>
                 <SortExpression>
-                  <Value>=Fields!OrderID.Value</Value>
+                  <Value>=Fields!AllData.Value</Value>
+                  <Direction>Descending</Direction>
                 </SortExpression>
               </SortExpressions>
               <TablixHeader>
-                <Size>1.17708in</Size>
+                <Size>1.98958in</Size>
                 <CellContents>
                   <Textbox Name="Group1">
                     <CanGrow>true</CanGrow>
@@ -1742,7 +2066,7 @@ select
                       <Paragraph>
                         <TextRuns>
                           <TextRun>
-                            <Value>=Fields!BizUnit.Value</Value>
+                            <Value>=Fields!BranchOffice.Value</Value>
                             <Style>
                               <FontFamily>宋体</FontFamily>
                             </Style>
@@ -1770,32 +2094,55 @@ select
               </TablixHeader>
               <TablixMembers>
                 <TablixMember>
-                  <Group Name="table1_Details_Group">
-                    <DataElementName>Detail</DataElementName>
-                  </Group>
-                  <SortExpressions>
-                    <SortExpression>
-                      <Value>=Fields!Achievement.Value</Value>
-                      <Direction>Descending</Direction>
-                    </SortExpression>
-                  </SortExpressions>
+                  <TablixHeader>
+                    <Size>0.46875in</Size>
+                    <CellContents>
+                      <Textbox Name="NewlyIncreMerCount">
+                        <CanGrow>true</CanGrow>
+                        <KeepTogether>true</KeepTogether>
+                        <Paragraphs>
+                          <Paragraph>
+                            <TextRuns>
+                              <TextRun>
+                                <Value>=Sum(Fields!NewlyIncreMerCount.Value)</Value>
+                                <Style>
+                                  <FontFamily>宋体</FontFamily>
+                                </Style>
+                              </TextRun>
+                            </TextRuns>
+                            <Style>
+                              <TextAlign>Right</TextAlign>
+                            </Style>
+                          </Paragraph>
+                        </Paragraphs>
+                        <rd:DefaultName>NewlyIncreMerCount</rd:DefaultName>
+                        <Style>
+                          <Border>
+                            <Color>LightGrey</Color>
+                            <Style>Solid</Style>
+                          </Border>
+                          <VerticalAlign>Middle</VerticalAlign>
+                          <PaddingLeft>2pt</PaddingLeft>
+                          <PaddingRight>2pt</PaddingRight>
+                          <PaddingTop>2pt</PaddingTop>
+                          <PaddingBottom>2pt</PaddingBottom>
+                        </Style>
+                      </Textbox>
+                    </CellContents>
+                  </TablixHeader>
                   <TablixMembers>
-                    <TablixMember />
+                    <TablixMember>
+                      <Group Name="详细信息" />
+                    </TablixMember>
                   </TablixMembers>
-                  <DataElementName>Detail_Collection</DataElementName>
-                  <DataElementOutput>Output</DataElementOutput>
-                  <KeepTogether>true</KeepTogether>
-                </TablixMember>
-                <TablixMember>
-                  <KeepWithGroup>Before</KeepWithGroup>
                 </TablixMember>
               </TablixMembers>
             </TablixMember>
             <TablixMember>
               <TablixHeader>
-                <Size>1.17708in</Size>
+                <Size>1.98958in</Size>
                 <CellContents>
-                  <Textbox Name="Textbox121">
+                  <Textbox Name="Textbox58">
                     <CanGrow>true</CanGrow>
                     <KeepTogether>true</KeepTogether>
                     <Paragraphs>
@@ -1814,7 +2161,7 @@ select
                         </Style>
                       </Paragraph>
                     </Paragraphs>
-                    <rd:DefaultName>Textbox121</rd:DefaultName>
+                    <rd:DefaultName>Textbox58</rd:DefaultName>
                     <Style>
                       <Border>
                         <Color>LightGrey</Color>
@@ -1829,643 +2176,90 @@ select
                   </Textbox>
                 </CellContents>
               </TablixHeader>
+              <TablixMembers>
+                <TablixMember>
+                  <TablixHeader>
+                    <Size>0.46875in</Size>
+                    <CellContents>
+                      <Textbox Name="Textbox84">
+                        <CanGrow>true</CanGrow>
+                        <KeepTogether>true</KeepTogether>
+                        <Paragraphs>
+                          <Paragraph>
+                            <TextRuns>
+                              <TextRun>
+                                <Value>=Sum(Fields!NewlyIncreMerCount.Value)</Value>
+                                <Style>
+                                  <FontFamily>宋体</FontFamily>
+                                  <FontWeight>Bold</FontWeight>
+                                </Style>
+                              </TextRun>
+                            </TextRuns>
+                            <Style>
+                              <TextAlign>Right</TextAlign>
+                            </Style>
+                          </Paragraph>
+                        </Paragraphs>
+                        <rd:DefaultName>Textbox84</rd:DefaultName>
+                        <Style>
+                          <Border>
+                            <Color>LightGrey</Color>
+                            <Style>Solid</Style>
+                          </Border>
+                          <VerticalAlign>Middle</VerticalAlign>
+                          <PaddingLeft>2pt</PaddingLeft>
+                          <PaddingRight>2pt</PaddingRight>
+                          <PaddingTop>2pt</PaddingTop>
+                          <PaddingBottom>2pt</PaddingBottom>
+                        </Style>
+                      </Textbox>
+                    </CellContents>
+                  </TablixHeader>
+                  <TablixMembers>
+                    <TablixMember />
+                  </TablixMembers>
+                </TablixMember>
+              </TablixMembers>
               <KeepWithGroup>Before</KeepWithGroup>
             </TablixMember>
           </TablixMembers>
         </TablixRowHierarchy>
         <KeepTogether>true</KeepTogether>
-        <DataSetName>DataSet1</DataSetName>
-        <Top>0.59611in</Top>
-        <Height>0.93in</Height>
-        <Width>16.02082in</Width>
-        <ZIndex>2</ZIndex>
-        <Style />
-      </Tablix>
-      <Chart Name="Chart3">
-        <ChartCategoryHierarchy>
-          <ChartMembers>
-            <ChartMember>
-              <Group Name="Chart3_CategoryGroup1">
-                <GroupExpressions>
-                  <GroupExpression>=Fields!SalesManager.Value</GroupExpression>
-                </GroupExpressions>
-                <Filters>
-                  <Filter>
-                    <FilterExpression>=Fields!SalesManager.Value</FilterExpression>
-                    <Operator>NotEqual</Operator>
-                    <FilterValues>
-                      <FilterValue>市场销售部</FilterValue>
-                    </FilterValues>
-                  </Filter>
-                </Filters>
-              </Group>
-              <SortExpressions>
-                <SortExpression>
-                  <Value>=Fields!Achievement.Value</Value>
-                  <Direction>Descending</Direction>
-                </SortExpression>
-              </SortExpressions>
-              <Label>=Fields!SalesManager.Value</Label>
-            </ChartMember>
-          </ChartMembers>
-        </ChartCategoryHierarchy>
-        <ChartSeriesHierarchy>
-          <ChartMembers>
-            <ChartMember>
-              <Label>This Year Succeed Amount</Label>
-            </ChartMember>
-            <ChartMember>
-              <Label>This Year Succeed Amount</Label>
-            </ChartMember>
-          </ChartMembers>
-        </ChartSeriesHierarchy>
-        <ChartData>
-          <ChartSeriesCollection>
-            <ChartSeries Name="ThisYearSucceedAmount">
-              <ChartDataPoints>
-                <ChartDataPoint>
-                  <ChartDataPointValues>
-                    <Y>=Sum(Fields!ThisYearSucceedAmount.Value)</Y>
-                  </ChartDataPointValues>
-                  <ChartDataLabel>
-                    <Style />
-                  </ChartDataLabel>
-                  <Style />
-                  <ChartMarker>
-                    <Style />
-                  </ChartMarker>
-                  <DataElementOutput>Output</DataElementOutput>
-                </ChartDataPoint>
-              </ChartDataPoints>
-              <Subtype>PercentStacked</Subtype>
-              <Style />
-              <ChartEmptyPoints>
-                <Style />
-                <ChartMarker>
-                  <Style />
-                </ChartMarker>
-                <ChartDataLabel>
-                  <Style />
-                </ChartDataLabel>
-              </ChartEmptyPoints>
-              <CustomProperties>
-                <CustomProperty>
-                  <Name>DrawingStyle</Name>
-                  <Value>Cylinder</Value>
-                </CustomProperty>
-              </CustomProperties>
-              <ChartItemInLegend>
-                <LegendText>已完成指标</LegendText>
-              </ChartItemInLegend>
-              <ValueAxisName>Primary</ValueAxisName>
-              <CategoryAxisName>Primary</CategoryAxisName>
-              <ChartSmartLabel>
-                <CalloutLineColor>Black</CalloutLineColor>
-                <MinMovingDistance>0pt</MinMovingDistance>
-              </ChartSmartLabel>
-            </ChartSeries>
-            <ChartSeries Name="KPIValue">
-              <ChartDataPoints>
-                <ChartDataPoint>
-                  <ChartDataPointValues>
-                    <Y>=iif((Sum(Fields!KPIValue.Value)-SUM(Fields!ThisYearSucceedAmount.Value))&lt;0,0,Sum(Fields!KPIValue.Value)-SUM(Fields!ThisYearSucceedAmount.Value))</Y>
-                  </ChartDataPointValues>
-                  <ChartDataLabel>
-                    <Style />
-                  </ChartDataLabel>
-                  <Style />
-                  <ChartMarker>
-                    <Style />
-                  </ChartMarker>
-                  <DataElementOutput>Output</DataElementOutput>
-                </ChartDataPoint>
-              </ChartDataPoints>
-              <Subtype>PercentStacked</Subtype>
-              <Style />
-              <ChartEmptyPoints>
-                <Style />
-                <ChartMarker>
-                  <Style />
-                </ChartMarker>
-                <ChartDataLabel>
-                  <Style />
-                </ChartDataLabel>
-              </ChartEmptyPoints>
-              <CustomProperties>
-                <CustomProperty>
-                  <Name>DrawingStyle</Name>
-                  <Value>Cylinder</Value>
-                </CustomProperty>
-              </CustomProperties>
-              <ChartItemInLegend>
-                <LegendText>剩余指标</LegendText>
-              </ChartItemInLegend>
-              <ValueAxisName>Primary</ValueAxisName>
-              <CategoryAxisName>Primary</CategoryAxisName>
-              <ChartSmartLabel>
-                <CalloutLineColor>Black</CalloutLineColor>
-                <MinMovingDistance>0pt</MinMovingDistance>
-              </ChartSmartLabel>
-            </ChartSeries>
-          </ChartSeriesCollection>
-        </ChartData>
-        <ChartAreas>
-          <ChartArea Name="Default">
-            <ChartCategoryAxes>
-              <ChartAxis Name="Primary">
-                <Style>
-                  <FontSize>8pt</FontSize>
-                </Style>
-                <ChartAxisTitle>
-                  <Caption />
-                  <Style>
-                    <FontSize>8pt</FontSize>
-                  </Style>
-                </ChartAxisTitle>
-                <Interval>1</Interval>
-                <ChartMajorGridLines>
-                  <Enabled>False</Enabled>
-                  <Style>
-                    <Border>
-                      <Color>Gainsboro</Color>
-                    </Border>
-                  </Style>
-                </ChartMajorGridLines>
-                <ChartMinorGridLines>
-                  <Style>
-                    <Border>
-                      <Color>Gainsboro</Color>
-                      <Style>Dotted</Style>
-                    </Border>
-                  </Style>
-                </ChartMinorGridLines>
-                <ChartMinorTickMarks>
-                  <Length>0.5</Length>
-                </ChartMinorTickMarks>
-                <CrossAt>NaN</CrossAt>
-                <Minimum>NaN</Minimum>
-                <Maximum>NaN</Maximum>
-                <Angle>30</Angle>
-                <AllowLabelRotation>Rotate45</AllowLabelRotation>
-                <LabelsAutoFitDisabled>true</LabelsAutoFitDisabled>
-              </ChartAxis>
-              <ChartAxis Name="Secondary">
-                <Style>
-                  <FontSize>8pt</FontSize>
-                </Style>
-                <ChartAxisTitle>
-                  <Caption>轴标题</Caption>
-                  <Style>
-                    <FontSize>8pt</FontSize>
-                  </Style>
-                </ChartAxisTitle>
-                <ChartMajorGridLines>
-                  <Enabled>False</Enabled>
-                  <Style>
-                    <Border>
-                      <Color>Gainsboro</Color>
-                    </Border>
-                  </Style>
-                </ChartMajorGridLines>
-                <ChartMinorGridLines>
-                  <Style>
-                    <Border>
-                      <Color>Gainsboro</Color>
-                      <Style>Dotted</Style>
-                    </Border>
-                  </Style>
-                </ChartMinorGridLines>
-                <ChartMinorTickMarks>
-                  <Length>0.5</Length>
-                </ChartMinorTickMarks>
-                <CrossAt>NaN</CrossAt>
-                <Location>Opposite</Location>
-                <Minimum>NaN</Minimum>
-                <Maximum>NaN</Maximum>
-              </ChartAxis>
-            </ChartCategoryAxes>
-            <ChartValueAxes>
-              <ChartAxis Name="Primary">
-                <Style>
-                  <FontSize>8pt</FontSize>
-                </Style>
-                <ChartAxisTitle>
-                  <Caption />
-                  <Style>
-                    <FontSize>8pt</FontSize>
-                  </Style>
-                </ChartAxisTitle>
-                <Interval>10</Interval>
-                <ChartMajorGridLines>
-                  <Style>
-                    <Border>
-                      <Color>Gainsboro</Color>
-                    </Border>
-                  </Style>
-                </ChartMajorGridLines>
-                <ChartMinorGridLines>
-                  <Style>
-                    <Border>
-                      <Color>Gainsboro</Color>
-                      <Style>Dotted</Style>
-                    </Border>
-                  </Style>
-                </ChartMinorGridLines>
-                <ChartMinorTickMarks>
-                  <Length>0.5</Length>
-                </ChartMinorTickMarks>
-                <CrossAt>NaN</CrossAt>
-                <Minimum>NaN</Minimum>
-                <Maximum>NaN</Maximum>
-              </ChartAxis>
-              <ChartAxis Name="Secondary">
-                <Style>
-                  <FontSize>8pt</FontSize>
-                </Style>
-                <ChartAxisTitle>
-                  <Caption>轴标题</Caption>
-                  <Style>
-                    <FontSize>8pt</FontSize>
-                  </Style>
-                </ChartAxisTitle>
-                <ChartMajorGridLines>
-                  <Style>
-                    <Border>
-                      <Color>Gainsboro</Color>
-                    </Border>
-                  </Style>
-                </ChartMajorGridLines>
-                <ChartMinorGridLines>
-                  <Style>
-                    <Border>
-                      <Color>Gainsboro</Color>
-                      <Style>Dotted</Style>
-                    </Border>
-                  </Style>
-                </ChartMinorGridLines>
-                <ChartMinorTickMarks>
-                  <Length>0.5</Length>
-                </ChartMinorTickMarks>
-                <CrossAt>NaN</CrossAt>
-                <Location>Opposite</Location>
-                <Minimum>NaN</Minimum>
-                <Maximum>NaN</Maximum>
-              </ChartAxis>
-            </ChartValueAxes>
-            <ChartThreeDProperties>
-              <Enabled>true</Enabled>
-              <Rotation>17</Rotation>
-              <Inclination>22</Inclination>
-            </ChartThreeDProperties>
-            <Style>
-              <BackgroundGradientType>None</BackgroundGradientType>
-            </Style>
-          </ChartArea>
-        </ChartAreas>
-        <ChartLegends>
-          <ChartLegend Name="ChartLegend1">
-            <Style>
-              <BackgroundGradientType>None</BackgroundGradientType>
-              <FontSize>8pt</FontSize>
-            </Style>
-            <Position>TopCenter</Position>
-            <DockOutsideChartArea>true</DockOutsideChartArea>
-            <ChartLegendTitle>
-              <Caption>本年完成率=本年累计交易金额/全年指标</Caption>
-              <Style>
-                <FontSize>8pt</FontSize>
-                <FontWeight>Bold</FontWeight>
-                <TextAlign>Center</TextAlign>
-              </Style>
-            </ChartLegendTitle>
-            <HeaderSeparatorColor>Black</HeaderSeparatorColor>
-            <ColumnSeparatorColor>Black</ColumnSeparatorColor>
-          </ChartLegend>
-        </ChartLegends>
-        <Palette>BrightPastel</Palette>
-        <ChartBorderSkin>
-          <Style>
-            <BackgroundColor>Gray</BackgroundColor>
-            <BackgroundGradientType>None</BackgroundGradientType>
-            <Color>White</Color>
-          </Style>
-        </ChartBorderSkin>
-        <ChartNoDataMessage Name="NoDataMessage">
-          <Caption>没有可用数据</Caption>
-          <Style>
-            <BackgroundGradientType>None</BackgroundGradientType>
-            <TextAlign>General</TextAlign>
-            <VerticalAlign>Top</VerticalAlign>
-          </Style>
-        </ChartNoDataMessage>
-        <DataSetName>DataSet1</DataSetName>
-        <Top>1.52611in</Top>
-        <Height>3.82292in</Height>
-        <Width>16.94792in</Width>
+        <DataSetName>BranchOfficeSet</DataSetName>
+        <SortExpressions>
+          <SortExpression>
+            <Value>=Fields!AllData.Value</Value>
+          </SortExpression>
+        </SortExpressions>
+        <Top>0.90292in</Top>
+        <Height>0.92709in</Height>
+        <Width>15.37501in</Width>
         <ZIndex>3</ZIndex>
         <Style>
           <Border>
-            <Color>LightGrey</Color>
-            <Style>Solid</Style>
+            <Style>None</Style>
           </Border>
-          <BackgroundColor>White</BackgroundColor>
-          <BackgroundGradientType>None</BackgroundGradientType>
         </Style>
-      </Chart>
-      <Chart Name="Chart4">
-        <ChartCategoryHierarchy>
-          <ChartMembers>
-            <ChartMember>
-              <Group Name="Chart4_CategoryGroup1">
-                <GroupExpressions>
-                  <GroupExpression>=Fields!SalesManager.Value</GroupExpression>
-                </GroupExpressions>
-                <Filters>
-                  <Filter>
-                    <FilterExpression>=Fields!SalesManager.Value</FilterExpression>
-                    <Operator>NotEqual</Operator>
-                    <FilterValues>
-                      <FilterValue>市场销售部</FilterValue>
-                    </FilterValues>
-                  </Filter>
-                </Filters>
-              </Group>
-              <SortExpressions>
-                <SortExpression>
-                  <Value>=Fields!CurrSucceedAmount.Value</Value>
-                  <Direction>Descending</Direction>
-                </SortExpression>
-              </SortExpressions>
-              <Label>=Fields!SalesManager.Value</Label>
-            </ChartMember>
-          </ChartMembers>
-        </ChartCategoryHierarchy>
-        <ChartSeriesHierarchy>
-          <ChartMembers>
-            <ChartMember>
-              <Label>Curr Succeed Amount</Label>
-            </ChartMember>
-          </ChartMembers>
-        </ChartSeriesHierarchy>
-        <ChartData>
-          <ChartSeriesCollection>
-            <ChartSeries Name="CurrSucceedAmount">
-              <ChartDataPoints>
-                <ChartDataPoint>
-                  <ChartDataPointValues>
-                    <Y>=Sum(Fields!CurrSucceedAmount.Value)/10000</Y>
-                  </ChartDataPointValues>
-                  <ChartDataLabel>
-                    <Style />
-                  </ChartDataLabel>
-                  <Style />
-                  <ChartMarker>
-                    <Style />
-                  </ChartMarker>
-                  <DataElementOutput>Output</DataElementOutput>
-                </ChartDataPoint>
-              </ChartDataPoints>
-              <Subtype>Stacked</Subtype>
-              <Style />
-              <ChartEmptyPoints>
-                <Style />
-                <ChartMarker>
-                  <Style />
-                </ChartMarker>
-                <ChartDataLabel>
-                  <Style />
-                </ChartDataLabel>
-              </ChartEmptyPoints>
-              <ChartItemInLegend>
-                <LegendText>="本周期("+First(Fields!CurrStartDate.Value, "DataSet3")+"-"+First(Fields!CurrEndDate.Value, "DataSet3")+")成功交易金额"</LegendText>
-              </ChartItemInLegend>
-              <ValueAxisName>Primary</ValueAxisName>
-              <CategoryAxisName>Primary</CategoryAxisName>
-              <ChartSmartLabel>
-                <CalloutLineColor>Black</CalloutLineColor>
-                <MinMovingDistance>0pt</MinMovingDistance>
-              </ChartSmartLabel>
-            </ChartSeries>
-          </ChartSeriesCollection>
-        </ChartData>
-        <ChartAreas>
-          <ChartArea Name="Default">
-            <ChartCategoryAxes>
-              <ChartAxis Name="Primary">
-                <Style>
-                  <FontSize>8pt</FontSize>
-                </Style>
-                <ChartAxisTitle>
-                  <Caption />
-                  <Style>
-                    <FontSize>8pt</FontSize>
-                  </Style>
-                </ChartAxisTitle>
-                <Interval>1</Interval>
-                <ChartMajorGridLines>
-                  <Enabled>False</Enabled>
-                  <Style>
-                    <Border>
-                      <Color>Gainsboro</Color>
-                    </Border>
-                  </Style>
-                </ChartMajorGridLines>
-                <ChartMinorGridLines>
-                  <Style>
-                    <Border>
-                      <Color>Gainsboro</Color>
-                      <Style>Dotted</Style>
-                    </Border>
-                  </Style>
-                </ChartMinorGridLines>
-                <ChartMinorTickMarks>
-                  <Length>0.5</Length>
-                </ChartMinorTickMarks>
-                <CrossAt>NaN</CrossAt>
-                <Minimum>NaN</Minimum>
-                <Maximum>NaN</Maximum>
-                <Angle>30</Angle>
-                <LabelsAutoFitDisabled>true</LabelsAutoFitDisabled>
-              </ChartAxis>
-              <ChartAxis Name="Secondary">
-                <Style>
-                  <FontSize>8pt</FontSize>
-                </Style>
-                <ChartAxisTitle>
-                  <Caption>轴标题</Caption>
-                  <Style>
-                    <FontSize>8pt</FontSize>
-                  </Style>
-                </ChartAxisTitle>
-                <ChartMajorGridLines>
-                  <Enabled>False</Enabled>
-                  <Style>
-                    <Border>
-                      <Color>Gainsboro</Color>
-                    </Border>
-                  </Style>
-                </ChartMajorGridLines>
-                <ChartMinorGridLines>
-                  <Style>
-                    <Border>
-                      <Color>Gainsboro</Color>
-                      <Style>Dotted</Style>
-                    </Border>
-                  </Style>
-                </ChartMinorGridLines>
-                <ChartMinorTickMarks>
-                  <Length>0.5</Length>
-                </ChartMinorTickMarks>
-                <CrossAt>NaN</CrossAt>
-                <Location>Opposite</Location>
-                <Minimum>NaN</Minimum>
-                <Maximum>NaN</Maximum>
-              </ChartAxis>
-            </ChartCategoryAxes>
-            <ChartValueAxes>
-              <ChartAxis Name="Primary">
-                <Style>
-                  <FontSize>8pt</FontSize>
-                </Style>
-                <ChartAxisTitle>
-                  <Caption />
-                  <Style>
-                    <FontSize>8pt</FontSize>
-                  </Style>
-                </ChartAxisTitle>
-                <ChartMajorGridLines>
-                  <Style>
-                    <Border>
-                      <Color>Gainsboro</Color>
-                    </Border>
-                  </Style>
-                </ChartMajorGridLines>
-                <ChartMinorGridLines>
-                  <Style>
-                    <Border>
-                      <Color>Gainsboro</Color>
-                      <Style>Dotted</Style>
-                    </Border>
-                  </Style>
-                </ChartMinorGridLines>
-                <ChartMinorTickMarks>
-                  <Length>0.5</Length>
-                </ChartMinorTickMarks>
-                <CrossAt>NaN</CrossAt>
-                <Minimum>NaN</Minimum>
-                <Maximum>NaN</Maximum>
-              </ChartAxis>
-              <ChartAxis Name="Secondary">
-                <Style>
-                  <FontSize>8pt</FontSize>
-                </Style>
-                <ChartAxisTitle>
-                  <Caption>轴标题</Caption>
-                  <Style>
-                    <FontSize>8pt</FontSize>
-                  </Style>
-                </ChartAxisTitle>
-                <ChartMajorGridLines>
-                  <Style>
-                    <Border>
-                      <Color>Gainsboro</Color>
-                    </Border>
-                  </Style>
-                </ChartMajorGridLines>
-                <ChartMinorGridLines>
-                  <Style>
-                    <Border>
-                      <Color>Gainsboro</Color>
-                      <Style>Dotted</Style>
-                    </Border>
-                  </Style>
-                </ChartMinorGridLines>
-                <ChartMinorTickMarks>
-                  <Length>0.5</Length>
-                </ChartMinorTickMarks>
-                <CrossAt>NaN</CrossAt>
-                <Location>Opposite</Location>
-                <Minimum>NaN</Minimum>
-                <Maximum>NaN</Maximum>
-              </ChartAxis>
-            </ChartValueAxes>
-            <ChartThreeDProperties>
-              <Enabled>true</Enabled>
-            </ChartThreeDProperties>
-            <Style>
-              <BackgroundGradientType>None</BackgroundGradientType>
-            </Style>
-          </ChartArea>
-        </ChartAreas>
-        <ChartLegends>
-          <ChartLegend Name="ChartLegend1">
-            <Style>
-              <BackgroundGradientType>None</BackgroundGradientType>
-              <FontSize>8pt</FontSize>
-            </Style>
-            <Position>TopCenter</Position>
-            <DockOutsideChartArea>true</DockOutsideChartArea>
-            <ChartLegendTitle>
-              <Caption>本周期交易金额（单位：万元）</Caption>
-              <Style>
-                <FontSize>8pt</FontSize>
-                <FontWeight>Bold</FontWeight>
-                <TextAlign>Center</TextAlign>
-              </Style>
-            </ChartLegendTitle>
-            <HeaderSeparatorColor>Black</HeaderSeparatorColor>
-            <ColumnSeparatorColor>Black</ColumnSeparatorColor>
-          </ChartLegend>
-        </ChartLegends>
-        <Palette>BrightPastel</Palette>
-        <ChartBorderSkin>
-          <Style>
-            <BackgroundColor>Gray</BackgroundColor>
-            <BackgroundGradientType>None</BackgroundGradientType>
-            <Color>White</Color>
-          </Style>
-        </ChartBorderSkin>
-        <ChartNoDataMessage Name="NoDataMessage">
-          <Caption>没有可用数据</Caption>
-          <Style>
-            <BackgroundGradientType>None</BackgroundGradientType>
-            <TextAlign>General</TextAlign>
-            <VerticalAlign>Top</VerticalAlign>
-          </Style>
-        </ChartNoDataMessage>
-        <DataSetName>DataSet1</DataSetName>
-        <Top>5.34902in</Top>
-        <Height>4.56778in</Height>
-        <Width>16.94792in</Width>
-        <ZIndex>4</ZIndex>
-        <Style>
-          <Border>
-            <Color>LightGrey</Color>
-            <Style>Solid</Style>
-          </Border>
-          <BackgroundColor>White</BackgroundColor>
-          <BackgroundGradientType>None</BackgroundGradientType>
-        </Style>
-      </Chart>
+      </Tablix>
     </ReportItems>
-    <Height>9.9168in</Height>
+    <Height>3.03834in</Height>
     <Style />
   </Body>
   <ReportParameters>
+    <ReportParameter Name="StartDate">
+      <DataType>DateTime</DataType>
+      <Prompt>起始日期</Prompt>
+    </ReportParameter>
     <ReportParameter Name="PeriodUnit">
       <DataType>String</DataType>
       <DefaultValue>
         <Values>
-          <Value>周</Value>
+          <Value>月</Value>
         </Values>
       </DefaultValue>
-      <Prompt>周期单位</Prompt>
+      <Prompt>周期</Prompt>
       <ValidValues>
         <ParameterValues>
-          <ParameterValue>
-            <Value>周</Value>
-            <Label>周</Label>
-          </ParameterValue>
           <ParameterValue>
             <Value>月</Value>
             <Label>月</Label>
@@ -2479,32 +2273,19 @@ select
             <Label>半年</Label>
           </ParameterValue>
           <ParameterValue>
-            <Value>年</Value>
-            <Label>年</Label>
-          </ParameterValue>
-          <ParameterValue>
             <Value>自定义</Value>
             <Label>自定义</Label>
           </ParameterValue>
         </ParameterValues>
       </ValidValues>
     </ReportParameter>
-    <ReportParameter Name="StartDate">
-      <DataType>DateTime</DataType>
-      <Prompt>选择查询日期</Prompt>
-    </ReportParameter>
     <ReportParameter Name="EndDate">
       <DataType>DateTime</DataType>
       <Nullable>true</Nullable>
-      <DefaultValue>
-        <Values>
-          <Value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" />
-        </Values>
-      </DefaultValue>
-      <Prompt>查询截止日期</Prompt>
+      <Prompt>终止日期</Prompt>
     </ReportParameter>
   </ReportParameters>
-  <Width>16.94792in</Width>
+  <Width>16.92709in</Width>
   <Page>
     <LeftMargin>1in</LeftMargin>
     <RightMargin>1in</RightMargin>
@@ -2514,6 +2295,6 @@ select
   </Page>
   <Language>zh-CN</Language>
   <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
-  <rd:ReportID>77f2d4fa-8d99-4c06-9340-91ef1164f3ac</rd:ReportID>
+  <rd:ReportID>da6b5d63-d22d-49fd-b022-e72d2cc8af91</rd:ReportID>
   <rd:ReportUnitType>Inch</rd:ReportUnitType>
 </Report>

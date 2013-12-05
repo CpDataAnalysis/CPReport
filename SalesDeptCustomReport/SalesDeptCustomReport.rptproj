@@ -9,10 +9,6 @@
   </DataSources>
   <Reports>
     <ProjectItem>
-      <Name>2012市场销售部客户经理完成情况汇总表.rdl</Name>
-      <FullPath>2012市场销售部客户经理完成情况汇总表.rdl</FullPath>
-    </ProjectItem>
-    <ProjectItem>
       <Name>客户经理商户交易量统计表.rdl</Name>
       <FullPath>客户经理商户交易量统计表.rdl</FullPath>
     </ProjectItem>
@@ -39,6 +35,14 @@
     <ProjectItem>
       <Name>行业及客户经理销售情况汇总报表.rdl</Name>
       <FullPath>行业及客户经理销售情况汇总报表.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>2013市场销售部客户经理完成情况汇总表.rdl</Name>
+      <FullPath>2013市场销售部客户经理完成情况汇总表.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>公司业务成功交易及收入周期报表.rdl</Name>
+      <FullPath>公司业务成功交易及收入周期报表.rdl</FullPath>
     </ProjectItem>
   </Reports>
   <Configurations>

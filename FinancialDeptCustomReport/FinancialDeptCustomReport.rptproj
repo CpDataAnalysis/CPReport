@@ -16,6 +16,18 @@
       <Name>金融部绩效考核数据统计报表.rdl</Name>
       <FullPath>金融部绩效考核数据统计报表.rdl</FullPath>
     </ProjectItem>
+    <ProjectItem>
+      <Name>B2C商户排名报表.rdl</Name>
+      <FullPath>B2C商户排名报表.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>B2C行业排名报表.rdl</Name>
+      <FullPath>B2C行业排名报表.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>银行业务数据报表.rdl</Name>
+      <FullPath>银行业务数据报表.rdl</FullPath>
+    </ProjectItem>
   </Reports>
   <Configurations>
     <Configuration>
