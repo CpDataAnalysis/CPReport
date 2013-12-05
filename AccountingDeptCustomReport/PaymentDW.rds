@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RptDataSource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>PaymentDW</Name>
+  <ConnectionProperties>
+    <Extension>SQL</Extension>
+    <ConnectString>Data Source=131.252.88.42\SNAKE;Initial Catalog=CPDataWarehouse</ConnectString>
+  </ConnectionProperties>
+  <DataSourceID>c8e21908-28b1-4663-b44e-789772789caa</DataSourceID>
+</RptDataSource>
