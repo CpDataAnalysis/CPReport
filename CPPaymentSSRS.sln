@@ -11,6 +11,8 @@ Project("{F14B399A-7131-4C87-9E4B-1186C45EF12D}") = "FinancialDeptCustomReport",
 EndProject
 Project("{F14B399A-7131-4C87-9E4B-1186C45EF12D}") = "ChinaPayCustomReport", "ChinaPayCustomReport\ChinaPayCustomReport.rptproj", "{D34C0822-CE8C-44AD-8F86-C5EB4C1D3DC5}"
 EndProject
+Project("{F14B399A-7131-4C87-9E4B-1186C45EF12D}") = "OperatingCenterCustomReport", "OperatingCenterCustomReport\OperatingCenterCustomReport.rptproj", "{DBBA0636-4CC6-409A-B4A3-4A37AE0DE7A5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -77,6 +79,16 @@ Global
 		{D34C0822-CE8C-44AD-8F86-C5EB4C1D3DC5}.Release|Win32.ActiveCfg = Release
 		{D34C0822-CE8C-44AD-8F86-C5EB4C1D3DC5}.Release|Win32.Build.0 = Release
 		{D34C0822-CE8C-44AD-8F86-C5EB4C1D3DC5}.Release|Win32.Deploy.0 = Release
+		{DBBA0636-4CC6-409A-B4A3-4A37AE0DE7A5}.Debug|Win32.ActiveCfg = DebugLocal
+		{DBBA0636-4CC6-409A-B4A3-4A37AE0DE7A5}.Debug|Win32.Build.0 = DebugLocal
+		{DBBA0636-4CC6-409A-B4A3-4A37AE0DE7A5}.DebugLocal|Win32.ActiveCfg = DebugLocal
+		{DBBA0636-4CC6-409A-B4A3-4A37AE0DE7A5}.DebugLocal|Win32.Build.0 = DebugLocal
+		{DBBA0636-4CC6-409A-B4A3-4A37AE0DE7A5}.Production|Win32.ActiveCfg = Release
+		{DBBA0636-4CC6-409A-B4A3-4A37AE0DE7A5}.Production|Win32.Build.0 = Release
+		{DBBA0636-4CC6-409A-B4A3-4A37AE0DE7A5}.Production|Win32.Deploy.0 = Release
+		{DBBA0636-4CC6-409A-B4A3-4A37AE0DE7A5}.Release|Win32.ActiveCfg = Release
+		{DBBA0636-4CC6-409A-B4A3-4A37AE0DE7A5}.Release|Win32.Build.0 = Release
+		{DBBA0636-4CC6-409A-B4A3-4A37AE0DE7A5}.Release|Win32.Deploy.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -33,10 +33,6 @@
       <FullPath>网关交易量涨跌图.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
-      <Name>新增商户月度贡献表.rdl</Name>
-      <FullPath>新增商户月度贡献表.rdl</FullPath>
-    </ProjectItem>
-    <ProjectItem>
       <Name>银联银商渠道商户周期报表.rdl</Name>
       <FullPath>银联银商渠道商户周期报表.rdl</FullPath>
     </ProjectItem>
@@ -63,9 +59,9 @@
       <Name>DebugLocal</Name>
       <Platform>Win32</Platform>
       <Options>
-        <TargetServerURL>http://131.252.88.42/</TargetServerURL>
-        <TargetFolder>http://131.252.88.42/DocLib15</TargetFolder>
-        <TargetDataSourceFolder>http://131.252.88.42/Data%20Connections</TargetDataSourceFolder>
+        <TargetServerURL>http://131.252.83.42/</TargetServerURL>
+        <TargetFolder>http://131.252.83.42/DocLib16</TargetFolder>
+        <TargetDataSourceFolder>http://131.252.83.42/Data%20Connections</TargetDataSourceFolder>
         <OverwriteDataSources>true</OverwriteDataSources>
       </Options>
     </Configuration>
