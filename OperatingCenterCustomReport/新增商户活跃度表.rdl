@@ -802,7 +802,7 @@ order by
         </Paragraphs>
         <rd:DefaultName>textbox1</rd:DefaultName>
         <Height>0.29056in</Height>
-        <Width>7.03125in</Width>
+        <Width>8.88542in</Width>
         <ZIndex>1</ZIndex>
         <Style>
           <VerticalAlign>Middle</VerticalAlign>
@@ -853,7 +853,7 @@ order by
       <Prompt>截止交易日期</Prompt>
     </ReportParameter>
   </ReportParameters>
-  <Width>7.03125in</Width>
+  <Width>8.88542in</Width>
   <Page>
     <LeftMargin>1in</LeftMargin>
     <RightMargin>1in</RightMargin>
