@@ -3,58 +3,73 @@
   <DataSources>
     <DataSource Name="PaymentDW">
       <DataSourceReference>PaymentDW</DataSourceReference>
-      <rd:DataSourceID>7a3e720f-7a85-4442-a222-41593e66c94d</rd:DataSourceID>
+      <rd:DataSourceID>abf4dd6e-9ef8-43e3-8357-988a824f7dff</rd:DataSourceID>
       <rd:SecurityType>None</rd:SecurityType>
     </DataSource>
   </DataSources>
   <DataSets>
     <DataSet Name="DataSet1">
       <Fields>
-        <Field Name="MerchantName">
-          <DataField>MerchantName</DataField>
+        <Field Name="Plat">
+          <DataField>Plat</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="MerchantNo">
-          <DataField>MerchantNo</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="GateCategory">
-          <DataField>GateCategory</DataField>
+        <Field Name="Category">
+          <DataField>Category</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="GateNo">
           <DataField>GateNo</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="CurrSumValue">
-          <DataField>CurrSumValue</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
+        <Field Name="MerchantNo">
+          <DataField>MerchantNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="PrevSumValue">
-          <DataField>PrevSumValue</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
+        <Field Name="MerchantName">
+          <DataField>MerchantName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="LastYearSumValue">
-          <DataField>LastYearSumValue</DataField>
+        <Field Name="CurrTransAmt">
+          <DataField>CurrTransAmt</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="CurrFeeAmt">
           <DataField>CurrFeeAmt</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
+        <Field Name="PrevTransAmt">
+          <DataField>PrevTransAmt</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
         <Field Name="PrevFeeAmt">
           <DataField>PrevFeeAmt</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="LastYearTransAmt">
+          <DataField>LastYearTransAmt</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="LastYearFeeAmt">
           <DataField>LastYearFeeAmt</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
+        <Field Name="CurrTransCnt">
+          <DataField>CurrTransCnt</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="PrevTransCnt">
+          <DataField>PrevTransCnt</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="LastYearTransCnt">
+          <DataField>LastYearTransCnt</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
       </Fields>
       <Query>
         <DataSourceName>PaymentDW</DataSourceName>
-        <CommandType>StoredProcedure</CommandType>
-        <CommandText>Proc_QueryGateSucceedTransReportToSalesUse </CommandText>
+        <CommandText>exec Proc_QueryGateSucceedTransReportToSalesUse @StartDate,@PeriodUnit,@EndDate</CommandText>
         <QueryParameters>
           <QueryParameter Name="@StartDate">
             <Value>=Parameters!StartDate.Value</Value>
@@ -64,9 +79,6 @@
           </QueryParameter>
           <QueryParameter Name="@EndDate">
             <Value>=Parameters!EndDate.Value</Value>
-          </QueryParameter>
-          <QueryParameter Name="@MeasureCategory">
-            <Value>=Parameters!MeasureCategory.Value</Value>
           </QueryParameter>
         </QueryParameters>
         <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
@@ -160,10 +172,10 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
               <Width>1.28125in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.19792in</Width>
+              <Width>1.1875in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.16667in</Width>
+              <Width>1.17709in</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>1.48958in</Width>
@@ -198,15 +210,18 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
           </TablixColumns>
           <TablixRows>
             <TablixRow>
-              <Height>0.22in</Height>
+              <Height>0.25125in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
                     <Textbox Name="textbox2">
                       <CanGrow>true</CanGrow>
                       <UserSort>
-                        <SortExpression>=Sum(Fields!CurrSumValue.Value)</SortExpression>
-                        <SortExpressionScope>GateCategory</SortExpressionScope>
+                        <SortExpression>=iif(Parameters!MeasureCategory.Value = "成功金额",
+Sum(Fields!CurrTransAmt.Value),
+Sum(Fields!CurrTransCnt.Value)
+)</SortExpression>
+                        <SortExpressionScope>table1_Category</SortExpressionScope>
                       </UserSort>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -245,11 +260,14 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="textbox4">
+                    <Textbox Name="Textbox559">
                       <CanGrow>true</CanGrow>
                       <UserSort>
-                        <SortExpression>=Sum(Fields!CurrSumValue.Value)</SortExpression>
-                        <SortExpressionScope>GateNo</SortExpressionScope>
+                        <SortExpression>=iif(Parameters!MeasureCategory.Value = "成功金额",
+Sum(Fields!CurrTransAmt.Value),
+Sum(Fields!CurrTransCnt.Value)
+)</SortExpression>
+                        <SortExpressionScope>table1_GateNo</SortExpressionScope>
                       </UserSort>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -270,7 +288,92 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>textbox4</rd:DefaultName>
+                      <rd:DefaultName>Textbox559</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>SteelBlue</BackgroundColor>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox6">
+                      <CanGrow>true</CanGrow>
+                      <UserSort>
+                        <SortExpression>=iif(Parameters!MeasureCategory.Value = "成功金额",
+Sum(Fields!CurrTransAmt.Value),
+Sum(Fields!CurrTransCnt.Value)
+)</SortExpression>
+                        <SortExpressionScope>MerchantNo</SortExpressionScope>
+                      </UserSort>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>商户</Value>
+                              <Style>
+                                <FontFamily>宋体</FontFamily>
+                                <FontSize>11pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>White</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox6</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>SteelBlue</BackgroundColor>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox7">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>商户号</Value>
+                              <Style>
+                                <FontFamily>宋体</FontFamily>
+                                <FontSize>11pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>White</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox7</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -290,16 +393,12 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                   <CellContents>
                     <Textbox Name="textbox8">
                       <CanGrow>true</CanGrow>
-                      <UserSort>
-                        <SortExpression>=Sum(Fields!CurrSumValue.Value)</SortExpression>
-                        <SortExpressionScope>MerchantName</SortExpressionScope>
-                      </UserSort>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>商户</Value>
+                              <Value>本周期交易量</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
                                 <FontSize>11pt</FontSize>
@@ -331,14 +430,14 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox1">
+                    <Textbox Name="textbox9">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>商户号</Value>
+                              <Value>上周期交易量</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
                                 <FontSize>11pt</FontSize>
@@ -352,7 +451,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox1</rd:DefaultName>
+                      <rd:DefaultName>textbox9</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -377,7 +476,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>本周期交易量</Value>
+                              <Value>去年同周期交易量</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
                                 <FontSize>11pt</FontSize>
@@ -411,12 +510,19 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                   <CellContents>
                     <Textbox Name="textbox11">
                       <CanGrow>true</CanGrow>
+                      <UserSort>
+                        <SortExpression>=iif(Parameters!MeasureCategory.Value = "成功金额",
+Sum(Fields!CurrTransAmt.Value) - SUM(Fields!PrevTransAmt.Value),
+Sum(Fields!CurrTransCnt.Value) - SUM(Fields!PrevTransCnt.Value)
+)</SortExpression>
+                        <SortExpressionScope>table1_Category</SortExpressionScope>
+                      </UserSort>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>上周期交易量</Value>
+                              <Value>环比绝对增量</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
                                 <FontSize>11pt</FontSize>
@@ -448,93 +554,14 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="textbox12">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>去年同周期交易量</Value>
-                              <Style>
-                                <FontFamily>宋体</FontFamily>
-                                <FontSize>11pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
-                                <Color>White</Color>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Center</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>textbox12</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <BackgroundColor>SteelBlue</BackgroundColor>
-                        <VerticalAlign>Middle</VerticalAlign>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox39">
+                    <Textbox Name="Textbox41">
                       <CanGrow>true</CanGrow>
                       <UserSort>
-                        <SortExpression>=SUM(Fields!CurrSumValue.Value)-SUM(Fields!PrevSumValue.Value)</SortExpression>
-                        <SortExpressionScope>GateCategory</SortExpressionScope>
-                      </UserSort>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>环比绝对增量</Value>
-                              <Style>
-                                <FontFamily>宋体</FontFamily>
-                                <FontSize>11pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
-                                <Color>White</Color>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Center</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox39</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <BackgroundColor>SteelBlue</BackgroundColor>
-                        <VerticalAlign>Middle</VerticalAlign>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox45">
-                      <CanGrow>true</CanGrow>
-                      <UserSort>
-                        <SortExpression>=IIF(SUM(Fields!PrevSumValue.Value)=0,0,(SUM(Fields!CurrSumValue.Value)-SUM(Fields!PrevSumValue.Value))/IIF(SUM(Fields!PrevSumValue.Value)=0,1,SUM(Fields!PrevSumValue.Value)))</SortExpression>
-                        <SortExpressionScope>GateCategory</SortExpressionScope>
+                        <SortExpression>=iif(Parameters!MeasureCategory.Value = "成功金额",
+IIF(SUM(Fields!PrevTransAmt.Value)=0,0,(SUM(Fields!CurrTransAmt.Value)-SUM(Fields!PrevTransAmt.Value))/IIF(SUM(Fields!PrevTransAmt.Value)=0,1,SUM(Fields!PrevTransAmt.Value))),
+IIF(SUM(Fields!PrevTransCnt.Value)=0,0,(SUM(Fields!CurrTransCnt.Value)-SUM(Fields!PrevTransCnt.Value))/IIF(SUM(Fields!PrevTransCnt.Value)=0,1,SUM(Fields!PrevTransCnt.Value)))
+)</SortExpression>
+                        <SortExpressionScope>table1_Category</SortExpressionScope>
                       </UserSort>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -555,7 +582,99 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox45</rd:DefaultName>
+                      <rd:DefaultName>Textbox41</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>SteelBlue</BackgroundColor>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox13">
+                      <CanGrow>true</CanGrow>
+                      <UserSort>
+                        <SortExpression>=iif(Parameters!MeasureCategory.Value = "成功金额",
+Sum(Fields!CurrTransAmt.Value) - SUM(Fields!LastYearTransAmt.Value),
+Sum(Fields!CurrTransCnt.Value) - SUM(Fields!LastYearTransCnt.Value)
+)</SortExpression>
+                        <SortExpressionScope>table1_Category</SortExpressionScope>
+                      </UserSort>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>同比绝对增量</Value>
+                              <Style>
+                                <FontFamily>宋体</FontFamily>
+                                <FontSize>11pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>White</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox13</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>SteelBlue</BackgroundColor>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox14">
+                      <CanGrow>true</CanGrow>
+                      <UserSort>
+                        <SortExpression>=iif(Parameters!MeasureCategory.Value = "成功金额",
+IIF(SUM(Fields!LastYearTransAmt.Value)=0,0,(SUM(Fields!CurrTransAmt.Value)-SUM(Fields!LastYearTransAmt.Value))/IIF(SUM(Fields!LastYearTransAmt.Value)=0,1,SUM(Fields!LastYearTransAmt.Value))),
+IIF(SUM(Fields!LastYearTransCnt.Value)=0,0,(SUM(Fields!CurrTransCnt.Value)-SUM(Fields!LastYearTransCnt.Value))/IIF(SUM(Fields!LastYearTransCnt.Value)=0,1,SUM(Fields!LastYearTransCnt.Value)))
+)</SortExpression>
+                        <SortExpressionScope>table1_Category</SortExpressionScope>
+                      </UserSort>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>同比相对增量</Value>
+                              <Style>
+                                <FontFamily>宋体</FontFamily>
+                                <FontSize>11pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>White</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox14</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -575,16 +694,12 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                   <CellContents>
                     <Textbox Name="Textbox51">
                       <CanGrow>true</CanGrow>
-                      <UserSort>
-                        <SortExpression>=SUM(Fields!CurrSumValue.Value)-SUM(Fields!LastYearSumValue.Value)</SortExpression>
-                        <SortExpressionScope>GateCategory</SortExpressionScope>
-                      </UserSort>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>同比绝对增量</Value>
+                              <Value>本周期收入</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
                                 <FontSize>11pt</FontSize>
@@ -616,92 +731,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox57">
-                      <CanGrow>true</CanGrow>
-                      <UserSort>
-                        <SortExpression>=IIF(SUM(Fields!LastYearSumValue.Value)=0,0,(SUM(Fields!CurrSumValue.Value)-SUM(Fields!LastYearSumValue.Value))/IIF(SUM(Fields!LastYearSumValue.Value)=0,1,SUM(Fields!LastYearSumValue.Value)))</SortExpression>
-                        <SortExpressionScope>GateCategory</SortExpressionScope>
-                      </UserSort>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>同比相对增量</Value>
-                              <Style>
-                                <FontFamily>宋体</FontFamily>
-                                <FontSize>11pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
-                                <Color>White</Color>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Center</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox57</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <BackgroundColor>SteelBlue</BackgroundColor>
-                        <VerticalAlign>Middle</VerticalAlign>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox142">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>本周期收入</Value>
-                              <Style>
-                                <FontFamily>宋体</FontFamily>
-                                <FontSize>11pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
-                                <Color>White</Color>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Center</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox142</rd:DefaultName>
-                      <Visibility>
-                        <Hidden>=IIF(Parameters!MeasureCategory.Value = "成功笔数",True,False)</Hidden>
-                      </Visibility>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <BackgroundColor>SteelBlue</BackgroundColor>
-                        <VerticalAlign>Middle</VerticalAlign>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox137">
+                    <Textbox Name="Textbox59">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -722,10 +752,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox137</rd:DefaultName>
-                      <Visibility>
-                        <Hidden>=IIF(Parameters!MeasureCategory.Value = "成功笔数",True,False)</Hidden>
-                      </Visibility>
+                      <rd:DefaultName>Textbox59</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -743,7 +770,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox132">
+                    <Textbox Name="Textbox40">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -764,10 +791,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox132</rd:DefaultName>
-                      <Visibility>
-                        <Hidden>=IIF(Parameters!MeasureCategory.Value = "成功笔数",True,False)</Hidden>
-                      </Visibility>
+                      <rd:DefaultName>Textbox40</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -785,7 +809,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox127">
+                    <Textbox Name="Textbox35">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -806,10 +830,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox127</rd:DefaultName>
-                      <Visibility>
-                        <Hidden>=IIF(Parameters!MeasureCategory.Value = "成功笔数",True,False)</Hidden>
-                      </Visibility>
+                      <rd:DefaultName>Textbox35</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -827,7 +848,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox122">
+                    <Textbox Name="Textbox26">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -848,10 +869,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox122</rd:DefaultName>
-                      <Visibility>
-                        <Hidden>=IIF(Parameters!MeasureCategory.Value = "成功笔数",True,False)</Hidden>
-                      </Visibility>
+                      <rd:DefaultName>Textbox26</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -874,14 +892,14 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="GateCategory">
+                    <Textbox Name="Category">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!GateCategory.Value</Value>
+                              <Value>=Fields!Category.Value</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
                                 <FontWeight>Bold</FontWeight>
@@ -889,163 +907,10 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                               </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style>
-                            <TextAlign>Left</TextAlign>
-                          </Style>
+                          <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>GateCategory</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <BackgroundColor>#6e9eca</BackgroundColor>
-                        <VerticalAlign>Middle</VerticalAlign>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="textbox13">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value />
-                              <Style>
-                                <FontFamily>宋体</FontFamily>
-                                <FontWeight>Bold</FontWeight>
-                                <Color>White</Color>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Center</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>textbox13</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <BackgroundColor>#6e9eca</BackgroundColor>
-                        <VerticalAlign>Middle</VerticalAlign>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="textbox15">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value />
-                              <Style>
-                                <FontFamily>宋体</FontFamily>
-                                <Color>White</Color>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Left</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>textbox15</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <BackgroundColor>#6e9eca</BackgroundColor>
-                        <VerticalAlign>Middle</VerticalAlign>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox3">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value />
-                              <Style>
-                                <FontFamily>宋体</FontFamily>
-                                <Color>White</Color>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Left</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox3</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <BackgroundColor>#6e9eca</BackgroundColor>
-                        <VerticalAlign>Middle</VerticalAlign>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="textbox16">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>=Sum(Fields!CurrSumValue.Value)</Value>
-                              <Style>
-                                <FontFamily>宋体</FontFamily>
-                                <FontWeight>Bold</FontWeight>
-                                <Format>0.0000;- 0.0000</Format>
-                                <Color>White</Color>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Right</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>textbox16</rd:DefaultName>
+                      <rd:DefaultName>Category</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1070,18 +935,15 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!PrevSumValue.Value)</Value>
+                              <Value />
                               <Style>
                                 <FontFamily>宋体</FontFamily>
                                 <FontWeight>Bold</FontWeight>
-                                <Format>0.0000;- 0.0000</Format>
                                 <Color>White</Color>
                               </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style>
-                            <TextAlign>Right</TextAlign>
-                          </Style>
+                          <Style />
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>textbox17</rd:DefaultName>
@@ -1109,18 +971,15 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!LastYearSumValue.Value)</Value>
+                              <Value />
                               <Style>
                                 <FontFamily>宋体</FontFamily>
                                 <FontWeight>Bold</FontWeight>
-                                <Format>0.0000;- 0.0000</Format>
                                 <Color>White</Color>
                               </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style>
-                            <TextAlign>Right</TextAlign>
-                          </Style>
+                          <Style />
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>textbox18</rd:DefaultName>
@@ -1141,28 +1000,25 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox40">
+                    <Textbox Name="textbox19">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=RunningValue(Fields!CurrSumValue.Value,sum,"GateCategory")-RunningValue(Fields!PrevSumValue.Value,sum,"GateCategory")</Value>
+                              <Value />
                               <Style>
                                 <FontFamily>宋体</FontFamily>
                                 <FontWeight>Bold</FontWeight>
-                                <Format>0.0000;- 0.0000</Format>
-                                <Color>=iif((RunningValue(Fields!CurrSumValue.Value,sum,"GateCategory")-RunningValue(Fields!PrevSumValue.Value,sum,"GateCategory"))=0,"white",iif((RunningValue(Fields!CurrSumValue.Value,sum,"GateCategory")-RunningValue(Fields!PrevSumValue.Value,sum,"GateCategory"))&lt;0,"Green","Red"))</Color>
+                                <Color>White</Color>
                               </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style>
-                            <TextAlign>Right</TextAlign>
-                          </Style>
+                          <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox40</rd:DefaultName>
+                      <rd:DefaultName>textbox19</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1180,19 +1036,19 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox46">
+                    <Textbox Name="CurrTransAmt2">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=IIF(RunningValue(Fields!PrevSumValue.Value,sum,"GateCategory")=0,"-",(RunningValue(Fields!CurrSumValue.Value,sum,"GateCategory")-RunningValue(Fields!PrevSumValue.Value,sum,"GateCategory"))/IIF(RunningValue(Fields!PrevSumValue.Value,sum,"GateCategory")=0,1,RunningValue(Fields!PrevSumValue.Value,sum,"GateCategory")))</Value>
+                              <Value>=IIF(Parameters!MeasureCategory.Value = "成功金额",Sum(Fields!CurrTransAmt.Value),Sum(Fields!CurrTransCnt.Value))</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
                                 <FontWeight>Bold</FontWeight>
-                                <Format>0.00 %</Format>
-                                <Color>=IIF(IIF(RunningValue(Fields!PrevSumValue.Value,sum,"GateCategory")=0,0,(RunningValue(Fields!CurrSumValue.Value,sum,"GateCategory")-RunningValue(Fields!PrevSumValue.Value,sum,"GateCategory"))/IIF(RunningValue(Fields!PrevSumValue.Value,sum,"GateCategory")=0,1,RunningValue(Fields!PrevSumValue.Value,sum,"GateCategory")))=0,"White",IIF(IIF(RunningValue(Fields!PrevSumValue.Value,sum,"GateCategory")=0,0,(RunningValue(Fields!CurrSumValue.Value,sum,"GateCategory")-RunningValue(Fields!PrevSumValue.Value,sum,"GateCategory"))/IIF(RunningValue(Fields!PrevSumValue.Value,sum,"GateCategory")=0,1,RunningValue(Fields!PrevSumValue.Value,sum,"GateCategory")))&lt;0,"Green","Red"))</Color>
+                                <Format>0.0000</Format>
+                                <Color>White</Color>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1201,7 +1057,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox46</rd:DefaultName>
+                      <rd:DefaultName>CurrTransAmt</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1219,19 +1075,19 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox52">
+                    <Textbox Name="PrevTransAmt">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=RunningValue(Fields!CurrSumValue.Value,sum,"GateCategory")-RunningValue(Fields!LastYearSumValue.Value,sum,"GateCategory")</Value>
+                              <Value>=IIF(Parameters!MeasureCategory.Value = "成功金额",Sum(Fields!PrevTransAmt.Value),Sum(Fields!PrevTransCnt.Value))</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
                                 <FontWeight>Bold</FontWeight>
-                                <Format>0.0000;- 0.0000</Format>
-                                <Color>=iif((RunningValue(Fields!CurrSumValue.Value,sum,"GateCategory")-RunningValue(Fields!LastYearSumValue.Value,sum,"GateCategory"))=0,"White",iif((RunningValue(Fields!CurrSumValue.Value,sum,"GateCategory")-RunningValue(Fields!LastYearSumValue.Value,sum,"GateCategory"))&lt;0,"Green","Red"))</Color>
+                                <Format>0.0000</Format>
+                                <Color>White</Color>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1240,7 +1096,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox52</rd:DefaultName>
+                      <rd:DefaultName>PrevTransAmt</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1258,19 +1114,19 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox58">
+                    <Textbox Name="LastYearTransAmt">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=IIF(RunningValue(Fields!LastYearSumValue.Value,sum,"GateCategory")=0,"-",(RunningValue(Fields!CurrSumValue.Value,sum,"GateCategory")-RunningValue(Fields!LastYearSumValue.Value,sum,"GateCategory"))/IIF(RunningValue(Fields!LastYearSumValue.Value,sum,"GateCategory")=0,1,RunningValue(Fields!LastYearSumValue.Value,sum,"GateCategory")))</Value>
+                              <Value>=IIF(Parameters!MeasureCategory.Value = "成功金额",Sum(Fields!LastYearTransAmt.Value),Sum(Fields!LastYearTransCnt.Value))</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
                                 <FontWeight>Bold</FontWeight>
-                                <Format>0.00 %</Format>
-                                <Color>=IIF(IIF(RunningValue(Fields!LastYearSumValue.Value,sum,"GateCategory")=0,0,(RunningValue(Fields!CurrSumValue.Value,sum,"GateCategory")-RunningValue(Fields!LastYearSumValue.Value,sum,"GateCategory"))/IIF(RunningValue(Fields!LastYearSumValue.Value,sum,"GateCategory")=0,1,RunningValue(Fields!LastYearSumValue.Value,sum,"GateCategory")))=0,"White",IIF(IIF(RunningValue(Fields!LastYearSumValue.Value,sum,"GateCategory")=0,0,(RunningValue(Fields!CurrSumValue.Value,sum,"GateCategory")-RunningValue(Fields!LastYearSumValue.Value,sum,"GateCategory"))/IIF(RunningValue(Fields!LastYearSumValue.Value,sum,"GateCategory")=0,1,RunningValue(Fields!LastYearSumValue.Value,sum,"GateCategory")))&lt;0,"Green","Red"))</Color>
+                                <Format>0.0000</Format>
+                                <Color>White</Color>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1279,7 +1135,187 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox58</rd:DefaultName>
+                      <rd:DefaultName>LastYearTransAmt</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>#6e9eca</BackgroundColor>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox4">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=iif(Parameters!MeasureCategory.Value = "成功金额",
+RunningValue(Fields!CurrTransAmt.Value,Sum,"table1_Category") - RunningValue(Fields!PrevTransAmt.Value,Sum,"table1_Category"),
+RunningValue(Fields!CurrTransCnt.Value,Sum,"table1_Category") - RunningValue(Fields!PrevTransCnt.Value,Sum,"table1_Category")
+)</Value>
+                              <Style>
+                                <FontFamily>宋体</FontFamily>
+                                <FontWeight>Bold</FontWeight>
+                                <Format>0.0000</Format>
+                                <Color>=iif(Parameters!MeasureCategory.Value = "成功金额",
+iif((RunningValue(Fields!CurrTransAmt.Value,sum,"table1_Category")-RunningValue(Fields!PrevTransAmt.Value,sum,"table1_Category"))=0,"white",iif((RunningValue(Fields!CurrTransAmt.Value,sum,"table1_Category")-RunningValue(Fields!PrevTransAmt.Value,sum,"table1_Category"))&lt;0,"Green","Red")),
+iif((RunningValue(Fields!CurrTransCnt.Value,sum,"table1_Category")-RunningValue(Fields!PrevTransCnt.Value,sum,"table1_Category"))=0,"white",iif((RunningValue(Fields!CurrTransCnt.Value,sum,"table1_Category")-RunningValue(Fields!PrevTransCnt.Value,sum,"table1_Category"))&lt;0,"Green","Red"))
+)</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox4</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>#6e9eca</BackgroundColor>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox54">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=IIF(Parameters!MeasureCategory.Value = "成功金额",
+(IIF(RunningValue(Fields!PrevTransAmt.Value,sum,"table1_Category")=0,"-",(RunningValue(Fields!CurrTransAmt.Value,sum,"table1_Category")-RunningValue(Fields!PrevTransAmt.Value,sum,"table1_Category"))/IIF(RunningValue(Fields!PrevTransAmt.Value,sum,"table1_Category")=0,1,RunningValue(Fields!PrevTransAmt.Value,sum,"table1_Category")))),
+(IIF(RunningValue(Fields!PrevTransCnt.Value,sum,"table1_Category")=0,"-",(RunningValue(Fields!CurrTransCnt.Value,sum,"table1_Category")-RunningValue(Fields!PrevTransCnt.Value,sum,"table1_Category"))/IIF(RunningValue(Fields!PrevTransCnt.Value,sum,"table1_Category")=0,1,RunningValue(Fields!PrevTransCnt.Value,sum,"table1_Category"))))
+)</Value>
+                              <Style>
+                                <FontFamily>宋体</FontFamily>
+                                <FontWeight>Bold</FontWeight>
+                                <Format>0.00%</Format>
+                                <Color>=iif(Parameters!MeasureCategory.Value = "成功金额",
+IIF(IIF(RunningValue(Fields!PrevTransAmt.Value,sum,"table1_Category")=0,0,(RunningValue(Fields!CurrTransAmt.Value,sum,"table1_Category")-RunningValue(Fields!PrevTransAmt.Value,sum,"table1_Category"))/IIF(RunningValue(Fields!PrevTransAmt.Value,sum,"table1_Category")=0,1,RunningValue(Fields!PrevTransAmt.Value,sum,"table1_Category")))=0,"White",IIF(IIF(RunningValue(Fields!PrevTransAmt.Value,sum,"table1_Category")=0,0,(RunningValue(Fields!CurrTransAmt.Value,sum,"table1_Category")-RunningValue(Fields!PrevTransAmt.Value,sum,"table1_Category"))/IIF(RunningValue(Fields!PrevTransAmt.Value,sum,"table1_Category")=0,1,RunningValue(Fields!PrevTransAmt.Value,sum,"table1_Category")))&lt;0,"Green","Red")),
+IIF(IIF(RunningValue(Fields!PrevTransCnt.Value,sum,"table1_Category")=0,0,(RunningValue(Fields!CurrTransCnt.Value,sum,"table1_Category")-RunningValue(Fields!PrevTransCnt.Value,sum,"table1_Category"))/IIF(RunningValue(Fields!PrevTransCnt.Value,sum,"table1_Category")=0,1,RunningValue(Fields!PrevTransCnt.Value,sum,"table1_Category")))=0,"White",IIF(IIF(RunningValue(Fields!PrevTransCnt.Value,sum,"table1_Category")=0,0,(RunningValue(Fields!CurrTransCnt.Value,sum,"table1_Category")-RunningValue(Fields!PrevTransCnt.Value,sum,"table1_Category"))/IIF(RunningValue(Fields!PrevTransCnt.Value,sum,"table1_Category")=0,1,RunningValue(Fields!PrevTransCnt.Value,sum,"table1_Category")))&lt;0,"Green","Red"))
+)</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox54</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>#6e9eca</BackgroundColor>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox5">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=iif(Parameters!MeasureCategory.Value = "成功金额",
+RunningValue(Fields!CurrTransAmt.Value,Sum,"table1_Category") - RunningValue(Fields!LastYearTransAmt.Value,Sum,"table1_Category"),
+RunningValue(Fields!CurrTransCnt.Value,Sum,"table1_Category") - RunningValue(Fields!LastYearTransCnt.Value,Sum,"table1_Category")
+)</Value>
+                              <Style>
+                                <FontFamily>宋体</FontFamily>
+                                <FontWeight>Bold</FontWeight>
+                                <Format>0.0000</Format>
+                                <Color>=iif(Parameters!MeasureCategory.Value = "成功金额",
+IIF(IIF(RunningValue(Fields!LastYearTransAmt.Value,sum,"table1_Category")=0,0,(RunningValue(Fields!CurrTransAmt.Value,sum,"table1_Category")-RunningValue(Fields!LastYearTransAmt.Value,sum,"table1_Category"))/IIF(RunningValue(Fields!LastYearTransAmt.Value,sum,"table1_Category")=0,1,RunningValue(Fields!LastYearTransAmt.Value,sum,"table1_Category")))=0,"White",IIF(IIF(RunningValue(Fields!LastYearTransAmt.Value,sum,"table1_Category")=0,0,(RunningValue(Fields!CurrTransAmt.Value,sum,"table1_Category")-RunningValue(Fields!LastYearTransAmt.Value,sum,"table1_Category"))/IIF(RunningValue(Fields!LastYearTransAmt.Value,sum,"table1_Category")=0,1,RunningValue(Fields!LastYearTransAmt.Value,sum,"table1_Category")))&lt;0,"Green","Red")),
+IIF(IIF(RunningValue(Fields!LastYearTransCnt.Value,sum,"table1_Category")=0,0,(RunningValue(Fields!CurrTransCnt.Value,sum,"table1_Category")-RunningValue(Fields!LastYearTransCnt.Value,sum,"table1_Category"))/IIF(RunningValue(Fields!LastYearTransCnt.Value,sum,"table1_Category")=0,1,RunningValue(Fields!LastYearTransCnt.Value,sum,"table1_Category")))=0,"White",IIF(IIF(RunningValue(Fields!LastYearTransCnt.Value,sum,"table1_Category")=0,0,(RunningValue(Fields!CurrTransCnt.Value,sum,"table1_Category")-RunningValue(Fields!LastYearTransCnt.Value,sum,"table1_Category"))/IIF(RunningValue(Fields!LastYearTransCnt.Value,sum,"table1_Category")=0,1,RunningValue(Fields!LastYearTransCnt.Value,sum,"table1_Category")))&lt;0,"Green","Red"))
+)</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox4</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>#6e9eca</BackgroundColor>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox69">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=IIF(Parameters!MeasureCategory.Value = "成功金额",
+(IIF(RunningValue(Fields!LastYearTransAmt.Value,sum,"table1_Category")=0,"-",(RunningValue(Fields!CurrTransAmt.Value,sum,"table1_Category")-RunningValue(Fields!LastYearTransAmt.Value,sum,"table1_Category"))/IIF(RunningValue(Fields!LastYearTransAmt.Value,sum,"table1_Category")=0,1,RunningValue(Fields!LastYearTransAmt.Value,sum,"table1_Category")))),
+(IIF(RunningValue(Fields!LastYearTransCnt.Value,sum,"table1_Category")=0,"-",(RunningValue(Fields!CurrTransCnt.Value,sum,"table1_Category")-RunningValue(Fields!LastYearTransCnt.Value,sum,"table1_Category"))/IIF(RunningValue(Fields!LastYearTransCnt.Value,sum,"table1_Category")=0,1,RunningValue(Fields!LastYearTransCnt.Value,sum,"table1_Category"))))
+)</Value>
+                              <Style>
+                                <FontFamily>宋体</FontFamily>
+                                <FontWeight>Bold</FontWeight>
+                                <Format>0.00%</Format>
+                                <Color>=iif(Parameters!MeasureCategory.Value = "成功金额",
+IIF(IIF(RunningValue(Fields!LastYearTransAmt.Value,sum,"table1_Category")=0,0,(RunningValue(Fields!CurrTransAmt.Value,sum,"table1_Category")-RunningValue(Fields!LastYearTransAmt.Value,sum,"table1_Category"))/IIF(RunningValue(Fields!LastYearTransAmt.Value,sum,"table1_Category")=0,1,RunningValue(Fields!LastYearTransAmt.Value,sum,"table1_Category")))=0,"White",IIF(IIF(RunningValue(Fields!LastYearTransAmt.Value,sum,"table1_Category")=0,0,(RunningValue(Fields!CurrTransAmt.Value,sum,"table1_Category")-RunningValue(Fields!LastYearTransAmt.Value,sum,"table1_Category"))/IIF(RunningValue(Fields!LastYearTransAmt.Value,sum,"table1_Category")=0,1,RunningValue(Fields!LastYearTransAmt.Value,sum,"table1_Category")))&lt;0,"Green","Red")),
+IIF(IIF(RunningValue(Fields!LastYearTransCnt.Value,sum,"table1_Category")=0,0,(RunningValue(Fields!CurrTransCnt.Value,sum,"table1_Category")-RunningValue(Fields!LastYearTransCnt.Value,sum,"table1_Category"))/IIF(RunningValue(Fields!LastYearTransCnt.Value,sum,"table1_Category")=0,1,RunningValue(Fields!LastYearTransCnt.Value,sum,"table1_Category")))=0,"White",IIF(IIF(RunningValue(Fields!LastYearTransCnt.Value,sum,"table1_Category")=0,0,(RunningValue(Fields!CurrTransCnt.Value,sum,"table1_Category")-RunningValue(Fields!LastYearTransCnt.Value,sum,"table1_Category"))/IIF(RunningValue(Fields!LastYearTransCnt.Value,sum,"table1_Category")=0,1,RunningValue(Fields!LastYearTransCnt.Value,sum,"table1_Category")))&lt;0,"Green","Red"))
+)</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox54</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1308,7 +1344,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
                                 <FontWeight>Bold</FontWeight>
-                                <Format>0.0000;- 0.0000</Format>
+                                <Format>0.0000</Format>
                                 <Color>White</Color>
                               </Style>
                             </TextRun>
@@ -1319,9 +1355,6 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>CurrFeeAmt</rd:DefaultName>
-                      <Visibility>
-                        <Hidden>=IIF(Parameters!MeasureCategory.Value = "成功笔数",True,False)</Hidden>
-                      </Visibility>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1350,7 +1383,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
                                 <FontWeight>Bold</FontWeight>
-                                <Format>0.0000;- 0.0000</Format>
+                                <Format>0.0000</Format>
                                 <Color>White</Color>
                               </Style>
                             </TextRun>
@@ -1361,9 +1394,6 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>PrevFeeAmt</rd:DefaultName>
-                      <Visibility>
-                        <Hidden>=IIF(Parameters!MeasureCategory.Value = "成功笔数",True,False)</Hidden>
-                      </Visibility>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1392,7 +1422,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
                                 <FontWeight>Bold</FontWeight>
-                                <Format>0.0000;- 0.0000</Format>
+                                <Format>0.0000</Format>
                                 <Color>White</Color>
                               </Style>
                             </TextRun>
@@ -1403,9 +1433,6 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>LastYearFeeAmt</rd:DefaultName>
-                      <Visibility>
-                        <Hidden>=IIF(Parameters!MeasureCategory.Value = "成功笔数",True,False)</Hidden>
-                      </Visibility>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1423,19 +1450,19 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox128">
+                    <Textbox Name="Textbox36">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=IIF(RunningValue(Fields!PrevFeeAmt.Value,sum,"GateCategory")=0,"-",(RunningValue(Fields!CurrFeeAmt.Value,sum,"GateCategory")-RunningValue(Fields!PrevFeeAmt.Value,sum,"GateCategory"))/IIF(RunningValue(Fields!PrevFeeAmt.Value,sum,"GateCategory")=0,1,RunningValue(Fields!PrevFeeAmt.Value,sum,"GateCategory")))</Value>
+                              <Value>=(IIF(RunningValue(Fields!PrevFeeAmt.Value,sum,"table1_Category")=0,"-",(RunningValue(Fields!CurrFeeAmt.Value,sum,"table1_Category")-RunningValue(Fields!PrevFeeAmt.Value,sum,"table1_Category"))/IIF(RunningValue(Fields!PrevFeeAmt.Value,sum,"table1_Category")=0,1,RunningValue(Fields!PrevFeeAmt.Value,sum,"table1_Category"))))</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
                                 <FontWeight>Bold</FontWeight>
-                                <Format>0.00 %</Format>
-                                <Color>=IIF(IIF(RunningValue(Fields!PrevFeeAmt.Value,sum,"GateCategory")=0,0,(RunningValue(Fields!CurrFeeAmt.Value,sum,"GateCategory")-RunningValue(Fields!PrevFeeAmt.Value,sum,"GateCategory"))/IIF(RunningValue(Fields!PrevFeeAmt.Value,sum,"GateCategory")=0,1,RunningValue(Fields!PrevFeeAmt.Value,sum,"GateCategory")))=0,"White",IIF(IIF(RunningValue(Fields!PrevFeeAmt.Value,sum,"GateCategory")=0,0,(RunningValue(Fields!CurrFeeAmt.Value,sum,"GateCategory")-RunningValue(Fields!PrevFeeAmt.Value,sum,"GateCategory"))/IIF(RunningValue(Fields!PrevFeeAmt.Value,sum,"GateCategory")=0,1,RunningValue(Fields!PrevFeeAmt.Value,sum,"GateCategory")))&lt;0,"Green","Red"))</Color>
+                                <Format>0.00%</Format>
+                                <Color>=IIF(IIF(RunningValue(Fields!PrevFeeAmt.Value,sum,"table1_Category")=0,0,(RunningValue(Fields!CurrFeeAmt.Value,sum,"table1_Category")-RunningValue(Fields!PrevFeeAmt.Value,sum,"table1_Category"))/IIF(RunningValue(Fields!PrevFeeAmt.Value,sum,"table1_Category")=0,1,RunningValue(Fields!PrevFeeAmt.Value,sum,"table1_Category")))=0,"White",IIF(IIF(RunningValue(Fields!PrevFeeAmt.Value,sum,"table1_Category")=0,0,(RunningValue(Fields!CurrFeeAmt.Value,sum,"table1_Category")-RunningValue(Fields!PrevFeeAmt.Value,sum,"table1_Category"))/IIF(RunningValue(Fields!PrevFeeAmt.Value,sum,"table1_Category")=0,1,RunningValue(Fields!PrevFeeAmt.Value,sum,"table1_Category")))&lt;0,"Green","Red"))</Color>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1444,10 +1471,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox128</rd:DefaultName>
-                      <Visibility>
-                        <Hidden>=IIF(Parameters!MeasureCategory.Value = "成功笔数",True,False)</Hidden>
-                      </Visibility>
+                      <rd:DefaultName>Textbox36</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1465,19 +1489,19 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox123">
+                    <Textbox Name="Textbox46">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=IIF(RunningValue(Fields!LastYearFeeAmt.Value,sum,"GateCategory")=0,"-",(RunningValue(Fields!CurrFeeAmt.Value,sum,"GateCategory")-RunningValue(Fields!LastYearFeeAmt.Value,sum,"GateCategory"))/IIF(RunningValue(Fields!LastYearFeeAmt.Value,sum,"GateCategory")=0,1,RunningValue(Fields!LastYearFeeAmt.Value,sum,"GateCategory")))</Value>
+                              <Value>=(IIF(RunningValue(Fields!LastYearFeeAmt.Value,sum,"table1_Category")=0,"-",(RunningValue(Fields!CurrFeeAmt.Value,sum,"table1_Category")-RunningValue(Fields!LastYearFeeAmt.Value,sum,"table1_Category"))/IIF(RunningValue(Fields!LastYearFeeAmt.Value,sum,"table1_Category")=0,1,RunningValue(Fields!LastYearFeeAmt.Value,sum,"table1_Category"))))</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
                                 <FontWeight>Bold</FontWeight>
-                                <Format>0.00 %</Format>
-                                <Color>=IIF(IIF(RunningValue(Fields!LastYearFeeAmt.Value,sum,"GateCategory")=0,0,(RunningValue(Fields!CurrFeeAmt.Value,sum,"GateCategory")-RunningValue(Fields!LastYearFeeAmt.Value,sum,"GateCategory"))/IIF(RunningValue(Fields!LastYearFeeAmt.Value,sum,"GateCategory")=0,1,RunningValue(Fields!LastYearFeeAmt.Value,sum,"GateCategory")))=0,"White",IIF(IIF(RunningValue(Fields!LastYearFeeAmt.Value,sum,"GateCategory")=0,0,(RunningValue(Fields!CurrFeeAmt.Value,sum,"GateCategory")-RunningValue(Fields!LastYearFeeAmt.Value,sum,"GateCategory"))/IIF(RunningValue(Fields!LastYearFeeAmt.Value,sum,"GateCategory")=0,1,RunningValue(Fields!LastYearFeeAmt.Value,sum,"GateCategory")))&lt;0,"Green","Red"))</Color>
+                                <Format>0.00%</Format>
+                                <Color>=IIF(IIF(RunningValue(Fields!LastYearFeeAmt.Value,sum,"table1_Category")=0,0,(RunningValue(Fields!CurrFeeAmt.Value,sum,"table1_Category")-RunningValue(Fields!LastYearFeeAmt.Value,sum,"table1_Category"))/IIF(RunningValue(Fields!LastYearFeeAmt.Value,sum,"table1_Category")=0,1,RunningValue(Fields!LastYearFeeAmt.Value,sum,"table1_Category")))=0,"White",IIF(IIF(RunningValue(Fields!LastYearFeeAmt.Value,sum,"table1_Category")=0,0,(RunningValue(Fields!CurrFeeAmt.Value,sum,"table1_Category")-RunningValue(Fields!LastYearFeeAmt.Value,sum,"table1_Category"))/IIF(RunningValue(Fields!LastYearFeeAmt.Value,sum,"table1_Category")=0,1,RunningValue(Fields!LastYearFeeAmt.Value,sum,"table1_Category")))&lt;0,"Green","Red"))</Color>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1486,10 +1510,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox123</rd:DefaultName>
-                      <Visibility>
-                        <Hidden>=IIF(Parameters!MeasureCategory.Value = "成功笔数",True,False)</Hidden>
-                      </Visibility>
+                      <rd:DefaultName>Textbox36</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1512,7 +1533,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="textbox19">
+                    <Textbox Name="textbox29">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -1527,12 +1548,10 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                               </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style>
-                            <TextAlign>Left</TextAlign>
-                          </Style>
+                          <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>textbox19</rd:DefaultName>
+                      <rd:DefaultName>textbox29</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1565,9 +1584,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                               </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style>
-                            <TextAlign>Center</TextAlign>
-                          </Style>
+                          <Style />
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>GateNo</rd:DefaultName>
@@ -1588,7 +1605,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="textbox21">
+                    <Textbox Name="textbox30">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -1598,16 +1615,15 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                               <Value />
                               <Style>
                                 <FontFamily>宋体</FontFamily>
+                                <FontWeight>Bold</FontWeight>
                                 <Color>White</Color>
                               </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style>
-                            <TextAlign>Left</TextAlign>
-                          </Style>
+                          <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>textbox21</rd:DefaultName>
+                      <rd:DefaultName>textbox30</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1625,7 +1641,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox5">
+                    <Textbox Name="textbox31">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -1635,16 +1651,15 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                               <Value />
                               <Style>
                                 <FontFamily>宋体</FontFamily>
+                                <FontWeight>Bold</FontWeight>
                                 <Color>White</Color>
                               </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style>
-                            <TextAlign>Left</TextAlign>
-                          </Style>
+                          <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox5</rd:DefaultName>
+                      <rd:DefaultName>textbox31</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1662,57 +1677,18 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="textbox22">
+                    <Textbox Name="Textbox14">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!CurrSumValue.Value)</Value>
+                              <Value>=IIF(Parameters!MeasureCategory.Value = "成功金额",Sum(Fields!CurrTransAmt.Value),Sum(Fields!CurrTransCnt.Value))</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
                                 <FontWeight>Bold</FontWeight>
-                                <Format>0.0000;- 0.0000</Format>
-                                <Color>White</Color>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Right</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>textbox22</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <BackgroundColor>SlateGray</BackgroundColor>
-                        <VerticalAlign>Middle</VerticalAlign>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="textbox23">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>=Sum(Fields!PrevSumValue.Value)</Value>
-                              <Style>
-                                <FontFamily>宋体</FontFamily>
-                                <FontWeight>Bold</FontWeight>
-                                <Format>0.0000;- 0.0000</Format>
+                                <Format>0.0000</Format>
                                 <Color>White</Color>
                               </Style>
                             </TextRun>
@@ -1722,7 +1698,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>textbox23</rd:DefaultName>
+                      <rd:DefaultName>Textbox14</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1740,18 +1716,18 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="textbox24">
+                    <Textbox Name="Textbox16">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!LastYearSumValue.Value)</Value>
+                              <Value>=IIF(Parameters!MeasureCategory.Value = "成功金额",Sum(Fields!PrevTransAmt.Value),Sum(Fields!PrevTransCnt.Value))</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
                                 <FontWeight>Bold</FontWeight>
-                                <Format>0.0000;- 0.0000</Format>
+                                <Format>0.0000</Format>
                                 <Color>White</Color>
                               </Style>
                             </TextRun>
@@ -1761,7 +1737,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>textbox24</rd:DefaultName>
+                      <rd:DefaultName>Textbox16</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1779,19 +1755,19 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox41">
+                    <Textbox Name="Textbox18">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=RunningValue(Fields!CurrSumValue.Value,sum,"GateNo")-RunningValue(Fields!PrevSumValue.Value,sum,"GateNo")</Value>
+                              <Value>=IIF(Parameters!MeasureCategory.Value = "成功金额",SUM(Fields!LastYearTransAmt.Value),SUM(Fields!LastYearTransCnt.Value))</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
                                 <FontWeight>Bold</FontWeight>
-                                <Format>0.0000;- 0.0000</Format>
-                                <Color>=iif((RunningValue(Fields!CurrSumValue.Value,sum,"GateNo")-RunningValue(Fields!PrevSumValue.Value,sum,"GateNo"))=0,"White",iif((RunningValue(Fields!CurrSumValue.Value,sum,"GateNo")-RunningValue(Fields!PrevSumValue.Value,sum,"GateNo"))&lt;0,"Green","Red"))</Color>
+                                <Format>0.0000</Format>
+                                <Color>White</Color>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1800,7 +1776,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox41</rd:DefaultName>
+                      <rd:DefaultName>Textbox17</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1818,19 +1794,25 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox47">
+                    <Textbox Name="Textbox565">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=IIF(RunningValue(Fields!PrevSumValue.Value,sum,"GateNo")=0,"-",(RunningValue(Fields!CurrSumValue.Value,sum,"GateNo")-RunningValue(Fields!PrevSumValue.Value,sum,"GateNo"))/IIF(RunningValue(Fields!PrevSumValue.Value,sum,"GateNo")=0,1,RunningValue(Fields!PrevSumValue.Value,sum,"GateNo")))</Value>
+                              <Value>=iif(Parameters!MeasureCategory.Value = "成功金额",
+RunningValue(Fields!CurrTransAmt.Value,Sum,"table1_GateNo") - RunningValue(Fields!PrevTransAmt.Value,Sum,"table1_GateNo"),
+RunningValue(Fields!CurrTransCnt.Value,Sum,"table1_GateNo") - RunningValue(Fields!PrevTransCnt.Value,Sum,"table1_GateNo")
+)</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
                                 <FontWeight>Bold</FontWeight>
-                                <Format>0.00 %</Format>
-                                <Color>=IIF(IIF(RunningValue(Fields!PrevSumValue.Value,sum,"GateNo")=0,0,(RunningValue(Fields!CurrSumValue.Value,sum,"GateNo")-RunningValue(Fields!PrevSumValue.Value,sum,"GateNo"))/IIF(RunningValue(Fields!PrevSumValue.Value,sum,"GateNo")=0,1,RunningValue(Fields!PrevSumValue.Value,sum,"GateNo")))=0,"White",IIF(IIF(RunningValue(Fields!PrevSumValue.Value,sum,"GateNo")=0,0,(RunningValue(Fields!CurrSumValue.Value,sum,"GateNo")-RunningValue(Fields!PrevSumValue.Value,sum,"GateNo"))/IIF(RunningValue(Fields!PrevSumValue.Value,sum,"GateNo")=0,1,RunningValue(Fields!PrevSumValue.Value,sum,"GateNo")))&lt;0,"Green","Red"))</Color>
+                                <Format>0.0000</Format>
+                                <Color>=iif(Parameters!MeasureCategory.Value = "成功金额",
+iif((RunningValue(Fields!CurrTransAmt.Value,sum,"table1_GateNo")-RunningValue(Fields!PrevTransAmt.Value,sum,"table1_GateNo"))=0,"white",iif((RunningValue(Fields!CurrTransAmt.Value,sum,"table1_GateNo")-RunningValue(Fields!PrevTransAmt.Value,sum,"table1_GateNo"))&lt;0,"Green","Red")),
+iif((RunningValue(Fields!CurrTransCnt.Value,sum,"table1_GateNo")-RunningValue(Fields!PrevTransCnt.Value,sum,"table1_GateNo"))=0,"white",iif((RunningValue(Fields!CurrTransCnt.Value,sum,"table1_GateNo")-RunningValue(Fields!PrevTransCnt.Value,sum,"table1_GateNo"))&lt;0,"Green","Red"))
+)</Color>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1839,7 +1821,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox47</rd:DefaultName>
+                      <rd:DefaultName>Textbox565</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1857,19 +1839,25 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox53">
+                    <Textbox Name="Textbox61">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=RunningValue(Fields!CurrSumValue.Value,sum,"GateNo")-RunningValue(Fields!LastYearSumValue.Value,sum,"GateNo")</Value>
+                              <Value>=IIF(Parameters!MeasureCategory.Value = "成功金额",
+(IIF(RunningValue(Fields!PrevTransAmt.Value,sum,"table1_GateNo")=0,"-",(RunningValue(Fields!CurrTransAmt.Value,sum,"table1_GateNo")-RunningValue(Fields!PrevTransAmt.Value,sum,"table1_GateNo"))/IIF(RunningValue(Fields!PrevTransAmt.Value,sum,"table1_GateNo")=0,1,RunningValue(Fields!PrevTransAmt.Value,sum,"table1_GateNo")))),
+(IIF(RunningValue(Fields!PrevTransCnt.Value,sum,"table1_GateNo")=0,"-",(RunningValue(Fields!CurrTransCnt.Value,sum,"table1_GateNo")-RunningValue(Fields!PrevTransCnt.Value,sum,"table1_GateNo"))/IIF(RunningValue(Fields!PrevTransCnt.Value,sum,"table1_GateNo")=0,1,RunningValue(Fields!PrevTransCnt.Value,sum,"table1_GateNo"))))
+)</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
                                 <FontWeight>Bold</FontWeight>
-                                <Format>0.0000;- 0.0000</Format>
-                                <Color>=iif((RunningValue(Fields!CurrSumValue.Value,sum,"GateNo")-RunningValue(Fields!LastYearSumValue.Value,sum,"GateNo"))=0,"White",iif((RunningValue(Fields!CurrSumValue.Value,sum,"GateNo")-RunningValue(Fields!LastYearSumValue.Value,sum,"GateNo"))&lt;0,"Green","Red"))</Color>
+                                <Format>0.00%</Format>
+                                <Color>=iif(Parameters!MeasureCategory.Value = "成功金额",
+IIF(IIF(RunningValue(Fields!PrevTransAmt.Value,sum,"table1_GateNo")=0,0,(RunningValue(Fields!CurrTransAmt.Value,sum,"table1_GateNo")-RunningValue(Fields!PrevTransAmt.Value,sum,"table1_GateNo"))/IIF(RunningValue(Fields!PrevTransAmt.Value,sum,"table1_GateNo")=0,1,RunningValue(Fields!PrevTransAmt.Value,sum,"table1_GateNo")))=0,"White",IIF(IIF(RunningValue(Fields!PrevTransAmt.Value,sum,"table1_GateNo")=0,0,(RunningValue(Fields!CurrTransAmt.Value,sum,"table1_GateNo")-RunningValue(Fields!PrevTransAmt.Value,sum,"table1_GateNo"))/IIF(RunningValue(Fields!PrevTransAmt.Value,sum,"table1_GateNo")=0,1,RunningValue(Fields!PrevTransAmt.Value,sum,"table1_GateNo")))&lt;0,"Green","Red")),
+IIF(IIF(RunningValue(Fields!PrevTransCnt.Value,sum,"table1_GateNo")=0,0,(RunningValue(Fields!CurrTransCnt.Value,sum,"table1_GateNo")-RunningValue(Fields!PrevTransCnt.Value,sum,"table1_GateNo"))/IIF(RunningValue(Fields!PrevTransCnt.Value,sum,"table1_GateNo")=0,1,RunningValue(Fields!PrevTransCnt.Value,sum,"table1_GateNo")))=0,"White",IIF(IIF(RunningValue(Fields!PrevTransCnt.Value,sum,"table1_GateNo")=0,0,(RunningValue(Fields!CurrTransCnt.Value,sum,"table1_GateNo")-RunningValue(Fields!PrevTransCnt.Value,sum,"table1_GateNo"))/IIF(RunningValue(Fields!PrevTransCnt.Value,sum,"table1_GateNo")=0,1,RunningValue(Fields!PrevTransCnt.Value,sum,"table1_GateNo")))&lt;0,"Green","Red"))
+)</Color>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1878,7 +1866,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox53</rd:DefaultName>
+                      <rd:DefaultName>Textbox61</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1896,19 +1884,25 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox59">
+                    <Textbox Name="Textbox566">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=IIF(RunningValue(Fields!LastYearSumValue.Value,sum,"GateNo")=0,"-",(RunningValue(Fields!CurrSumValue.Value,sum,"GateNo")-RunningValue(Fields!LastYearSumValue.Value,sum,"GateNo"))/IIF(RunningValue(Fields!LastYearSumValue.Value,sum,"GateNo")=0,1,RunningValue(Fields!LastYearSumValue.Value,sum,"GateNo")))</Value>
+                              <Value>=iif(Parameters!MeasureCategory.Value = "成功金额",
+RunningValue(Fields!CurrTransAmt.Value,Sum,"table1_GateNo") - RunningValue(Fields!LastYearTransAmt.Value,Sum,"table1_GateNo"),
+RunningValue(Fields!CurrTransCnt.Value,Sum,"table1_GateNo") - RunningValue(Fields!LastYearTransCnt.Value,Sum,"table1_GateNo")
+)</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
                                 <FontWeight>Bold</FontWeight>
-                                <Format>0.00 %</Format>
-                                <Color>=IIF(IIF(RunningValue(Fields!LastYearSumValue.Value,sum,"GateNo")=0,0,(RunningValue(Fields!CurrSumValue.Value,sum,"GateNo")-RunningValue(Fields!LastYearSumValue.Value,sum,"GateNo"))/IIF(RunningValue(Fields!LastYearSumValue.Value,sum,"GateNo")=0,1,RunningValue(Fields!LastYearSumValue.Value,sum,"GateNo")))=0,"White",IIF(IIF(RunningValue(Fields!LastYearSumValue.Value,sum,"GateNo")=0,0,(RunningValue(Fields!CurrSumValue.Value,sum,"GateNo")-RunningValue(Fields!LastYearSumValue.Value,sum,"GateNo"))/IIF(RunningValue(Fields!LastYearSumValue.Value,sum,"GateNo")=0,1,RunningValue(Fields!LastYearSumValue.Value,sum,"GateNo")))&lt;0,"Green","Red"))</Color>
+                                <Format>0.0000</Format>
+                                <Color>=iif(Parameters!MeasureCategory.Value = "成功金额",
+iif((RunningValue(Fields!CurrTransAmt.Value,sum,"table1_GateNo")-RunningValue(Fields!LastYearTransAmt.Value,sum,"table1_GateNo"))=0,"white",iif((RunningValue(Fields!CurrTransAmt.Value,sum,"table1_GateNo")-RunningValue(Fields!LastYearTransAmt.Value,sum,"table1_GateNo"))&lt;0,"Green","Red")),
+iif((RunningValue(Fields!CurrTransCnt.Value,sum,"table1_GateNo")-RunningValue(Fields!LastYearTransCnt.Value,sum,"table1_GateNo"))=0,"white",iif((RunningValue(Fields!CurrTransCnt.Value,sum,"table1_GateNo")-RunningValue(Fields!LastYearTransCnt.Value,sum,"table1_GateNo"))&lt;0,"Green","Red"))
+)</Color>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1917,7 +1911,52 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox59</rd:DefaultName>
+                      <rd:DefaultName>Textbox565</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>SlateGray</BackgroundColor>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox74">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=IIF(Parameters!MeasureCategory.Value = "成功金额",
+(IIF(RunningValue(Fields!LastYearTransAmt.Value,sum,"table1_GateNo")=0,"-",(RunningValue(Fields!CurrTransAmt.Value,sum,"table1_GateNo")-RunningValue(Fields!LastYearTransAmt.Value,sum,"table1_GateNo"))/IIF(RunningValue(Fields!LastYearTransAmt.Value,sum,"table1_GateNo")=0,1,RunningValue(Fields!LastYearTransAmt.Value,sum,"table1_GateNo")))),
+(IIF(RunningValue(Fields!LastYearTransCnt.Value,sum,"table1_GateNo")=0,"-",(RunningValue(Fields!CurrTransCnt.Value,sum,"table1_GateNo")-RunningValue(Fields!LastYearTransCnt.Value,sum,"table1_GateNo"))/IIF(RunningValue(Fields!LastYearTransCnt.Value,sum,"table1_GateNo")=0,1,RunningValue(Fields!LastYearTransCnt.Value,sum,"table1_GateNo"))))
+)</Value>
+                              <Style>
+                                <FontFamily>宋体</FontFamily>
+                                <FontWeight>Bold</FontWeight>
+                                <Format>0.00%</Format>
+                                <Color>=iif(Parameters!MeasureCategory.Value = "成功金额",
+IIF(IIF(RunningValue(Fields!LastYearTransAmt.Value,sum,"table1_GateNo")=0,0,(RunningValue(Fields!CurrTransAmt.Value,sum,"table1_GateNo")-RunningValue(Fields!LastYearTransAmt.Value,sum,"table1_GateNo"))/IIF(RunningValue(Fields!LastYearTransAmt.Value,sum,"table1_GateNo")=0,1,RunningValue(Fields!LastYearTransAmt.Value,sum,"table1_GateNo")))=0,"White",IIF(IIF(RunningValue(Fields!LastYearTransAmt.Value,sum,"table1_GateNo")=0,0,(RunningValue(Fields!CurrTransAmt.Value,sum,"table1_GateNo")-RunningValue(Fields!LastYearTransAmt.Value,sum,"table1_GateNo"))/IIF(RunningValue(Fields!LastYearTransAmt.Value,sum,"table1_GateNo")=0,1,RunningValue(Fields!LastYearTransAmt.Value,sum,"table1_GateNo")))&lt;0,"Green","Red")),
+IIF(IIF(RunningValue(Fields!LastYearTransCnt.Value,sum,"table1_GateNo")=0,0,(RunningValue(Fields!CurrTransCnt.Value,sum,"table1_GateNo")-RunningValue(Fields!LastYearTransCnt.Value,sum,"table1_GateNo"))/IIF(RunningValue(Fields!LastYearTransCnt.Value,sum,"table1_GateNo")=0,1,RunningValue(Fields!LastYearTransCnt.Value,sum,"table1_GateNo")))=0,"White",IIF(IIF(RunningValue(Fields!LastYearTransCnt.Value,sum,"table1_GateNo")=0,0,(RunningValue(Fields!CurrTransCnt.Value,sum,"table1_GateNo")-RunningValue(Fields!LastYearTransCnt.Value,sum,"table1_GateNo"))/IIF(RunningValue(Fields!LastYearTransCnt.Value,sum,"table1_GateNo")=0,1,RunningValue(Fields!LastYearTransCnt.Value,sum,"table1_GateNo")))&lt;0,"Green","Red"))
+)</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox61</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1946,7 +1985,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
                                 <FontWeight>Bold</FontWeight>
-                                <Format>0.0000;- 0.0000</Format>
+                                <Format>0.0000</Format>
                                 <Color>White</Color>
                               </Style>
                             </TextRun>
@@ -1957,9 +1996,6 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>CurrFeeAmt1</rd:DefaultName>
-                      <Visibility>
-                        <Hidden>=IIF(Parameters!MeasureCategory.Value = "成功笔数",True,False)</Hidden>
-                      </Visibility>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -1988,7 +2024,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
                                 <FontWeight>Bold</FontWeight>
-                                <Format>0.0000;- 0.0000</Format>
+                                <Format>0.0000</Format>
                                 <Color>White</Color>
                               </Style>
                             </TextRun>
@@ -1999,9 +2035,6 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>PrevFeeAmt1</rd:DefaultName>
-                      <Visibility>
-                        <Hidden>=IIF(Parameters!MeasureCategory.Value = "成功笔数",True,False)</Hidden>
-                      </Visibility>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -2030,7 +2063,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
                                 <FontWeight>Bold</FontWeight>
-                                <Format>0.0000;- 0.0000</Format>
+                                <Format>0.0000</Format>
                                 <Color>White</Color>
                               </Style>
                             </TextRun>
@@ -2041,9 +2074,6 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>LastYearFeeAmt1</rd:DefaultName>
-                      <Visibility>
-                        <Hidden>=IIF(Parameters!MeasureCategory.Value = "成功笔数",True,False)</Hidden>
-                      </Visibility>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -2061,19 +2091,19 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox129">
+                    <Textbox Name="Textbox37">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=IIF(RunningValue(Fields!PrevFeeAmt.Value,sum,"GateNo")=0,"-",(RunningValue(Fields!CurrFeeAmt.Value,sum,"GateNo")-RunningValue(Fields!PrevFeeAmt.Value,sum,"GateNo"))/IIF(RunningValue(Fields!PrevFeeAmt.Value,sum,"GateNo")=0,1,RunningValue(Fields!PrevFeeAmt.Value,sum,"GateNo")))</Value>
+                              <Value>=(IIF(RunningValue(Fields!PrevFeeAmt.Value,sum,"table1_GateNo")=0,"-",(RunningValue(Fields!CurrFeeAmt.Value,sum,"table1_GateNo")-RunningValue(Fields!PrevFeeAmt.Value,sum,"table1_GateNo"))/IIF(RunningValue(Fields!PrevFeeAmt.Value,sum,"table1_GateNo")=0,1,RunningValue(Fields!PrevFeeAmt.Value,sum,"table1_GateNo"))))</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
                                 <FontWeight>Bold</FontWeight>
-                                <Format>0.00 %</Format>
-                                <Color>=IIF(IIF(RunningValue(Fields!PrevFeeAmt.Value,sum,"GateNo")=0,0,(RunningValue(Fields!CurrFeeAmt.Value,sum,"GateNo")-RunningValue(Fields!PrevFeeAmt.Value,sum,"GateNo"))/IIF(RunningValue(Fields!PrevFeeAmt.Value,sum,"GateNo")=0,1,RunningValue(Fields!PrevFeeAmt.Value,sum,"GateNo")))=0,"White",IIF(IIF(RunningValue(Fields!PrevFeeAmt.Value,sum,"GateNo")=0,0,(RunningValue(Fields!CurrFeeAmt.Value,sum,"GateNo")-RunningValue(Fields!PrevFeeAmt.Value,sum,"GateNo"))/IIF(RunningValue(Fields!PrevFeeAmt.Value,sum,"GateNo")=0,1,RunningValue(Fields!PrevFeeAmt.Value,sum,"GateNo")))&lt;0,"Green","Red"))</Color>
+                                <Format>0.00%</Format>
+                                <Color>=IIF(IIF(RunningValue(Fields!PrevFeeAmt.Value,sum,"table1_GateNo")=0,0,(RunningValue(Fields!CurrFeeAmt.Value,sum,"table1_GateNo")-RunningValue(Fields!PrevFeeAmt.Value,sum,"table1_GateNo"))/IIF(RunningValue(Fields!PrevFeeAmt.Value,sum,"table1_GateNo")=0,1,RunningValue(Fields!PrevFeeAmt.Value,sum,"table1_GateNo")))=0,"White",IIF(IIF(RunningValue(Fields!PrevFeeAmt.Value,sum,"table1_GateNo")=0,0,(RunningValue(Fields!CurrFeeAmt.Value,sum,"table1_GateNo")-RunningValue(Fields!PrevFeeAmt.Value,sum,"table1_GateNo"))/IIF(RunningValue(Fields!PrevFeeAmt.Value,sum,"table1_GateNo")=0,1,RunningValue(Fields!PrevFeeAmt.Value,sum,"table1_GateNo")))&lt;0,"Green","Red"))</Color>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -2082,10 +2112,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox129</rd:DefaultName>
-                      <Visibility>
-                        <Hidden>=IIF(Parameters!MeasureCategory.Value = "成功笔数",True,False)</Hidden>
-                      </Visibility>
+                      <rd:DefaultName>Textbox37</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -2103,19 +2130,19 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox124">
+                    <Textbox Name="Textbox47">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=IIF(RunningValue(Fields!LastYearFeeAmt.Value,sum,"GateNo")=0,"-",(RunningValue(Fields!CurrFeeAmt.Value,sum,"GateNo")-RunningValue(Fields!LastYearFeeAmt.Value,sum,"GateNo"))/IIF(RunningValue(Fields!LastYearFeeAmt.Value,sum,"GateNo")=0,1,RunningValue(Fields!LastYearFeeAmt.Value,sum,"GateNo")))</Value>
+                              <Value>=(IIF(RunningValue(Fields!LastYearFeeAmt.Value,sum,"table1_GateNo")=0,"-",(RunningValue(Fields!CurrFeeAmt.Value,sum,"table1_GateNo")-RunningValue(Fields!LastYearFeeAmt.Value,sum,"table1_GateNo"))/IIF(RunningValue(Fields!LastYearFeeAmt.Value,sum,"table1_GateNo")=0,1,RunningValue(Fields!LastYearFeeAmt.Value,sum,"table1_GateNo"))))</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
                                 <FontWeight>Bold</FontWeight>
-                                <Format>0.00 %</Format>
-                                <Color>=IIF(IIF(RunningValue(Fields!LastYearFeeAmt.Value,sum,"GateNo")=0,0,(RunningValue(Fields!CurrFeeAmt.Value,sum,"GateNo")-RunningValue(Fields!LastYearFeeAmt.Value,sum,"GateNo"))/IIF(RunningValue(Fields!LastYearFeeAmt.Value,sum,"GateNo")=0,1,RunningValue(Fields!LastYearFeeAmt.Value,sum,"GateNo")))=0,"White",IIF(IIF(RunningValue(Fields!LastYearFeeAmt.Value,sum,"GateNo")=0,0,(RunningValue(Fields!CurrFeeAmt.Value,sum,"GateNo")-RunningValue(Fields!LastYearFeeAmt.Value,sum,"GateNo"))/IIF(RunningValue(Fields!LastYearFeeAmt.Value,sum,"GateNo")=0,1,RunningValue(Fields!LastYearFeeAmt.Value,sum,"GateNo")))&lt;0,"Green","Red"))</Color>
+                                <Format>0.00%</Format>
+                                <Color>=IIF(IIF(RunningValue(Fields!LastYearFeeAmt.Value,sum,"table1_GateNo")=0,0,(RunningValue(Fields!CurrFeeAmt.Value,sum,"table1_GateNo")-RunningValue(Fields!LastYearFeeAmt.Value,sum,"table1_GateNo"))/IIF(RunningValue(Fields!LastYearFeeAmt.Value,sum,"table1_GateNo")=0,1,RunningValue(Fields!LastYearFeeAmt.Value,sum,"table1_GateNo")))=0,"White",IIF(IIF(RunningValue(Fields!LastYearFeeAmt.Value,sum,"table1_GateNo")=0,0,(RunningValue(Fields!CurrFeeAmt.Value,sum,"table1_GateNo")-RunningValue(Fields!LastYearFeeAmt.Value,sum,"table1_GateNo"))/IIF(RunningValue(Fields!LastYearFeeAmt.Value,sum,"table1_GateNo")=0,1,RunningValue(Fields!LastYearFeeAmt.Value,sum,"table1_GateNo")))&lt;0,"Green","Red"))</Color>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -2124,10 +2151,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox124</rd:DefaultName>
-                      <Visibility>
-                        <Hidden>=IIF(Parameters!MeasureCategory.Value = "成功笔数",True,False)</Hidden>
-                      </Visibility>
+                      <rd:DefaultName>Textbox37</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -2150,7 +2174,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="textbox31">
+                    <Textbox Name="textbox3">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -2160,23 +2184,18 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                               <Value />
                               <Style>
                                 <FontFamily>宋体</FontFamily>
-                                <FontWeight>Bold</FontWeight>
-                                <Color>White</Color>
                               </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style>
-                            <TextAlign>Left</TextAlign>
-                          </Style>
+                          <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>textbox31</rd:DefaultName>
+                      <rd:DefaultName>textbox3</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
-                        <BackgroundColor>White</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
@@ -2188,7 +2207,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="textbox32">
+                    <Textbox Name="textbox5">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -2198,23 +2217,18 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                               <Value />
                               <Style>
                                 <FontFamily>宋体</FontFamily>
-                                <FontWeight>Bold</FontWeight>
-                                <Color>White</Color>
                               </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style>
-                            <TextAlign>Center</TextAlign>
-                          </Style>
+                          <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>textbox32</rd:DefaultName>
+                      <rd:DefaultName>textbox5</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
-                        <BackgroundColor>White</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
@@ -2226,7 +2240,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="MerchantName">
+                    <Textbox Name="MerchantName1">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -2239,18 +2253,15 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                               </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style>
-                            <TextAlign>Left</TextAlign>
-                          </Style>
+                          <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>MerchantName</rd:DefaultName>
+                      <rd:DefaultName>MerchantName1</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
-                        <BackgroundColor>White</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
@@ -2275,9 +2286,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                               </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style>
-                            <TextAlign>Center</TextAlign>
-                          </Style>
+                          <Style />
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>MerchantNo</rd:DefaultName>
@@ -2286,7 +2295,6 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                           <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
-                        <BackgroundColor>White</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
@@ -2298,17 +2306,17 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="CurrSumValue">
+                    <Textbox Name="CurrTransAmt3">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!CurrSumValue.Value</Value>
+                              <Value>=IIF(Parameters!MeasureCategory.Value = "成功金额",Fields!CurrTransAmt.Value,Fields!CurrTransCnt.Value)</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
-                                <Format>0.0000;- 0.0000</Format>
+                                <Format>0.0000</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -2317,7 +2325,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>CurrSumValue</rd:DefaultName>
+                      <rd:DefaultName>CurrTransAmt1</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -2334,17 +2342,17 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="PrevSumValue">
+                    <Textbox Name="PrevTransAmt1">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!PrevSumValue.Value</Value>
+                              <Value>=IIF(Parameters!MeasureCategory.Value = "成功金额",Fields!PrevTransAmt.Value,Fields!PrevTransCnt.Value)</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
-                                <Format>0.0000;- 0.0000</Format>
+                                <Format>0.0000</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -2353,7 +2361,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>PrevSumValue</rd:DefaultName>
+                      <rd:DefaultName>PrevTransAmt1</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -2370,17 +2378,17 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="LastYearSumValue">
+                    <Textbox Name="Textbox22">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!LastYearSumValue.Value</Value>
+                              <Value>=IIF(Parameters!MeasureCategory.Value = "成功金额",Fields!LastYearTransAmt.Value,Fields!LastYearTransCnt.Value)</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
-                                <Format>0.0000;- 0.0000</Format>
+                                <Format>0.0000</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -2389,7 +2397,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>LastYearSumValue</rd:DefaultName>
+                      <rd:DefaultName>Textbox22</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -2406,18 +2414,24 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox86">
+                    <Textbox Name="Textbox67">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=RunningValue(Fields!CurrSumValue.Value,sum,"MerchantName")-RunningValue(Fields!PrevSumValue.Value,sum,"MerchantName")</Value>
+                              <Value>=iif(Parameters!MeasureCategory.Value = "成功金额",
+(Fields!CurrTransAmt.Value) - (Fields!PrevTransAmt.Value),
+(Fields!CurrTransCnt.Value) - (Fields!PrevTransCnt.Value)
+)</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
-                                <Format>0.0000;- 0.0000</Format>
-                                <Color>=iif((RunningValue(Fields!CurrSumValue.Value,sum,"MerchantName")-RunningValue(Fields!PrevSumValue.Value,sum,"MerchantName"))=0,"Black",iif((RunningValue(Fields!CurrSumValue.Value,sum,"MerchantName")-RunningValue(Fields!PrevSumValue.Value,sum,"MerchantName"))&lt;0,"Green","Red"))</Color>
+                                <Format>0.0000</Format>
+                                <Color>=iif(Parameters!MeasureCategory.Value = "成功金额",
+iif((Fields!CurrTransAmt.Value)-(Fields!PrevTransAmt.Value)=0,"Black",iif((Fields!CurrTransAmt.Value)-(Fields!PrevTransAmt.Value)&lt;0,"Green","Red")),
+iif((Fields!CurrTransCnt.Value)-(Fields!PrevTransCnt.Value)=0,"Black",iif((Fields!CurrTransCnt.Value)-(Fields!PrevTransCnt.Value)&lt;0,"Green","Red"))
+)</Color>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -2426,7 +2440,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox44</rd:DefaultName>
+                      <rd:DefaultName>Textbox67</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -2443,18 +2457,24 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox87">
+                    <Textbox Name="Textbox68">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=IIF(RunningValue(Fields!PrevSumValue.Value,sum,"MerchantName")=0,"-",(RunningValue(Fields!CurrSumValue.Value,sum,"MerchantName")-RunningValue(Fields!PrevSumValue.Value,sum,"MerchantName"))/IIF(RunningValue(Fields!PrevSumValue.Value,sum,"MerchantName")=0,1,RunningValue(Fields!PrevSumValue.Value,sum,"MerchantName")))</Value>
+                              <Value>=IIF(Parameters!MeasureCategory.Value = "成功金额",
+IIF(Fields!PrevTransAmt.Value = 0,"-",(Fields!CurrTransAmt.Value - Fields!PrevTransAmt.Value)/IIF(Fields!PrevTransAmt.Value = 0,1,(Fields!PrevTransAmt.Value))),
+IIF(Fields!PrevTransCnt.Value = 0,"-",(Fields!CurrTransCnt.Value - Fields!PrevTransCnt.Value)/IIF(Fields!PrevTransCnt.Value = 0,1,(Fields!PrevTransCnt.Value)))
+)</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
-                                <Format>0.00 %</Format>
-                                <Color>=IIF((IIF(RunningValue(Fields!PrevSumValue.Value,sum,"MerchantName")=0,0,(RunningValue(Fields!CurrSumValue.Value,sum,"MerchantName")-RunningValue(Fields!PrevSumValue.Value,sum,"MerchantName"))/IIF(RunningValue(Fields!PrevSumValue.Value,sum,"MerchantName")=0,1,RunningValue(Fields!PrevSumValue.Value,sum,"MerchantName"))))=0,"Black",IIF((IIF(RunningValue(Fields!PrevSumValue.Value,sum,"MerchantName")=0,0,(RunningValue(Fields!CurrSumValue.Value,sum,"MerchantName")-RunningValue(Fields!PrevSumValue.Value,sum,"MerchantName"))/IIF(RunningValue(Fields!PrevSumValue.Value,sum,"MerchantName")=0,1,RunningValue(Fields!PrevSumValue.Value,sum,"MerchantName"))))&lt;0,"Green","Red"))</Color>
+                                <Format>0.00%</Format>
+                                <Color>=iif(Parameters!MeasureCategory.Value = "成功金额",
+IIF(IIF(Fields!PrevTransAmt.Value=0,0,(Fields!CurrTransAmt.Value-Fields!PrevTransAmt.Value)/IIF(Fields!PrevTransAmt.Value=0,1,Fields!PrevTransAmt.Value))=0,"Black",IIF(IIF(Fields!PrevTransAmt.Value=0,0,Fields!CurrTransAmt.Value-Fields!PrevTransAmt.Value)/IIF(Fields!PrevTransAmt.Value=0,1,Fields!PrevTransAmt.Value)&lt;0,"Green","Red")),
+IIF(IIF(Fields!PrevTransCnt.Value=0,0,(Fields!CurrTransCnt.Value-Fields!PrevTransCnt.Value)/IIF(Fields!PrevTransCnt.Value=0,1,Fields!PrevTransCnt.Value))=0,"Black",IIF(IIF(Fields!PrevTransCnt.Value=0,0,Fields!CurrTransCnt.Value-Fields!PrevTransCnt.Value)/IIF(Fields!PrevTransCnt.Value=0,1,Fields!PrevTransCnt.Value)&lt;0,"Green","Red"))
+)</Color>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -2463,7 +2483,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox50</rd:DefaultName>
+                      <rd:DefaultName>Textbox68</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -2480,18 +2500,24 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox88">
+                    <Textbox Name="Textbox81">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=RunningValue(Fields!CurrSumValue.Value,sum,"MerchantName")-RunningValue(Fields!LastYearSumValue.Value,sum,"MerchantName")</Value>
+                              <Value>=iif(Parameters!MeasureCategory.Value = "成功金额",
+(Fields!CurrTransAmt.Value) - (Fields!LastYearTransAmt.Value),
+(Fields!CurrTransCnt.Value) - (Fields!LastYearTransCnt.Value)
+)</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
-                                <Format>0.0000;- 0.0000</Format>
-                                <Color>=iif((RunningValue(Fields!CurrSumValue.Value,sum,"MerchantName")-RunningValue(Fields!LastYearSumValue.Value,sum,"MerchantName"))=0,"Black",iif((RunningValue(Fields!CurrSumValue.Value,sum,"MerchantName")-RunningValue(Fields!LastYearSumValue.Value,sum,"MerchantName"))&lt;0,"Green","Red"))</Color>
+                                <Format>0.0000</Format>
+                                <Color>=iif(Parameters!MeasureCategory.Value = "成功金额",
+iif((Fields!CurrTransAmt.Value)-(Fields!LastYearTransAmt.Value)=0,"Black",iif((Fields!CurrTransAmt.Value)-(Fields!LastYearTransAmt.Value)&lt;0,"Green","Red")),
+iif((Fields!CurrTransCnt.Value)-(Fields!LastYearTransCnt.Value)=0,"Black",iif((Fields!CurrTransCnt.Value)-(Fields!LastYearTransCnt.Value)&lt;0,"Green","Red"))
+)</Color>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -2500,7 +2526,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox56</rd:DefaultName>
+                      <rd:DefaultName>Textbox67</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -2517,18 +2543,24 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox89">
+                    <Textbox Name="Textbox83">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=IIF(RunningValue(Fields!LastYearSumValue.Value,sum,"MerchantName")=0,"-",(RunningValue(Fields!CurrSumValue.Value,sum,"MerchantName")-RunningValue(Fields!LastYearSumValue.Value,sum,"MerchantName"))/IIF(RunningValue(Fields!LastYearSumValue.Value,sum,"MerchantName")=0,1,RunningValue(Fields!LastYearSumValue.Value,sum,"MerchantName")))</Value>
+                              <Value>=IIF(Parameters!MeasureCategory.Value = "成功金额",
+IIF(Fields!LastYearTransAmt.Value = 0,"-",(Fields!CurrTransAmt.Value - Fields!LastYearTransAmt.Value)/IIF(Fields!LastYearTransAmt.Value = 0,1,(Fields!LastYearTransAmt.Value))),
+IIF(Fields!LastYearTransCnt.Value = 0,"-",(Fields!CurrTransCnt.Value - Fields!LastYearTransCnt.Value)/IIF(Fields!LastYearTransCnt.Value = 0,1,(Fields!LastYearTransCnt.Value)))
+)</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
-                                <Format>0.00 %</Format>
-                                <Color>=IIF(IIF(RunningValue(Fields!LastYearSumValue.Value,sum,"MerchantName")=0,0,(RunningValue(Fields!CurrSumValue.Value,sum,"MerchantName")-RunningValue(Fields!LastYearSumValue.Value,sum,"MerchantName"))/IIF(RunningValue(Fields!LastYearSumValue.Value,sum,"MerchantName")=0,1,RunningValue(Fields!LastYearSumValue.Value,sum,"MerchantName")))=0,"Black",IIF(IIF(RunningValue(Fields!LastYearSumValue.Value,sum,"MerchantName")=0,0,(RunningValue(Fields!CurrSumValue.Value,sum,"MerchantName")-RunningValue(Fields!LastYearSumValue.Value,sum,"MerchantName"))/IIF(RunningValue(Fields!LastYearSumValue.Value,sum,"MerchantName")=0,1,RunningValue(Fields!LastYearSumValue.Value,sum,"MerchantName")))&lt;0,"Green","Red"))</Color>
+                                <Format>0.00%</Format>
+                                <Color>=iif(Parameters!MeasureCategory.Value = "成功金额",
+IIF(IIF(Fields!LastYearTransAmt.Value=0,0,(Fields!CurrTransAmt.Value-Fields!LastYearTransAmt.Value)/IIF(Fields!LastYearTransAmt.Value=0,1,Fields!LastYearTransAmt.Value))=0,"Black",IIF(IIF(Fields!LastYearTransAmt.Value=0,0,Fields!CurrTransAmt.Value-Fields!LastYearTransAmt.Value)/IIF(Fields!LastYearTransAmt.Value=0,1,Fields!LastYearTransAmt.Value)&lt;0,"Green","Red")),
+IIF(IIF(Fields!LastYearTransCnt.Value=0,0,(Fields!CurrTransCnt.Value-Fields!LastYearTransCnt.Value)/IIF(Fields!LastYearTransCnt.Value=0,1,Fields!LastYearTransCnt.Value))=0,"Black",IIF(IIF(Fields!LastYearTransCnt.Value=0,0,Fields!CurrTransCnt.Value-Fields!LastYearTransCnt.Value)/IIF(Fields!LastYearTransCnt.Value=0,1,Fields!LastYearTransCnt.Value)&lt;0,"Green","Red"))
+)</Color>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -2537,7 +2569,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox62</rd:DefaultName>
+                      <rd:DefaultName>Textbox68</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -2554,7 +2586,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="CurrFeeAmt2">
+                    <Textbox Name="Textbox57">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -2564,7 +2596,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                               <Value>=Fields!CurrFeeAmt.Value</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
-                                <Format>0.0000;- 0.0000</Format>
+                                <Format>0.0000</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -2573,10 +2605,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>CurrFeeAmt2</rd:DefaultName>
-                      <Visibility>
-                        <Hidden>=IIF(Parameters!MeasureCategory.Value = "成功笔数",True,False)</Hidden>
-                      </Visibility>
+                      <rd:DefaultName>Textbox57</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -2603,7 +2632,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                               <Value>=Fields!PrevFeeAmt.Value</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
-                                <Format>0.0000;- 0.0000</Format>
+                                <Format>0.0000</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -2613,9 +2642,6 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>PrevFeeAmt2</rd:DefaultName>
-                      <Visibility>
-                        <Hidden>=IIF(Parameters!MeasureCategory.Value = "成功笔数",True,False)</Hidden>
-                      </Visibility>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -2642,7 +2668,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                               <Value>=Fields!LastYearFeeAmt.Value</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
-                                <Format>0.0000;- 0.0000</Format>
+                                <Format>0.0000</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -2652,9 +2678,6 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>LastYearFeeAmt2</rd:DefaultName>
-                      <Visibility>
-                        <Hidden>=IIF(Parameters!MeasureCategory.Value = "成功笔数",True,False)</Hidden>
-                      </Visibility>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -2671,18 +2694,18 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox130">
+                    <Textbox Name="Textbox38">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=IIF(RunningValue(Fields!PrevFeeAmt.Value,sum,"MerchantName")=0,"-",(RunningValue(Fields!CurrFeeAmt.Value,sum,"MerchantName")-RunningValue(Fields!PrevFeeAmt.Value,sum,"MerchantName"))/IIF(RunningValue(Fields!PrevFeeAmt.Value,sum,"MerchantName")=0,1,RunningValue(Fields!PrevFeeAmt.Value,sum,"MerchantName")))</Value>
+                              <Value>=IIF(Fields!PrevFeeAmt.Value = 0,"-",(Fields!CurrFeeAmt.Value - Fields!PrevFeeAmt.Value)/IIF(Fields!PrevFeeAmt.Value = 0,1,(Fields!PrevFeeAmt.Value)))</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
-                                <Format>0.00 %</Format>
-                                <Color>=IIF(IIF(RunningValue(Fields!PrevFeeAmt.Value,sum,"MerchantName")=0,0,(RunningValue(Fields!CurrFeeAmt.Value,sum,"MerchantName")-RunningValue(Fields!PrevFeeAmt.Value,sum,"MerchantName"))/IIF(RunningValue(Fields!PrevFeeAmt.Value,sum,"MerchantName")=0,1,RunningValue(Fields!PrevFeeAmt.Value,sum,"MerchantName")))=0,"Black",IIF(IIF(RunningValue(Fields!PrevFeeAmt.Value,sum,"MerchantName")=0,0,(RunningValue(Fields!CurrFeeAmt.Value,sum,"MerchantName")-RunningValue(Fields!PrevFeeAmt.Value,sum,"MerchantName"))/IIF(RunningValue(Fields!PrevFeeAmt.Value,sum,"MerchantName")=0,1,RunningValue(Fields!PrevFeeAmt.Value,sum,"MerchantName")))&lt;0,"Green","Red"))</Color>
+                                <Format>0.00%</Format>
+                                <Color>=IIF(IIF(Fields!PrevFeeAmt.Value=0,0,(Fields!CurrFeeAmt.Value-Fields!PrevFeeAmt.Value)/IIF(Fields!PrevFeeAmt.Value=0,1,Fields!PrevFeeAmt.Value))=0,"Black",IIF(IIF(Fields!PrevFeeAmt.Value=0,0,Fields!CurrFeeAmt.Value-Fields!PrevFeeAmt.Value)/IIF(Fields!PrevFeeAmt.Value=0,1,Fields!PrevFeeAmt.Value)&lt;0,"Green","Red"))</Color>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -2691,10 +2714,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox130</rd:DefaultName>
-                      <Visibility>
-                        <Hidden>=IIF(Parameters!MeasureCategory.Value = "成功笔数",True,False)</Hidden>
-                      </Visibility>
+                      <rd:DefaultName>Textbox38</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -2711,18 +2731,18 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox125">
+                    <Textbox Name="Textbox49">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=IIF(RunningValue(Fields!LastYearFeeAmt.Value,sum,"MerchantName")=0,"-",(RunningValue(Fields!CurrFeeAmt.Value,sum,"MerchantName")-RunningValue(Fields!LastYearFeeAmt.Value,sum,"MerchantName"))/IIF(RunningValue(Fields!LastYearFeeAmt.Value,sum,"MerchantName")=0,1,RunningValue(Fields!LastYearFeeAmt.Value,sum,"MerchantName")))</Value>
+                              <Value>=IIF(Fields!LastYearFeeAmt.Value = 0,"-",(Fields!CurrFeeAmt.Value - Fields!LastYearFeeAmt.Value)/IIF(Fields!LastYearFeeAmt.Value = 0,1,(Fields!LastYearFeeAmt.Value)))</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
-                                <Format>0.00 %</Format>
-                                <Color>=IIF(IIF(RunningValue(Fields!LastYearFeeAmt.Value,sum,"MerchantName")=0,0,(RunningValue(Fields!CurrFeeAmt.Value,sum,"MerchantName")-RunningValue(Fields!LastYearFeeAmt.Value,sum,"MerchantName"))/IIF(RunningValue(Fields!LastYearFeeAmt.Value,sum,"MerchantName")=0,1,RunningValue(Fields!LastYearFeeAmt.Value,sum,"MerchantName")))=0,"Black",IIF(IIF(RunningValue(Fields!LastYearFeeAmt.Value,sum,"MerchantName")=0,0,(RunningValue(Fields!CurrFeeAmt.Value,sum,"MerchantName")-RunningValue(Fields!LastYearFeeAmt.Value,sum,"MerchantName"))/IIF(RunningValue(Fields!LastYearFeeAmt.Value,sum,"MerchantName")=0,1,RunningValue(Fields!LastYearFeeAmt.Value,sum,"MerchantName")))&lt;0,"Green","Red"))</Color>
+                                <Format>0.00%</Format>
+                                <Color>=IIF(IIF(Fields!LastYearFeeAmt.Value=0,0,(Fields!CurrFeeAmt.Value-Fields!LastYearFeeAmt.Value)/IIF(Fields!LastYearFeeAmt.Value=0,1,Fields!LastYearFeeAmt.Value))=0,"Black",IIF(IIF(Fields!LastYearFeeAmt.Value=0,0,Fields!CurrFeeAmt.Value-Fields!LastYearFeeAmt.Value)/IIF(Fields!LastYearFeeAmt.Value=0,1,Fields!LastYearFeeAmt.Value)&lt;0,"Green","Red"))</Color>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -2731,10 +2751,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox125</rd:DefaultName>
-                      <Visibility>
-                        <Hidden>=IIF(Parameters!MeasureCategory.Value = "成功笔数",True,False)</Hidden>
-                      </Visibility>
+                      <rd:DefaultName>Textbox38</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -2756,7 +2773,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox90">
+                    <Textbox Name="Textbox229">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -2775,7 +2792,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox90</rd:DefaultName>
+                      <rd:DefaultName>Textbox229</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -2833,18 +2850,18 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                 <TablixCell />
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox95">
+                    <Textbox Name="Textbox23">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!CurrSumValue.Value)</Value>
+                              <Value>=IIF(Parameters!MeasureCategory.Value = "成功金额",Sum(Fields!CurrTransAmt.Value),Sum(Fields!CurrTransCnt.Value))</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
                                 <FontWeight>Bold</FontWeight>
-                                <Format>0.0000;- 0.0000</Format>
+                                <Format>0.0000</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -2853,7 +2870,45 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox95</rd:DefaultName>
+                      <rd:DefaultName>Textbox23</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>White</BackgroundColor>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox25">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=IIF(Parameters!MeasureCategory.Value = "成功金额",Sum(Fields!PrevTransAmt.Value),Sum(Fields!PrevTransCnt.Value))</Value>
+                              <Style>
+                                <FontFamily>宋体</FontFamily>
+                                <FontWeight>Bold</FontWeight>
+                                <Format>0.0000</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox24</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -2870,18 +2925,18 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox96">
+                    <Textbox Name="Textbox27">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!PrevSumValue.Value)</Value>
+                              <Value>=IIF(Parameters!MeasureCategory.Value = "成功金额",Sum(Fields!LastYearTransAmt.Value),Sum(Fields!LastYearTransCnt.Value))</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
                                 <FontWeight>Bold</FontWeight>
-                                <Format>0.0000;- 0.0000</Format>
+                                <Format>0.0000</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -2890,7 +2945,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox96</rd:DefaultName>
+                      <rd:DefaultName>Textbox25</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -2907,18 +2962,25 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox97">
+                    <Textbox Name="Textbox236">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!LastYearSumValue.Value)</Value>
+                              <Value>=iif(Parameters!MeasureCategory.Value = "成功金额",
+SUM(Fields!CurrTransAmt.Value) - SUM(Fields!PrevTransAmt.Value),
+SUM(Fields!CurrTransCnt.Value) - SUM(Fields!PrevTransCnt.Value)
+)</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
                                 <FontWeight>Bold</FontWeight>
-                                <Format>0.0000;- 0.0000</Format>
+                                <Format>0.0000</Format>
+                                <Color>=iif(Parameters!MeasureCategory.Value = "成功金额",
+iif((Sum(Fields!CurrTransAmt.Value)-Sum(Fields!PrevTransAmt.Value))=0,"Black",iif((Sum(Fields!CurrTransAmt.Value)-Sum(Fields!PrevTransAmt.Value))&lt;0,"Green","Red")),
+iif((Sum(Fields!CurrTransCnt.Value)-Sum(Fields!PrevTransCnt.Value))=0,"Black",iif((Sum(Fields!CurrTransCnt.Value)-Sum(Fields!PrevTransCnt.Value))&lt;0,"Green","Red"))
+)</Color>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -2927,12 +2989,13 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox97</rd:DefaultName>
+                      <rd:DefaultName>Textbox236</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
+                        <BackgroundColor>White</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
@@ -2944,19 +3007,25 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox98">
+                    <Textbox Name="Textbox237">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!CurrSumValue.Value)-Sum(Fields!PrevSumValue.Value)</Value>
+                              <Value>=IIF(Parameters!MeasureCategory.Value = "成功金额",
+IIF(SUM(Fields!PrevTransAmt.Value) = 0,"-",(SUM(Fields!CurrTransAmt.Value) - SUM(Fields!PrevTransAmt.Value))/iif(SUM(Fields!PrevTransAmt.Value) = 0,1,SUM(Fields!PrevTransAmt.Value))),
+IIF(SUM(Fields!PrevTransCnt.Value) = 0,"-",(SUM(Fields!CurrTransCnt.Value) - SUM(Fields!PrevTransCnt.Value))/iif(SUM(Fields!PrevTransCnt.Value) = 0,1,SUM(Fields!PrevTransCnt.Value)))
+)</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
                                 <FontWeight>Bold</FontWeight>
-                                <Format>0.0000;- 0.0000</Format>
-                                <Color>=iif((Sum(Fields!CurrSumValue.Value)-Sum(Fields!PrevSumValue.Value))=0,"Black",iif((Sum(Fields!CurrSumValue.Value)-Sum(Fields!PrevSumValue.Value))&lt;0,"Green","Red"))</Color>
+                                <Format>0.00%</Format>
+                                <Color>=iif(Parameters!MeasureCategory.Value = "成功金额",
+IIF(IIF(SUM(Fields!PrevTransAmt.Value) = 0,0,(SUM(Fields!CurrTransAmt.Value)-SUM(Fields!PrevTransAmt.Value))/IIF(SUM(Fields!PrevTransAmt.Value) = 0,1,SUM(Fields!PrevTransAmt.Value)))=0,"Black",IIF(IIF(SUM(Fields!PrevTransAmt.Value) = 0,0,(SUM(Fields!CurrTransAmt.Value)-SUM(Fields!PrevTransAmt.Value))/IIF(SUM(Fields!PrevTransAmt.Value) = 0,1,SUM(Fields!PrevTransAmt.Value)))&lt;0,"Green","Red")),
+IIF(IIF(SUM(Fields!PrevTransCnt.Value) = 0,0,(SUM(Fields!CurrTransCnt.Value)-SUM(Fields!PrevTransCnt.Value))/IIF(SUM(Fields!PrevTransCnt.Value) = 0,1,SUM(Fields!PrevTransCnt.Value)))=0,"Black",IIF(IIF(SUM(Fields!PrevTransCnt.Value) = 0,0,(SUM(Fields!CurrTransCnt.Value)-SUM(Fields!PrevTransCnt.Value))/IIF(SUM(Fields!PrevTransCnt.Value) = 0,1,SUM(Fields!PrevTransCnt.Value)))&lt;0,"Green","Red"))
+)</Color>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -2965,12 +3034,13 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox98</rd:DefaultName>
+                      <rd:DefaultName>Textbox237</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
+                        <BackgroundColor>White</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
@@ -2982,19 +3052,25 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox99">
+                    <Textbox Name="Textbox241">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=IIF(Sum(Fields!PrevSumValue.Value)=0,"-",(Sum(Fields!CurrSumValue.Value)-Sum(Fields!PrevSumValue.Value))/IIF(Sum(Fields!PrevSumValue.Value)=0,1,Sum(Fields!PrevSumValue.Value)))</Value>
+                              <Value>=iif(Parameters!MeasureCategory.Value = "成功金额",
+SUM(Fields!CurrTransAmt.Value) - SUM(Fields!LastYearTransAmt.Value),
+SUM(Fields!CurrTransCnt.Value) - SUM(Fields!LastYearTransCnt.Value)
+)</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
                                 <FontWeight>Bold</FontWeight>
-                                <Format>0.00 %</Format>
-                                <Color>=IIF(IIF(Sum(Fields!PrevSumValue.Value)=0,0,(Sum(Fields!CurrSumValue.Value)-Sum(Fields!PrevSumValue.Value))/IIF(Sum(Fields!PrevSumValue.Value)=0,1,Sum(Fields!PrevSumValue.Value)))=0,"Black",IIF(IIF(Sum(Fields!PrevSumValue.Value)=0,0,(Sum(Fields!CurrSumValue.Value)-Sum(Fields!PrevSumValue.Value))/IIF(Sum(Fields!PrevSumValue.Value)=0,1,Sum(Fields!PrevSumValue.Value)))&lt;0,"Green","Red"))</Color>
+                                <Format>0.0000</Format>
+                                <Color>=iif(Parameters!MeasureCategory.Value = "成功金额",
+iif((Sum(Fields!CurrTransAmt.Value)-Sum(Fields!LastYearTransAmt.Value))=0,"Black",iif((Sum(Fields!CurrTransAmt.Value)-Sum(Fields!LastYearTransAmt.Value))&lt;0,"Green","Red")),
+iif((Sum(Fields!CurrTransCnt.Value)-Sum(Fields!LastYearTransCnt.Value))=0,"Black",iif((Sum(Fields!CurrTransCnt.Value)-Sum(Fields!LastYearTransCnt.Value))&lt;0,"Green","Red"))
+)</Color>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -3003,12 +3079,13 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox99</rd:DefaultName>
+                      <rd:DefaultName>Textbox236</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
+                        <BackgroundColor>White</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
@@ -3020,19 +3097,25 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox100">
+                    <Textbox Name="Textbox240">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(Fields!CurrSumValue.Value)-Sum(Fields!LastYearSumValue.Value)</Value>
+                              <Value>=IIF(Parameters!MeasureCategory.Value = "成功金额",
+IIF(SUM(Fields!LastYearTransAmt.Value) = 0,"-",(SUM(Fields!CurrTransAmt.Value) - SUM(Fields!LastYearTransAmt.Value))/iif(SUM(Fields!LastYearTransAmt.Value) = 0,1,SUM(Fields!LastYearTransAmt.Value))),
+IIF(SUM(Fields!LastYearTransCnt.Value) = 0,"-",(SUM(Fields!CurrTransCnt.Value) - SUM(Fields!LastYearTransCnt.Value))/iif(SUM(Fields!LastYearTransCnt.Value) = 0,1,SUM(Fields!LastYearTransCnt.Value)))
+)</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
                                 <FontWeight>Bold</FontWeight>
-                                <Format>0.0000;- 0.0000</Format>
-                                <Color>=iif((Sum(Fields!CurrSumValue.Value)-Sum(Fields!LastYearSumValue.Value))=0,"Black",iif((Sum(Fields!CurrSumValue.Value)-Sum(Fields!LastYearSumValue.Value))&lt;0,"Green","Red"))</Color>
+                                <Format>0.00%</Format>
+                                <Color>=iif(Parameters!MeasureCategory.Value = "成功金额",
+IIF(IIF(SUM(Fields!LastYearTransAmt.Value) = 0,0,(SUM(Fields!CurrTransAmt.Value)-SUM(Fields!LastYearTransAmt.Value))/IIF(SUM(Fields!LastYearTransAmt.Value) = 0,1,SUM(Fields!LastYearTransAmt.Value)))=0,"Black",IIF(IIF(SUM(Fields!LastYearTransAmt.Value) = 0,0,(SUM(Fields!CurrTransAmt.Value)-SUM(Fields!LastYearTransAmt.Value))/IIF(SUM(Fields!LastYearTransAmt.Value) = 0,1,SUM(Fields!LastYearTransAmt.Value)))&lt;0,"Green","Red")),
+IIF(IIF(SUM(Fields!LastYearTransCnt.Value) = 0,0,(SUM(Fields!CurrTransCnt.Value)-SUM(Fields!LastYearTransCnt.Value))/IIF(SUM(Fields!LastYearTransCnt.Value) = 0,1,SUM(Fields!LastYearTransCnt.Value)))=0,"Black",IIF(IIF(SUM(Fields!LastYearTransCnt.Value) = 0,0,(SUM(Fields!CurrTransCnt.Value)-SUM(Fields!LastYearTransCnt.Value))/IIF(SUM(Fields!LastYearTransCnt.Value) = 0,1,SUM(Fields!LastYearTransCnt.Value)))&lt;0,"Green","Red"))
+)</Color>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -3041,12 +3124,13 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox100</rd:DefaultName>
+                      <rd:DefaultName>Textbox237</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
+                        <BackgroundColor>White</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
@@ -3058,45 +3142,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox101">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>=IIF(Sum(Fields!LastYearSumValue.Value)=0,"-",(Sum(Fields!CurrSumValue.Value)-Sum(Fields!LastYearSumValue.Value))/IIF(Sum(Fields!LastYearSumValue.Value)=0,1,Sum(Fields!LastYearSumValue.Value)))</Value>
-                              <Style>
-                                <FontFamily>宋体</FontFamily>
-                                <FontWeight>Bold</FontWeight>
-                                <Format>0.00 %</Format>
-                                <Color>=IIF(IIF(Sum(Fields!LastYearSumValue.Value)=0,0,(Sum(Fields!CurrSumValue.Value)-Sum(Fields!LastYearSumValue.Value))/IIF(Sum(Fields!LastYearSumValue.Value)=0,1,Sum(Fields!LastYearSumValue.Value)))=0,"Black",IIF(IIF(Sum(Fields!LastYearSumValue.Value)=0,0,(Sum(Fields!CurrSumValue.Value)-Sum(Fields!LastYearSumValue.Value))/IIF(Sum(Fields!LastYearSumValue.Value)=0,1,Sum(Fields!LastYearSumValue.Value)))&lt;0,"Green","Red"))</Color>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Right</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox101</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <VerticalAlign>Middle</VerticalAlign>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox146">
+                    <Textbox Name="Textbox58">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -3107,7 +3153,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
                                 <FontWeight>Bold</FontWeight>
-                                <Format>0.0000;- 0.0000</Format>
+                                <Format>0.0000</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -3116,15 +3162,13 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox146</rd:DefaultName>
-                      <Visibility>
-                        <Hidden>=IIF(Parameters!MeasureCategory.Value = "成功笔数",True,False)</Hidden>
-                      </Visibility>
+                      <rd:DefaultName>Textbox58</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
+                        <BackgroundColor>White</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
@@ -3136,7 +3180,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox141">
+                    <Textbox Name="Textbox66">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -3147,7 +3191,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
                                 <FontWeight>Bold</FontWeight>
-                                <Format>0.0000;- 0.0000</Format>
+                                <Format>0.0000</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -3156,15 +3200,13 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox141</rd:DefaultName>
-                      <Visibility>
-                        <Hidden>=IIF(Parameters!MeasureCategory.Value = "成功笔数",True,False)</Hidden>
-                      </Visibility>
+                      <rd:DefaultName>Textbox66</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
+                        <BackgroundColor>White</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
@@ -3176,7 +3218,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox136">
+                    <Textbox Name="Textbox45">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -3187,7 +3229,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
                                 <FontWeight>Bold</FontWeight>
-                                <Format>0.0000;- 0.0000</Format>
+                                <Format>0.0000</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -3196,15 +3238,53 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox136</rd:DefaultName>
-                      <Visibility>
-                        <Hidden>=IIF(Parameters!MeasureCategory.Value = "成功笔数",True,False)</Hidden>
-                      </Visibility>
+                      <rd:DefaultName>Textbox45</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
+                        <BackgroundColor>White</BackgroundColor>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <rd:Selected>true</rd:Selected>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox39">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=IIF(SUM(Fields!PrevFeeAmt.Value) = 0,"-",(SUM(Fields!CurrFeeAmt.Value) - SUM(Fields!PrevFeeAmt.Value))/iif(SUM(Fields!PrevFeeAmt.Value) = 0,1,SUM(Fields!PrevFeeAmt.Value)))</Value>
+                              <Style>
+                                <FontFamily>宋体</FontFamily>
+                                <FontWeight>Bold</FontWeight>
+                                <Format>0.00%</Format>
+                                <Color>=IIF(IIF(SUM(Fields!PrevFeeAmt.Value) = 0,0,(SUM(Fields!CurrFeeAmt.Value)-SUM(Fields!PrevFeeAmt.Value))/IIF(SUM(Fields!PrevFeeAmt.Value) = 0,1,SUM(Fields!PrevFeeAmt.Value)))=0,"Black",IIF(IIF(SUM(Fields!PrevFeeAmt.Value) = 0,0,(SUM(Fields!CurrFeeAmt.Value)-SUM(Fields!PrevFeeAmt.Value))/IIF(SUM(Fields!PrevFeeAmt.Value) = 0,1,SUM(Fields!PrevFeeAmt.Value)))&lt;0,"Green","Red"))</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox39</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>White</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
@@ -3216,19 +3296,19 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox131">
+                    <Textbox Name="Textbox76">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=IIF(Sum(Fields!PrevFeeAmt.Value)=0,"-",(Sum(Fields!CurrFeeAmt.Value)-Sum(Fields!PrevFeeAmt.Value))/IIF(Sum(Fields!PrevFeeAmt.Value)=0,1,Sum(Fields!PrevFeeAmt.Value)))</Value>
+                              <Value>=IIF(SUM(Fields!LastYearFeeAmt.Value) = 0,"-",(SUM(Fields!CurrFeeAmt.Value) - SUM(Fields!LastYearFeeAmt.Value))/iif(SUM(Fields!LastYearFeeAmt.Value) = 0,1,SUM(Fields!LastYearFeeAmt.Value)))</Value>
                               <Style>
                                 <FontFamily>宋体</FontFamily>
                                 <FontWeight>Bold</FontWeight>
-                                <Format>0.00 %</Format>
-                                <Color>=IIF(IIF(Sum(Fields!PrevFeeAmt.Value)=0,0,(Sum(Fields!CurrFeeAmt.Value)-Sum(Fields!PrevFeeAmt.Value))/IIF(Sum(Fields!PrevFeeAmt.Value)=0,1,Sum(Fields!PrevFeeAmt.Value)))=0,"Black",IIF(IIF(Sum(Fields!PrevFeeAmt.Value)=0,0,(Sum(Fields!CurrFeeAmt.Value)-Sum(Fields!PrevFeeAmt.Value))/IIF(Sum(Fields!PrevFeeAmt.Value)=0,1,Sum(Fields!PrevFeeAmt.Value)))&lt;0,"Green","Red"))</Color>
+                                <Format>0.00%</Format>
+                                <Color>=IIF(IIF(SUM(Fields!LastYearFeeAmt.Value) = 0,0,(SUM(Fields!CurrFeeAmt.Value)-SUM(Fields!LastYearFeeAmt.Value))/IIF(SUM(Fields!LastYearFeeAmt.Value) = 0,1,SUM(Fields!LastYearFeeAmt.Value)))=0,"Black",IIF(IIF(SUM(Fields!LastYearFeeAmt.Value) = 0,0,(SUM(Fields!CurrFeeAmt.Value)-SUM(Fields!LastYearFeeAmt.Value))/IIF(SUM(Fields!LastYearFeeAmt.Value) = 0,1,SUM(Fields!LastYearFeeAmt.Value)))&lt;0,"Green","Red"))</Color>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -3237,56 +3317,13 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox131</rd:DefaultName>
-                      <Visibility>
-                        <Hidden>=IIF(Parameters!MeasureCategory.Value = "成功笔数",True,False)</Hidden>
-                      </Visibility>
+                      <rd:DefaultName>Textbox39</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
-                        <VerticalAlign>Middle</VerticalAlign>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox126">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>=IIF(Sum(Fields!LastYearFeeAmt.Value)=0,"-",(Sum(Fields!CurrFeeAmt.Value)-Sum(Fields!LastYearFeeAmt.Value))/IIF(Sum(Fields!LastYearFeeAmt.Value)=0,1,Sum(Fields!LastYearFeeAmt.Value)))</Value>
-                              <Style>
-                                <FontFamily>宋体</FontFamily>
-                                <FontWeight>Bold</FontWeight>
-                                <Format>0.00 %</Format>
-                                <Color>=IIF(IIF(Sum(Fields!LastYearFeeAmt.Value)=0,0,(Sum(Fields!CurrFeeAmt.Value)-Sum(Fields!LastYearFeeAmt.Value))/IIF(Sum(Fields!LastYearFeeAmt.Value)=0,1,Sum(Fields!LastYearFeeAmt.Value)))=0,"Black",IIF(IIF(Sum(Fields!LastYearFeeAmt.Value)=0,0,(Sum(Fields!CurrFeeAmt.Value)-Sum(Fields!LastYearFeeAmt.Value))/IIF(Sum(Fields!LastYearFeeAmt.Value)=0,1,Sum(Fields!LastYearFeeAmt.Value)))&lt;0,"Green","Red"))</Color>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style>
-                            <TextAlign>Right</TextAlign>
-                          </Style>
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox126</rd:DefaultName>
-                      <Visibility>
-                        <Hidden>=IIF(Parameters!MeasureCategory.Value = "成功笔数",True,False)</Hidden>
-                      </Visibility>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
+                        <BackgroundColor>White</BackgroundColor>
                         <VerticalAlign>Middle</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
@@ -3313,11 +3350,31 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
             <TablixMember />
             <TablixMember />
             <TablixMember />
-            <TablixMember />
-            <TablixMember />
-            <TablixMember />
-            <TablixMember />
-            <TablixMember />
+            <TablixMember>
+              <Visibility>
+                <Hidden>=iif(Parameters!MeasureCategory.Value = "成功笔数",true,false)</Hidden>
+              </Visibility>
+            </TablixMember>
+            <TablixMember>
+              <Visibility>
+                <Hidden>=IIF(Parameters!MeasureCategory.Value = "成功笔数",True,False)</Hidden>
+              </Visibility>
+            </TablixMember>
+            <TablixMember>
+              <Visibility>
+                <Hidden>=IIF(Parameters!MeasureCategory.Value = "成功笔数",True,False)</Hidden>
+              </Visibility>
+            </TablixMember>
+            <TablixMember>
+              <Visibility>
+                <Hidden>=IIF(Parameters!MeasureCategory.Value = "成功笔数",True,False)</Hidden>
+              </Visibility>
+            </TablixMember>
+            <TablixMember>
+              <Visibility>
+                <Hidden>=IIF(Parameters!MeasureCategory.Value = "成功笔数",True,False)</Hidden>
+              </Visibility>
+            </TablixMember>
           </TablixMembers>
         </TablixColumnHierarchy>
         <TablixRowHierarchy>
@@ -3328,14 +3385,14 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
               <KeepTogether>true</KeepTogether>
             </TablixMember>
             <TablixMember>
-              <Group Name="GateCategory">
+              <Group Name="table1_Category">
                 <GroupExpressions>
-                  <GroupExpression>=Fields!GateCategory.Value</GroupExpression>
+                  <GroupExpression>=Fields!Category.Value</GroupExpression>
                 </GroupExpressions>
               </Group>
               <SortExpressions>
                 <SortExpression>
-                  <Value>=Fields!GateCategory.Value</Value>
+                  <Value>=Fields!Category.Value</Value>
                 </SortExpression>
               </SortExpressions>
               <TablixMembers>
@@ -3344,7 +3401,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                   <KeepTogether>true</KeepTogether>
                 </TablixMember>
                 <TablixMember>
-                  <Group Name="GateNo">
+                  <Group Name="table1_GateNo">
                     <GroupExpressions>
                       <GroupExpression>=Fields!GateNo.Value</GroupExpression>
                     </GroupExpressions>
@@ -3356,37 +3413,31 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                   </SortExpressions>
                   <TablixMembers>
                     <TablixMember>
+                      <KeepWithGroup>After</KeepWithGroup>
                       <KeepTogether>true</KeepTogether>
                     </TablixMember>
                     <TablixMember>
+                      <Group Name="MerchantNo">
+                        <GroupExpressions>
+                          <GroupExpression>=Fields!MerchantNo.Value</GroupExpression>
+                        </GroupExpressions>
+                        <DataElementName>Detail</DataElementName>
+                      </Group>
                       <TablixMembers>
-                        <TablixMember>
-                          <Group Name="MerchantName">
-                            <GroupExpressions>
-                              <GroupExpression>=Fields!MerchantNo.Value</GroupExpression>
-                            </GroupExpressions>
-                          </Group>
-                          <SortExpressions>
-                            <SortExpression>
-                              <Value>=Fields!MerchantName.Value</Value>
-                            </SortExpression>
-                          </SortExpressions>
-                          <TablixMembers>
-                            <TablixMember>
-                              <KeepTogether>true</KeepTogether>
-                            </TablixMember>
-                          </TablixMembers>
-                        </TablixMember>
+                        <TablixMember />
                       </TablixMembers>
                       <Visibility>
                         <Hidden>true</Hidden>
                         <ToggleItem>GateNo</ToggleItem>
                       </Visibility>
+                      <DataElementName>Detail_Collection</DataElementName>
+                      <DataElementOutput>Output</DataElementOutput>
+                      <KeepTogether>true</KeepTogether>
                     </TablixMember>
                   </TablixMembers>
                   <Visibility>
                     <Hidden>true</Hidden>
-                    <ToggleItem>GateCategory</ToggleItem>
+                    <ToggleItem>Category</ToggleItem>
                   </Visibility>
                 </TablixMember>
               </TablixMembers>
@@ -3396,54 +3447,14 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
             </TablixMember>
           </TablixMembers>
         </TablixRowHierarchy>
-        <RepeatRowHeaders>true</RepeatRowHeaders>
-        <FixedRowHeaders>true</FixedRowHeaders>
         <DataSetName>DataSet1</DataSetName>
-        <Top>0.76444in</Top>
-        <Left>0.89958cm</Left>
-        <Height>1.1in</Height>
+        <Top>0.74888in</Top>
+        <Left>0.9525cm</Left>
+        <Height>1.13125in</Height>
         <Width>22.29166in</Width>
         <Style />
       </Tablix>
-      <Textbox Name="Textbox112">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>=IIF(Parameters!MeasureCategory.Value="成功金额","金额:万元","笔数:万笔")</Value>
-                <Style>
-                  <FontFamily>宋体</FontFamily>
-                  <FontWeight>Bold</FontWeight>
-                </Style>
-              </TextRun>
-            </TextRuns>
-            <Style>
-              <TextAlign>Center</TextAlign>
-            </Style>
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>Textbox112</rd:DefaultName>
-        <Top>0.43457in</Top>
-        <Left>0.89958cm</Left>
-        <Height>0.27431in</Height>
-        <Width>22.29166in</Width>
-        <ZIndex>1</ZIndex>
-        <Visibility>
-          <Hidden>=IIF(Parameters!MeasureCategory.Value = "成功笔数",True,False)</Hidden>
-        </Visibility>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
-      <Textbox Name="textbox37">
+      <Textbox Name="textbox1">
         <CanGrow>true</CanGrow>
         <KeepTogether>true</KeepTogether>
         <Paragraphs>
@@ -3453,7 +3464,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
                 <Value>="公司业务交易"+Parameters!MeasureCategory.Value+Parameters!PeriodUnit.Value+"报（"+Parameters!StartDate.Value+"-"+First(Fields!CurrEndDate.Value, "GetEndDate")+"）"</Value>
                 <Style>
                   <FontFamily>宋体</FontFamily>
-                  <FontSize>24pt</FontSize>
+                  <FontSize>20pt</FontSize>
                   <FontWeight>Bold</FontWeight>
                   <Color>SteelBlue</Color>
                 </Style>
@@ -3465,14 +3476,11 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>textbox1</rd:DefaultName>
-        <Top>0.18941cm</Top>
-        <Left>0.89958cm</Left>
-        <Height>0.34611in</Height>
-        <Width>22.29166in</Width>
-        <ZIndex>2</ZIndex>
-        <Visibility>
-          <Hidden>=IIF(Parameters!MeasureCategory.Value = "成功笔数",True,False)</Hidden>
-        </Visibility>
+        <Top>0.0088cm</Top>
+        <Left>0.9525cm</Left>
+        <Height>0.36in</Height>
+        <Width>18.36458in</Width>
+        <ZIndex>1</ZIndex>
         <Style>
           <Border />
           <PaddingLeft>2pt</PaddingLeft>
@@ -3501,14 +3509,11 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox112</rd:DefaultName>
-        <Top>0.43457in</Top>
-        <Left>0.89958cm</Left>
+        <Top>0.4086in</Top>
+        <Left>0.9525cm</Left>
         <Height>0.27431in</Height>
-        <Width>14.38541in</Width>
-        <ZIndex>3</ZIndex>
-        <Visibility>
-          <Hidden>=IIF(Parameters!MeasureCategory.Value = "成功金额",True,False)</Hidden>
-        </Visibility>
+        <Width>18.36458in</Width>
+        <ZIndex>2</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -3519,46 +3524,8 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
           <PaddingBottom>2pt</PaddingBottom>
         </Style>
       </Textbox>
-      <Textbox Name="textbox38">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>="公司业务交易"+Parameters!MeasureCategory.Value+Parameters!PeriodUnit.Value+"报（"+Parameters!StartDate.Value+"-"+First(Fields!CurrEndDate.Value, "GetEndDate")+"）"</Value>
-                <Style>
-                  <FontFamily>宋体</FontFamily>
-                  <FontSize>24pt</FontSize>
-                  <FontWeight>Bold</FontWeight>
-                  <Color>SteelBlue</Color>
-                </Style>
-              </TextRun>
-            </TextRuns>
-            <Style>
-              <TextAlign>Center</TextAlign>
-            </Style>
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>textbox1</rd:DefaultName>
-        <Top>0.18942cm</Top>
-        <Left>0.89958cm</Left>
-        <Height>0.34611in</Height>
-        <Width>14.38541in</Width>
-        <ZIndex>4</ZIndex>
-        <Visibility>
-          <Hidden>=IIF(Parameters!MeasureCategory.Value = "成功金额",True,False)</Hidden>
-        </Visibility>
-        <Style>
-          <Border />
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
     </ReportItems>
-    <Height>3.53959in</Height>
+    <Height>3.49472in</Height>
     <Style />
   </Body>
   <ReportParameters>
@@ -3620,7 +3587,7 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
       </ValidValues>
     </ReportParameter>
   </ReportParameters>
-  <Width>22.82291in</Width>
+  <Width>22.66666in</Width>
   <Page>
     <LeftMargin>1in</LeftMargin>
     <RightMargin>1in</RightMargin>
@@ -3630,6 +3597,6 @@ SELECT  dateadd(DAY,-1,@CurrEndDate) AS CurrEndDate;</CommandText>
   </Page>
   <Language>zh-CN</Language>
   <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
-  <rd:ReportID>935aa6e9-620b-4e48-81e1-7fff0edece5b</rd:ReportID>
+  <rd:ReportID>ea0a68c6-d6d8-49a6-89d4-d7145079e6d7</rd:ReportID>
   <rd:ReportUnitType>Inch</rd:ReportUnitType>
 </Report>

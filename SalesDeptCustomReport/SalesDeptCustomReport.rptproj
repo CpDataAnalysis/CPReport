@@ -9,14 +9,6 @@
   </DataSources>
   <Reports>
     <ProjectItem>
-      <Name>新增商户列表.rdl</Name>
-      <FullPath>新增商户列表.rdl</FullPath>
-    </ProjectItem>
-    <ProjectItem>
-      <Name>行业及客户经理销售情况汇总报表.rdl</Name>
-      <FullPath>行业及客户经理销售情况汇总报表.rdl</FullPath>
-    </ProjectItem>
-    <ProjectItem>
       <Name>2013市场销售部客户经理完成情况汇总表.rdl</Name>
       <FullPath>2013市场销售部客户经理完成情况汇总表.rdl</FullPath>
     </ProjectItem>
@@ -35,6 +27,14 @@
     <ProjectItem>
       <Name>手机支付统计报表(销售部).rdl</Name>
       <FullPath>手机支付统计报表(销售部).rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>新增商户列表.rdl</Name>
+      <FullPath>新增商户列表.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>行业及客户经理销售情况汇总报表.rdl</Name>
+      <FullPath>行业及客户经理销售情况汇总报表.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
       <Name>银商分支机构互联网业务统计汇总表.rdl</Name>
