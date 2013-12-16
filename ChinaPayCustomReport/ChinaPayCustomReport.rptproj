@@ -16,10 +16,6 @@
       <Name>ChinaPay全业务经营情况汇总表.rdl</Name>
       <FullPath>ChinaPay全业务经营情况汇总表.rdl</FullPath>
     </ProjectItem>
-    <ProjectItem>
-      <Name>商户异动情况表.rdl</Name>
-      <FullPath>商户异动情况表.rdl</FullPath>
-    </ProjectItem>
   </Reports>
   <Configurations>
     <Configuration>
