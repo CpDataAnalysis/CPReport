@@ -69,7 +69,8 @@
       </Fields>
       <Query>
         <DataSourceName>PaymentDW</DataSourceName>
-        <CommandText>exec Proc_QueryAllGateTransFeeIOReport @StartDate,@PeriodUnit,@EndDate</CommandText>
+        <CommandType>StoredProcedure</CommandType>
+        <CommandText>Proc_QueryAllGateTransFeeIOReport</CommandText>
         <QueryParameters>
           <QueryParameter Name="@StartDate">
             <Value>=Parameters!StartDate.Value</Value>
