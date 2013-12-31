@@ -81,6 +81,10 @@
       <FullPath>金融部绩效考核表.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
+      <Name>境外交易差额.rdl</Name>
+      <FullPath>境外交易差额.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
       <Name>商户异动情况表.rdl</Name>
       <FullPath>商户异动情况表.rdl</FullPath>
     </ProjectItem>
@@ -181,8 +185,8 @@
       <FullPath>转账数据报表.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
-      <Name>境外交易差额.rdl</Name>
-      <FullPath>境外交易差额.rdl</FullPath>
+      <Name>全业务收入成本.rdl</Name>
+      <FullPath>全业务收入成本.rdl</FullPath>
     </ProjectItem>
   </Reports>
   <Configurations>
