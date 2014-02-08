@@ -85,6 +85,10 @@
       <FullPath>境外交易差额.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
+      <Name>全业务收入成本.rdl</Name>
+      <FullPath>全业务收入成本.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
       <Name>商户异动情况表.rdl</Name>
       <FullPath>商户异动情况表.rdl</FullPath>
     </ProjectItem>
@@ -141,6 +145,10 @@
       <FullPath>业务费用配置报表(分公司).rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
+      <Name>业务收入成本分析.rdl</Name>
+      <FullPath>业务收入成本分析.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
       <Name>业务统计系统各类数据汇总显示.rdl</Name>
       <FullPath>业务统计系统各类数据汇总显示.rdl</FullPath>
     </ProjectItem>
@@ -183,10 +191,6 @@
     <ProjectItem>
       <Name>转账数据报表.rdl</Name>
       <FullPath>转账数据报表.rdl</FullPath>
-    </ProjectItem>
-    <ProjectItem>
-      <Name>全业务收入成本.rdl</Name>
-      <FullPath>全业务收入成本.rdl</FullPath>
     </ProjectItem>
   </Reports>
   <Configurations>

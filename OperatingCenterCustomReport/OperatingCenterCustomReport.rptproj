@@ -17,6 +17,10 @@
       <FullPath>公司商户成功交易周期报表.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
+      <Name>商户业务排名表.rdl</Name>
+      <FullPath>商户业务排名表.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
       <Name>网关交易成功率报表.rdl</Name>
       <FullPath>网关交易成功率报表.rdl</FullPath>
     </ProjectItem>
